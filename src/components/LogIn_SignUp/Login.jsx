@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import React from 'react';
 import Navbar from '../Navbar/Navbar.jsx';
 import Footer from '../Footer/Footer.jsx';
@@ -45,7 +44,7 @@ const Login = () => {
                             </div>
 
                             <div className="form-actions">
-                                <a href="/forgot" className="forgot-password">Quên mật khẩu?</a>
+                                <a href="#" className="forgot-password">Quên mật khẩu?</a>
                             </div>
 
                             <button type="submit" className="auth-btn">ĐĂNG NHẬP</button>
