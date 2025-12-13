@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './components/Home/HomePage';
 import Login from './components/LogIn_SignUp/Login';
 import SignUp from './components/LogIn_SignUp/SignUp';
+import ForgotPassword from './components/LogIn_SignUp/ForgotPassword';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/cart" element={<div style={{ padding: '100px', textAlign: 'center' }}>Cart Page Placeholder</div>} />
             <Route path="/register" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/forgot" element={<ForgotPassword />} />
         </Routes>
       </div>
     </Router>

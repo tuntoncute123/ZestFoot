@@ -4,6 +4,7 @@ import { Search, User, ShoppingBag, Menu, X, CheckCircle, Truck, CreditCard, Che
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 import logo from '../../assets/logo.jpg';
+import '../LogIn_SignUp/Auth.css';
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('active-tab-1');
@@ -280,20 +281,21 @@ const Navbar = () => {
 
               {/* Menu con thả xuống */}
               {isUserMenuOpen && (
-                <div className="user-dropdown">
+                <div className="user-dropdown" style={{ paddingTop: '20px' }}>
+                  <div className="user-dropdown-item">Theo dõi đơn hàng và thanh toán dễ dàng hơn</div>
                   <Link
                     to="/login"
                     className="user-dropdown-item"
                     onClick={() => setIsUserMenuOpen(false)}
                   >
-                    {t('login')}
+                    <button className="auth-btn" >Đăng nhập</button>
                   </Link>
                   <Link
                     to="/register"
                     className="user-dropdown-item"
                     onClick={() => setIsUserMenuOpen(false)}
                   >
-                    {t('register')}
+                    <button className="cancel-btn" >Tạo tài khoản</button>
                   </Link>
                 </div>
               )}
