@@ -24,7 +24,7 @@ const SignUp = () => {
                             {/* Thay src bằng biến import ảnh hoặc link ảnh thật */}
                             <img
                                 src="https://file.hstatic.net/200000384421/file/artboard_1_801b6377694d4d68846171f687498c4d.jpg"
-                                alt="Welcome to ABC-Mart"/>
+                                alt="Welcome to HKT-SHOES"/>
                         </div>
                     </div>
 
