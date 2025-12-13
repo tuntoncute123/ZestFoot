@@ -7,6 +7,8 @@
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
     /* Static/Relative so it scrolls with page */
+    margin-top: 140px;
+    /* Push down below fixed navbar */
 }
 
 .category-bar-container {

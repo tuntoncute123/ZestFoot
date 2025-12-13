@@ -1,7 +1,8 @@
 import React from 'react';
-import Navbar from '../Navbar/Navbar.jsx';
-import Footer from '../Footer/Footer.jsx';
-import ProductCard from '../Product/ProductCard.jsx';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import ProductCard from '../components/ProductCard';
+import CategoryBar from '../components/CategoryBar';
 import './HomePage.css';
 
 const HomePage = () => {
@@ -33,6 +34,7 @@ const HomePage = () => {
     return (
         <>
             <Navbar />
+            <CategoryBar />
 
             {/* Hero Carousel */}
             <section className="hero-section">
