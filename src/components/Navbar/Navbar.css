@@ -509,7 +509,7 @@
     /* Cách icon một chút */
     right: 0;
     /* Căn phải theo icon */
-    width: 180px;
+    width: 280px;
     /* Độ rộng của menu */
     background-color: white;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -546,7 +546,7 @@
     font-size: 14px;
     font-weight: 500;
     transition: background-color 0.2s;
-    text-align: left;
+    text-align: center;
 }
 
 .user-dropdown-item:hover {
