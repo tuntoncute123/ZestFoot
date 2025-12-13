@@ -1,17 +1,32 @@
-import axios from 'axios';
+import { brands, products } from '../data/db';
 
-const API_URL = 'http://localhost:8080/api'; // Example Spring Boot URL
+// Simulate a network delay (fake API latency)
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-export const api = axios.create({
-    baseURL: API_URL,
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
-
-export const getProducts = async () => {
-    // Placeholder for real API call
-    // const response = await api.get('/products');
-    // return response.data;
-    return [];
+export const getBrands = async () => {
+    await delay(300); // 300ms delay
+    return brands;
 };
+
+export const getNewArrivals = async () => {
+    await delay(300);
+    return products.filter(p => p.isNew);
+};
+
+export const getSaleProducts = async () => {
+    await delay(300);
+    return products.filter(p => p.isSale);
+};
+
+export const getAllProducts = async () => {
+    await delay(500);
+    return products;
+};
+
+export const getAsicsProducts = async () => {
+    await delay(300);
+    return products.filter(p => p.isAsicsExclusive);
+};
+
+// Fallback for real API if needed later
+// export const api = axios.create({ ... });
