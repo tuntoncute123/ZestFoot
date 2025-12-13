@@ -112,7 +112,7 @@
     opacity: 1;
 }
 
-/* Product Grid */
+/* ProductCard Grid */
 .product-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
