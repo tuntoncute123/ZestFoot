@@ -5,8 +5,10 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import ProductCard from './ProductCard/ProductCard';
 import './ProductCarousel.css';
+import { useLanguage } from '../context/LanguageContext';
 
 const ProductCarousel = ({ title, products, link }) => {
+    const { t } = useLanguage();
     if (!products || products.length === 0) return null;
 
     return (
@@ -15,7 +17,7 @@ const ProductCarousel = ({ title, products, link }) => {
                 <h2 className="section-title text-left">{title}</h2>
                 {link && (
                     <a href={link} className="view-all-link">
-                        View all
+                        {t('view_all')}
                     </a>
                 )}
             </div>

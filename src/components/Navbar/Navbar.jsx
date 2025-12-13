@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
+import { useLanguage } from '../../context/LanguageContext';
 import { Search, User, ShoppingBag, Menu, X, CheckCircle, Truck, CreditCard, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
@@ -10,16 +11,14 @@ const Navbar = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef(null);
 
-  // Language State
-  const [language, setLanguage] = useState('VI');
+  // Language Context
+  const { language, setLanguage, t } = useLanguage();
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const langMenuRef = useRef(null);
 
   const handleLanguageChange = (lang) => {
     setLanguage(lang);
     setIsLangMenuOpen(false);
-    // Here you would typically trigger i18n change
-    console.log(`Language changed to ${lang}`);
   };
 
   // --- MỚI: Xử lý click ra ngoài để đóng menu ---
@@ -39,9 +38,9 @@ const Navbar = () => {
   }, []);
 
   // Navigation Links with Mega Menu Data
-  const navLinks = [
+  const navLinks = useMemo(() => [
     {
-      name: "THƯƠNG HIỆU",
+      name: t('brands'),
       path: "/Home/thuong-hieu",
       type: "list", // Grid/List of brands
       data: [
@@ -65,7 +64,7 @@ const Navbar = () => {
       ]
     },
     {
-      name: "DANH MỤC",
+      name: t('categories'),
       path: "/collections/all",
       type: "columns",
       data: [
@@ -118,7 +117,7 @@ const Navbar = () => {
       ]
     },
     {
-      name: "HÀNG MỚI",
+      name: t('new_arrivals'),
       path: "/collections/hang-moi",
       type: "tabs",
       tabs: [
@@ -138,10 +137,10 @@ const Navbar = () => {
         'active-tab-4': [],
       }
     },
-    { name: "+ SALE +", path: "/collections/sale-item", className: "text-red" },
-    { name: "BÀI VIẾT", path: "/blogs/news" },
-    { name: "CỬA HÀNG", path: "/Home/he-thong-cua-hang-abc-mart" },
-  ];
+    { name: t('sale'), path: "/collections/sale-item", className: "text-red" },
+    { name: t('blogs'), path: "/blogs/news" },
+    { name: t('stores'), path: "/Home/he-thong-cua-hang-abc-mart" },
+  ], [t]);
 
   return (
     <div className="navbar-wrapper">
@@ -150,15 +149,15 @@ const Navbar = () => {
         <div className="top-bar-content">
           <div className="top-bar-item">
             <CheckCircle size={16} className="top-bar-icon" />
-            <span>Hàng chính hãng 100%</span>
+            <span>{t('authentic')}</span>
           </div>
           <div className="top-bar-item">
             <Truck size={16} className="top-bar-icon" />
-            <span>Miễn phí ship cho đơn hàng từ 3 triệu</span>
+            <span>{t('free_ship')}</span>
           </div>
           <div className="top-bar-item">
             <CreditCard size={16} className="top-bar-icon" />
-            <span>Trở thành hội viên nhận ngay voucher 200K</span>
+            <span>{t('member_voucher')}</span>
           </div>
         </div>
       </div>
@@ -287,14 +286,14 @@ const Navbar = () => {
                     className="user-dropdown-item"
                     onClick={() => setIsUserMenuOpen(false)}
                   >
-                    Đăng nhập
+                    {t('login')}
                   </Link>
                   <Link
                     to="/register"
                     className="user-dropdown-item"
                     onClick={() => setIsUserMenuOpen(false)}
                   >
-                    Tạo tài khoản
+                    {t('register')}
                   </Link>
                 </div>
               )}

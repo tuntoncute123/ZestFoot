@@ -1,32 +1,73 @@
-import { brands, products } from '../data/db';
+import axios from 'axios';
 
-// Simulate a network delay (fake API latency)
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const API_URL = 'http://localhost:3000';
 
 export const getBrands = async () => {
-    await delay(300); // 300ms delay
-    return brands;
+    try {
+        const response = await axios.get(`${API_URL}/brands`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching brands:", error);
+        return [];
+    }
 };
 
 export const getNewArrivals = async () => {
-    await delay(300);
-    return products.filter(p => p.isNew);
+    try {
+        const response = await axios.get(`${API_URL}/products?isNew=true`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching new arrivals:", error);
+        return [];
+    }
 };
 
 export const getSaleProducts = async () => {
-    await delay(300);
-    return products.filter(p => p.isSale);
+    try {
+        const response = await axios.get(`${API_URL}/products?isSale=true`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching sale products:", error);
+        return [];
+    }
 };
 
 export const getAllProducts = async () => {
-    await delay(500);
-    return products;
+    try {
+        const response = await axios.get(`${API_URL}/products`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching all products:", error);
+        return [];
+    }
 };
 
 export const getAsicsProducts = async () => {
-    await delay(300);
-    return products.filter(p => p.isAsicsExclusive);
+    try {
+        const response = await axios.get(`${API_URL}/products?brand=ASICS&isAsicsExclusive=true`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching ASICS products:", error);
+        return [];
+    }
 };
 
-// Fallback for real API if needed later
-// export const api = axios.create({ ... });
+export const getNews = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/news`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching news:", error);
+        return [];
+    }
+};
+
+export const getFaqs = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/faqs`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching FAQs:", error);
+        return [];
+    }
+};

@@ -9,7 +9,10 @@ import SocialNewsSection from '../SocialNews/SocialNewsSection';
 import { getBrands, getNewArrivals, getSaleProducts, getAsicsProducts } from '../../services/api';
 import './HomePage.css';
 
+import { useLanguage } from '../../context/LanguageContext';
+
 const HomePage = () => {
+    const { t } = useLanguage();
     const [brands, setBrands] = useState([]);
     const [newArrivals, setNewArrivals] = useState([]);
     const [saleProducts, setSaleProducts] = useState([]);
@@ -61,7 +64,7 @@ const HomePage = () => {
             <main>
                 {/* Brand Section */}
                 <section className="section-container">
-                    <h2 className="section-title">THƯƠNG HIỆU NỔI BẬT</h2>
+                    <h2 className="section-title">{t('featured_brands')}</h2>
                     <div className="brand-grid">
                         {brands.map((brand) => (
                             <div key={brand.name} className="brand-card">
@@ -73,27 +76,27 @@ const HomePage = () => {
 
                 {/* Exclusive ASICS Section */}
                 <ProductCarousel
-                    title="EXCLUSIVE - ASICS LIFEWALKER"
+                    title={t('exclusive_asics')}
                     products={asicsProducts}
                     link="/collections/asics"
                 />
 
                 {/* New Arrivals */}
                 <section className="section-container bg-light">
-                    <h2 className="section-title">HÀNG MỚI VỀ</h2>
+                    <h2 className="section-title">{t('new_products')}</h2>
                     <div className="product-grid">
                         {newArrivals.map((prod) => (
                             <ProductCard key={prod.id} product={prod} />
                         ))}
                     </div>
                     <div className="text-center mt-4">
-                        <button className="btn btn-outline">XEM TẤT CẢ</button>
+                        <button className="btn btn-outline">{t('view_all')}</button>
                     </div>
                 </section>
 
                 {/* Sale Section */}
                 <section className="section-container">
-                    <h2 className="section-title text-red">KHUYẾN MÃI HOT</h2>
+                    <h2 className="section-title text-red">{t('sale_products')}</h2>
                     <div className="product-grid">
                         {saleProducts.map((prod) => (
                             <ProductCard key={prod.id} product={prod} />

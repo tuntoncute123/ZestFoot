@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './SocialNewsSection.css';
 import { Facebook, Instagram, ChevronDown, ChevronUp } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
+import { getNews, getFaqs } from '../../services/api';
 
 const SocialNewsSection = () => {
-    // FAQ Data
-    const faqs = [
-        "Lợi ích khi trở thành thành viên của ABC-MART Việt Nam là gì?",
-        "Làm thế nào để mua sắm trên ABC-MART Việt Nam?",
-        "Xem kích thước sản phẩm như thế nào?",
-        "Các hình thức thanh toán nào được chấp nhận trên website ABC-MART Việt Nam?",
-        "Phí vận chuyển / giao hàng là bao nhiêu?"
-    ];
+    const { t } = useLanguage();
+    const [faqs, setFaqs] = useState([]);
+    const [news, setNews] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [faqsData, newsData] = await Promise.all([getFaqs(), getNews()]);
+                setFaqs(faqsData);
+                setNews(newsData);
+            } catch (error) {
+                console.error("Failed to fetch social news data", error);
+            }
+        };
+        fetchData();
+    }, []);
 
     const [openFaq, setOpenFaq] = useState(null);
 
@@ -18,27 +28,15 @@ const SocialNewsSection = () => {
         setOpenFaq(openFaq === index ? null : index);
     };
 
-    // News Data - using placeholders for images based on user request context, usually we'd have real urls
-    const news = [
-        {
-            id: 1,
-            title: "[SỰ KIỆN] Không Gian Thời Trang Đường Phố Tại...",
-            date: "Ngày 25/10 vừa qua, cửa hàng ABC-MART Saigon Centre đã trở thành điểm hẹn của những tín đồ yêu th...",
-            image: "https://abc-mart.com.vn/cdn/shop/articles/z5971485642533_5fc2279b3621516e53a31c55b630e6a9.jpg?v=1730099419&width=360"
-        },
-        {
-            id: 2,
-            title: "TỰ DO THỂ HIỆN CHẤT RIÊNG VỚI CHUỖI SỰ KIỆN V...",
-            date: "Trong vòng chưa đầy một năm, Vans và ABC-MART đã cùng nhau tổ chức hai sự kiện sáng tạo cho cộng ...",
-            image: "https://abc-mart.com.vn/cdn/shop/articles/z5890885233075_af8e5c8981f4a2119c83664d47c4627b.jpg?v=1727850064&width=360" // Placeholder
-        },
-        {
-            id: 3,
-            title: "ABC-MART VÀ K-SWISS KHUẤY ĐỘNG CỘNG ĐỒNG VỚI ...",
-            date: "Ngày 12/04/2025, ABC-MART và K-SWISS hợp tác tổ chức Pickleball Tournament tại Sân Pickleball QTC...",
-            image: "https://abc-mart.com.vn/cdn/shop/articles/DSCF8119.jpg?v=1713172083&width=360" // Placeholder
+    // Helper to translate FAQs if they are keys
+    const getFaqText = (faqItem) => {
+        // If it's an object from JSON server, use the 'key' property
+        if (faqItem && faqItem.key) {
+            return t(faqItem.key);
         }
-    ];
+        // Fallback or string
+        return t(faqItem);
+    };
 
     return (
         <section className="section-container social-news-section">
@@ -48,7 +46,7 @@ const SocialNewsSection = () => {
                 <div className="left-column">
                     {/* Social Media */}
                     <div className="social-block">
-                        <h2 className="block-title">MẠNG XÃ HỘI</h2>
+                        <h2 className="block-title">{t('social_media')}</h2>
                         <div className="social-icons-grid">
                             <div className="social-item">
                                 <a href="https://www.facebook.com/ABCMARTVNOFFICIAL/" target="_blank" rel="noopener noreferrer" className="social-link-wrapper">
@@ -140,14 +138,14 @@ const SocialNewsSection = () => {
                     {/* FAQ */}
                     <div className="faq-block">
                         <div className="flex-header">
-                            <h2 className="block-title">CÂU HỎI THƯỜNG GẶP</h2>
-                            <a href="/faq" className="view-more-link">Xem thêm</a>
+                            <h2 className="block-title">{t('faq')}</h2>
+                            <a href="/faq" className="view-more-link">{t('view_all')}</a>
                         </div>
                         <div className="faq-list">
                             {faqs.map((q, idx) => (
                                 <div key={idx} className="faq-item" onClick={() => toggleFaq(idx)}>
                                     <div className="faq-question">
-                                        {q}
+                                        {getFaqText(q)}
                                         {openFaq === idx ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                                     </div>
                                     {openFaq === idx && (
@@ -164,8 +162,8 @@ const SocialNewsSection = () => {
                 {/* Right Column: News */}
                 <div className="right-column">
                     <div className="flex-header">
-                        <h2 className="block-title">BÀI VIẾT</h2>
-                        <a href="/news" className="view-more-link">Xem thêm</a>
+                        <h2 className="block-title">{t('news')}</h2>
+                        <a href="/news" className="view-more-link">{t('view_all')}</a>
                     </div>
                     <div className="news-list">
                         {news.map((item) => (
