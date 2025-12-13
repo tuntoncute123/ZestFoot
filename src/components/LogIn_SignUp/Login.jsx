@@ -1,6 +1,8 @@
 import React from 'react';
 import Navbar from '../Navbar/Navbar.jsx';
 import Footer from '../Footer/Footer.jsx';
+import pic1 from '../../assets/pic1.jpg';
+import CategoryBar from '../CategoryBar/CategoryBar';
 import './Auth.css';
 
 
@@ -9,6 +11,7 @@ const Login = () => {
         <>
 
             <Navbar/>
+            <CategoryBar/>
             <div className="auth-wrapper">
                 <div className="auth-container">
                     {/* Cột Trái */}
@@ -23,7 +26,7 @@ const Login = () => {
                         <div className="auth-image">
                             {/* Thay src bằng biến import ảnh hoặc link ảnh thật */}
                             <img
-                                src="https://file.hstatic.net/200000384421/file/artboard_1_801b6377694d4d68846171f687498c4d.jpg"
+                                src={pic1}
                                 alt="Welcome to HKT-SHOES"/>
                         </div>
                     </div>
