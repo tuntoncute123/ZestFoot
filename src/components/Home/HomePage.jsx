@@ -1,35 +1,53 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
 import ProductCard from '../ProductCard/ProductCard';
 import CategoryBar from '../CategoryBar/CategoryBar';
+import BannerCarousel from '../Banner/BannerCarousel'; // Update path if needed
+import ProductCarousel from '../ProductCarousel'; // Flat file in components
+import { getBrands, getNewArrivals, getSaleProducts, getAsicsProducts } from '../../services/api';
 import './HomePage.css';
 
 const HomePage = () => {
+    const [brands, setBrands] = useState([]);
+    const [newArrivals, setNewArrivals] = useState([]);
+    const [saleProducts, setSaleProducts] = useState([]);
+    const [asicsProducts, setAsicsProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    // Dummy Data
-    const brands = [
-        { name: 'Nike', logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg' },
-        { name: 'Adidas', logo: 'https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg' },
-        { name: 'Vans', logo: 'https://upload.wikimedia.org/wikipedia/commons/9/90/Vans-logo.svg' },
-        { name: 'Converse', logo: 'https://upload.wikimedia.org/wikipedia/commons/3/30/Converse_logo.svg' },
-        { name: 'Puma', logo: 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Puma_logo.svg' },
-        { name: 'New Balance', logo: 'https://upload.wikimedia.org/wikipedia/commons/e/ea/New_Balance_logo.svg' },
-    ];
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Fetch all data in parallel for efficiency
+                const [brandsData, newData, saleData, asicsData] = await Promise.all([
+                    getBrands(),
+                    getNewArrivals(),
+                    getSaleProducts(),
+                    getAsicsProducts()
+                ]);
 
-    const newArrivals = [
-        { id: 1, name: 'Giày Nike Air Force 1 07', brand: 'Nike', price: 2929000, image: 'https://via.placeholder.com/300x300?text=Nike+AF1', isNew: true },
-        { id: 2, name: 'Giày Adidas Superstar', brand: 'Adidas', price: 2400000, image: 'https://via.placeholder.com/300x300?text=Adidas+Superstar', isNew: true },
-        { id: 3, name: 'Giày Vans Old Skool', brand: 'Vans', price: 1950000, image: 'https://via.placeholder.com/300x300?text=Vans+Old+Skool', isNew: true },
-        { id: 4, name: 'Giày Converse Chuck 70', brand: 'Converse', price: 1800000, image: 'https://via.placeholder.com/300x300?text=Converse+Chuck+70', isNew: true },
-    ];
+                setBrands(brandsData);
+                setNewArrivals(newData);
+                setSaleProducts(saleData);
+                setAsicsProducts(asicsData);
+            } catch (error) {
+                console.error("Failed to fetch home page data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    const saleProducts = [
-        { id: 5, name: 'Giày Puma Suede Classic', brand: 'Puma', price: 2200000, salePrice: 1540000, image: 'https://via.placeholder.com/300x300?text=Puma+Suede', isSale: true },
-        { id: 6, name: 'Giày New Balance 574', brand: 'New Balance', price: 2500000, salePrice: 1750000, image: 'https://via.placeholder.com/300x300?text=NB+574', isSale: true },
-        { id: 7, name: 'Giày Fila Disruptor 2', brand: 'Fila', price: 1900000, salePrice: 1330000, image: 'https://via.placeholder.com/300x300?text=Fila', isSale: true },
-        { id: 8, name: 'Giày Reebok Club C 85', brand: 'Reebok', price: 2100000, salePrice: 1470000, image: 'https://via.placeholder.com/300x300?text=Reebok', isSale: true },
-    ];
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="loading-screen">
+                <div className="spinner"></div>
+                <p>Đang tải...</p>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -37,15 +55,7 @@ const HomePage = () => {
             <CategoryBar />
 
             {/* Hero Carousel */}
-            <section className="hero-section">
-                <div className="hero-banner">
-                    <div className="banner-content">
-                        <h1>BỘ SƯU TẬP MỚI 2025</h1>
-                        <p>Khám phá phong cách của bạn với những mẫu giày thời thượng nhất.</p>
-                        <button className="btn btn-primary">XEM NGAY</button>
-                    </div>
-                </div>
-            </section>
+            <BannerCarousel />
 
             <main>
                 {/* Brand Section */}
@@ -59,6 +69,13 @@ const HomePage = () => {
                         ))}
                     </div>
                 </section>
+
+                {/* Exclusive ASICS Section */}
+                <ProductCarousel
+                    title="EXCLUSIVE - ASICS LIFEWALKER"
+                    products={asicsProducts}
+                    link="/collections/asics"
+                />
 
                 {/* New Arrivals */}
                 <section className="section-container bg-light">
