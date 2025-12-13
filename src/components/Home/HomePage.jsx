@@ -5,6 +5,7 @@ import ProductCard from '../ProductCard/ProductCard';
 import CategoryBar from '../CategoryBar/CategoryBar';
 import BannerCarousel from '../Banner/BannerCarousel'; // Update path if needed
 import ProductCarousel from '../ProductCarousel'; // Flat file in components
+import SocialNewsSection from '../SocialNews/SocialNewsSection';
 import { getBrands, getNewArrivals, getSaleProducts, getAsicsProducts } from '../../services/api';
 import './HomePage.css';
 
@@ -99,6 +100,9 @@ const HomePage = () => {
                         ))}
                     </div>
                 </section>
+
+                {/* Social & News Section */}
+                <SocialNewsSection />
 
             </main>
 

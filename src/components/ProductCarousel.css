@@ -12,6 +12,14 @@
 .section-title.text-left {
     text-align: left;
     margin-bottom: 0;
+    font-family: 'Oswald', sans-serif;
+    font-size: 2.5rem;
+    /* Larger size */
+    font-weight: 700;
+    letter-spacing: 1px;
+    /* Slightly condensed/spaced */
+    text-transform: uppercase;
+    line-height: 1;
 }
 
 .section-title.text-left::after {
