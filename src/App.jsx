@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from './pages/HomePage';
+import HomePage from './components/Home/HomePage';
+import Login from './components/LogIn_SignUp/Login';
+import SignUp from './components/LogIn_SignUp/SignUp';
 
 function App() {
   return (
@@ -10,7 +12,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           {/* Add more routes primarily here */}
           <Route path="/cart" element={<div style={{ padding: '100px', textAlign: 'center' }}>Cart Page Placeholder</div>} />
-          <Route path="/login" element={<div style={{ padding: '100px', textAlign: 'center' }}>Login Page Placeholder</div>} />
+            <Route path="/register" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
         </Routes>
       </div>
     </Router>

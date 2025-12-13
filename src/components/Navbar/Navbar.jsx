@@ -1,17 +1,33 @@
-import React, { useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { Search, User, ShoppingBag, Menu, X, CheckCircle, Truck, CreditCard, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
-import logo from '../assets/logo.jpg';
+import logo from '../../assets/logo.jpg';
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('active-tab-1');
+
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const userMenuRef = useRef(null);
+
+  // --- MỚI: Xử lý click ra ngoài để đóng menu ---
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Navigation Links with Mega Menu Data
   const navLinks = [
     {
       name: "THƯƠNG HIỆU",
-      path: "/pages/thuong-hieu",
+      path: "/Home/thuong-hieu",
       type: "list", // Grid/List of brands
       data: [
         { name: "TẤT CẢ", path: "/collections/all" },
@@ -109,7 +125,7 @@ const Navbar = () => {
     },
     { name: "+ SALE +", path: "/collections/sale-item", className: "text-red" },
     { name: "BÀI VIẾT", path: "/blogs/news" },
-    { name: "CỬA HÀNG", path: "/pages/he-thong-cua-hang-abc-mart" },
+    { name: "CỬA HÀNG", path: "/Home/he-thong-cua-hang-abc-mart" },
   ];
 
   return (
@@ -239,8 +255,34 @@ const Navbar = () => {
 
           {/* Icons */}
           <div className="header-icons">
-            <div className="icon-item">
-              <User size={25} className="icon" />
+            {/* --- MỚI: Bắt đầu phần USER MENU --- */}
+            <div className="icon-item user-menu-container" ref={userMenuRef}>
+              <div
+                  className="user-icon-wrapper"
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+              >
+                <User size={25} className="icon" />
+              </div>
+
+              {/* Menu con thả xuống */}
+              {isUserMenuOpen && (
+                  <div className="user-dropdown">
+                    <Link
+                        to="/login"
+                        className="user-dropdown-item"
+                        onClick={() => setIsUserMenuOpen(false)}
+                    >
+                      Đăng nhập
+                    </Link>
+                    <Link
+                        to="/register"
+                        className="user-dropdown-item"
+                        onClick={() => setIsUserMenuOpen(false)}
+                    >
+                      Tạo tài khoản
+                    </Link>
+                  </div>
+              )}
             </div>
             <Link to="/cart" className="icon-item cart-item">
               <ShoppingBag size={25} className="icon" />
@@ -258,7 +300,6 @@ const Navbar = () => {
           </div>
         </div>
       </header>
-
     </div>
   );
 };
