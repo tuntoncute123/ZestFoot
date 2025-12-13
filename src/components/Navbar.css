@@ -1,0 +1,485 @@
+.navbar-wrapper {
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+}
+
+.top-bar {
+    background-color: #84cc16;
+    /* Lime green */
+    font-size: 1.125rem;
+    /* 0.75rem * 1.5 */
+    color: #333;
+    padding: 0.75rem 0;
+    /* 0.5rem * 1.5 */
+}
+
+.top-bar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 150px;
+    padding-right: 150px;
+}
+
+.top-bar-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    /* 0.5rem * 1.5 */
+    font-weight: 500;
+}
+
+.top-bar-icon {
+    stroke-width: 2px;
+}
+
+.main-header {
+    background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.header-container {
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    justify-content: space-between;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.logo-wrapper {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    line-height: 1;
+}
+
+.logo-main {
+    font-size: 3rem;
+    /* 2rem * 1.5 */
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    display: flex;
+    align-items: center;
+}
+
+.logo-abc {
+    color: #333;
+}
+
+.logo-hyphen {
+    color: #333;
+    margin: 0 2px;
+}
+
+.logo-mart {
+    color: #333;
+}
+
+.logo-sub {
+    font-size: 1.05rem;
+    /* 0.7rem * 1.5 */
+    font-weight: 700;
+    color: #333;
+    letter-spacing: 0.1em;
+    margin-top: -2px;
+    text-align: left;
+}
+
+.desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-left: 5.2rem;
+    flex: 1;
+}
+
+.nav-link {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #333;
+    transition: color 0.2s;
+    text-decoration: none;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.nav-link:hover {
+    opacity: 0.7;
+}
+
+.nav-link.highlight {
+    color: #333;
+}
+
+.text-red {
+    color: #e50019;
+}
+
+.nav-arrow {
+    color: #666;
+    margin-top: 1px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #f5f5f5;
+    border-radius: 9999px;
+    padding: 0.6rem 1.2rem;
+    margin: 0 1.2rem;
+    width: 260px;
+    /* Slightly larger than pure 225px to be safe */
+}
+
+.search-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1.35rem;
+    /* 0.9rem * 1.5 */
+    flex: 1;
+    color: #333;
+}
+
+.search-icon {
+    color: #999;
+    cursor: pointer;
+}
+
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 1.8rem;
+}
+
+.icon-item {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #333;
+    text-decoration: none;
+}
+
+.icon {
+    stroke-width: 1.5px;
+}
+
+.icon-item:hover {
+    color: black;
+}
+
+.cart-item {
+    position: relative;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -9px;
+    /* -6 * 1.5 */
+    right: -12px;
+    /* -8 * 1.5 */
+    background-color: #84cc16;
+    /* Match top bar */
+    color: white;
+    font-size: 0.975rem;
+    /* 0.65 * 1.5 */
+    font-weight: bold;
+    border-radius: 50%;
+    width: 27px;
+    /* 18 * 1.5 */
+    height: 27px;
+    /* 18 * 1.5 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lang-select {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    border-left: 1px solid #ddd;
+    padding-left: 1rem;
+}
+
+.flag-icon {
+    width: 36px;
+    /* 24px * 1.5 */
+    height: auto;
+    border-radius: 2px;
+}
+
+.lang-code {
+    font-size: 1.275rem;
+    /* 0.85 * 1.5 */
+    font-weight: 600;
+    color: #333;
+}
+
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+}
+
+.mobile-header {
+    display: none;
+}
+
+
+/* --- Mega Menu Styles --- */
+
+.nav-item-wrapper {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.mega-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    z-index: 50;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.2s ease-in-out;
+    border-top: 2px solid #e5e5e5;
+    min-width: 250px;
+    padding: 1rem;
+    margin-top: 0px;
+}
+
+/* Show on hover */
+.nav-item-wrapper:hover .mega-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* --- Mega Menu List (Brands) --- */
+.mega-menu-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem 2rem;
+    width: 300px;
+}
+
+.mega-menu-item {
+    font-size: 1.1rem;
+    color: #333;
+    text-decoration: none;
+    padding: 0.5rem 0;
+    transition: color 0.2s;
+    font-weight: 500;
+}
+
+.mega-menu-item:hover {
+    color: #e50019;
+}
+
+/* --- Mega Menu Columns (Categories) --- */
+.mega-menu-columns {
+    display: flex;
+    gap: 3rem;
+    width: max-content;
+    padding: 2rem;
+}
+
+.mega-menu-column {
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+}
+
+.column-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #333;
+    text-decoration: none;
+    text-transform: uppercase;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.column-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.column-item {
+    font-size: 1.05rem;
+    color: #555;
+    text-decoration: none;
+    transition: color 0.15s;
+}
+
+.column-item:hover {
+    color: #e50019;
+}
+
+/* --- Mega Menu Tabs (New Arrivals) --- */
+.mega-menu-tabs {
+    width: 900px;
+    padding: 0;
+    background: #fff;
+    left: -200px;
+    /* Rough centering for now */
+}
+
+@media (max-width: 1400px) {
+    .mega-menu-tabs {
+        left: -400px;
+    }
+}
+
+.tabs-header {
+    display: flex;
+    border-bottom: 1px solid #e5e5e5;
+    background: #f9f9f9;
+}
+
+.tab-link {
+    padding: 1rem 2rem;
+    cursor: pointer;
+    font-weight: 600;
+    color: #666;
+    transition: all 0.2s;
+    border-bottom: 2px solid transparent;
+    font-size: 1.15rem;
+}
+
+.tab-link:hover,
+.tab-link.active {
+    color: #e50019;
+    background: #fff;
+    border-bottom-color: #e50019;
+}
+
+.tab-content {
+    display: flex;
+    padding: 2rem;
+    gap: 2rem;
+    min-height: 200px;
+}
+
+.tab-card {
+    display: flex;
+    flex-direction: column;
+    width: 33%;
+    text-decoration: none;
+    align-items: center;
+}
+
+.tab-card .img-wrapper {
+    width: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    background: #f0f0f0;
+}
+
+.tab-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.tab-card:hover img {
+    transform: scale(1.05);
+}
+
+.card-title {
+    font-weight: 700;
+    color: #333;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.tab-card:hover .card-title {
+    color: #e50019;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .top-bar {
+        display: none;
+        /* Often hidden on mobile or simplified */
+    }
+
+    .desktop-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 300px;
+        height: 100vh;
+        background: white;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+        transform: translateX(-100%);
+        transition: transform 0.3s;
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        margin-left: 0;
+        gap: 0;
+    }
+
+    .desktop-nav.open {
+        transform: translateX(0);
+    }
+
+    .mobile-header {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 2rem;
+        font-weight: bold;
+        font-size: 1.25rem;
+    }
+
+    .close-menu-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .nav-link {
+        width: 100%;
+        padding: 1rem 0;
+        font-size: 1rem;
+        border-bottom: 1px solid #f0f0f0;
+        justify-content: space-between;
+    }
+
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    .search-bar {
+        display: none;
+    }
+
+    .logo-sub {
+        display: none;
+        /* Simplify logo on mobile */
+    }
+}
