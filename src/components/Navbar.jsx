@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Search, User, ShoppingBag, Menu, X, CheckCircle, Truck, CreditCard, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
-
+import logo from '../assets/logo.jpg';
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('active-tab-1');
@@ -139,10 +139,10 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="logo-wrapper">
             <img
-              src="//abc-mart.com.vn/cdn/shop/files/Secondary-color-logo.svg?v=1730186689&width=500"
-              alt="ABC-MART Việt Nam"
-              className="logo-main"
-              style={{ width: 'auto', height: '40px' }}
+                src={logo}
+                alt="ABC-MART Việt Nam"
+                className="logo-main"
+                style={{width: 'auto', height: '70px'}}
             />
           </Link>
 
