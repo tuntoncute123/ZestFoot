@@ -274,9 +274,11 @@
 /* --- Mega Menu List (Brands) --- */
 .mega-menu-list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem 2rem;
-    width: 300px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem 2rem;
+    width: 1000px;
+    /* Wide layout */
+    padding: 2rem;
 }
 
 .mega-menu-item {
