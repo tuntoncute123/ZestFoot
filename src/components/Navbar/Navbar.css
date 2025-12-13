@@ -487,6 +487,7 @@
         /* Simplify logo on mobile */
     }
 }
+
 /* --- CSS cho Menu Người dùng --- */
 
 /* Để định vị menu con theo icon cha */
@@ -497,20 +498,27 @@
 
 /* Hiệu ứng khi di chuột vào icon */
 .user-icon-wrapper:hover .icon {
-    color: #555; /* Hoặc màu chủ đạo của web bạn */
+    color: #555;
+    /* Hoặc màu chủ đạo của web bạn */
 }
 
 /* Hộp menu thả xuống */
 .user-dropdown {
     position: absolute;
-    top: 130%; /* Cách icon một chút */
-    right: 0;   /* Căn phải theo icon */
-    width: 180px; /* Độ rộng của menu */
+    top: 130%;
+    /* Cách icon một chút */
+    right: 0;
+    /* Căn phải theo icon */
+    width: 180px;
+    /* Độ rộng của menu */
     background-color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Đổ bóng */
-    border-radius: 8px; /* Bo góc */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    /* Đổ bóng */
+    border-radius: 8px;
+    /* Bo góc */
     border: 1px solid #f0f0f0;
-    z-index: 1000; /* Đảm bảo nằm trên cùng */
+    z-index: 1000;
+    /* Đảm bảo nằm trên cùng */
     overflow: hidden;
     animation: fadeIn 0.2s ease-in-out;
 }
@@ -542,12 +550,82 @@
 }
 
 .user-dropdown-item:hover {
-    background-color: #f5f5f5; /* Màu nền khi di chuột vào */
+    background-color: #f5f5f5;
+    /* Màu nền khi di chuột vào */
     color: #000;
 }
 
 /* Hiệu ứng hiện ra nhẹ nhàng */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Language Switcher CSS --- */
+
+.lang-select {
+    position: relative;
+    /* Ensure dropdown is relative to this */
+}
+
+.lang-dropdown {
+    position: absolute;
+    top: 140%;
+    /* Space below the language selector */
+    right: 0;
+    width: 150px;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    border: 1px solid #f0f0f0;
+    z-index: 1000;
+    overflow: hidden;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Optional triangle arrow like user menu */
+.lang-dropdown::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    right: 10px;
+    /* Aligns roughly with center of lang select if right aligned */
+    width: 12px;
+    height: 12px;
+    background: white;
+    transform: rotate(45deg);
+    border-top: 1px solid #f0f0f0;
+    border-left: 1px solid #f0f0f0;
+}
+
+.lang-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    width: 100%;
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.lang-dropdown-item:hover {
+    background-color: #f5f5f5;
+    color: #000;
+}
+
+.flag-icon-sm {
+    width: 20px;
+    height: auto;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Search, User, ShoppingBag, Menu, X, CheckCircle, Truck, CreditCard, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
@@ -10,11 +10,26 @@ const Navbar = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef(null);
 
+  // Language State
+  const [language, setLanguage] = useState('VI');
+  const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
+  const langMenuRef = useRef(null);
+
+  const handleLanguageChange = (lang) => {
+    setLanguage(lang);
+    setIsLangMenuOpen(false);
+    // Here you would typically trigger i18n change
+    console.log(`Language changed to ${lang}`);
+  };
+
   // --- MỚI: Xử lý click ra ngoài để đóng menu ---
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
         setIsUserMenuOpen(false);
+      }
+      if (langMenuRef.current && !langMenuRef.current.contains(event.target)) {
+        setIsLangMenuOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -155,10 +170,10 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="logo-wrapper">
             <img
-                src={logo}
-                alt="ABC-MART Việt Nam"
-                className="logo-main"
-                style={{width: 'auto', height: '70px'}}
+              src={logo}
+              alt="ABC-MART Việt Nam"
+              className="logo-main"
+              style={{ width: 'auto', height: '70px' }}
             />
           </Link>
 
@@ -258,39 +273,62 @@ const Navbar = () => {
             {/* --- MỚI: Bắt đầu phần USER MENU --- */}
             <div className="icon-item user-menu-container" ref={userMenuRef}>
               <div
-                  className="user-icon-wrapper"
-                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                className="user-icon-wrapper"
+                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
               >
                 <User size={25} className="icon" />
               </div>
 
               {/* Menu con thả xuống */}
               {isUserMenuOpen && (
-                  <div className="user-dropdown">
-                    <Link
-                        to="/login"
-                        className="user-dropdown-item"
-                        onClick={() => setIsUserMenuOpen(false)}
-                    >
-                      Đăng nhập
-                    </Link>
-                    <Link
-                        to="/register"
-                        className="user-dropdown-item"
-                        onClick={() => setIsUserMenuOpen(false)}
-                    >
-                      Tạo tài khoản
-                    </Link>
-                  </div>
+                <div className="user-dropdown">
+                  <Link
+                    to="/login"
+                    className="user-dropdown-item"
+                    onClick={() => setIsUserMenuOpen(false)}
+                  >
+                    Đăng nhập
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="user-dropdown-item"
+                    onClick={() => setIsUserMenuOpen(false)}
+                  >
+                    Tạo tài khoản
+                  </Link>
+                </div>
               )}
             </div>
             <Link to="/cart" className="icon-item cart-item">
               <ShoppingBag size={25} className="icon" />
               <span className="cart-badge">0</span>
             </Link>
-            <div className="lang-select">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Vietnam.svg" alt="VN" className="flag-icon" />
-              <span className="lang-code">VI</span>
+            <div className="lang-select" ref={langMenuRef} onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}>
+              <img
+                src={language === 'VI' ? "https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Vietnam.svg" : "https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg"}
+                alt={language}
+                className="flag-icon"
+              />
+              <span className="lang-code">{language}</span>
+
+              {isLangMenuOpen && (
+                <div className="lang-dropdown">
+                  <div
+                    className="lang-dropdown-item"
+                    onClick={(e) => { e.stopPropagation(); handleLanguageChange('VI'); }}
+                  >
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Vietnam.svg" alt="VI" className="flag-icon-sm" />
+                    <span>Tiếng Việt</span>
+                  </div>
+                  <div
+                    className="lang-dropdown-item"
+                    onClick={(e) => { e.stopPropagation(); handleLanguageChange('EN'); }}
+                  >
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="EN" className="flag-icon-sm" />
+                    <span>English</span>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
