@@ -18,7 +18,7 @@ const Footer = () => {
 
                     <div className="company-info">
                         <p>Địa chỉ: Khu phố 33, Phường Linh Xuân, TP. Thủ Đức, TP. Hồ Chí Minh.</p>
-                        <p>Email: abcShoes@gmail.com</p>
+                        <p>Email: hktShoes@gmail.com</p>
                     </div>
 
                     <div className="newsletter-section">

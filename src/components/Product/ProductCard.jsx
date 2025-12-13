@@ -1,6 +1,6 @@
 import React from 'react';
 import './ProductCard.css';
-import { formatCurrency } from '../utils/format';
+import { formatCurrency } from '../../utils/format.js';
 
 const ProductCard = ({ product }) => {
     return (

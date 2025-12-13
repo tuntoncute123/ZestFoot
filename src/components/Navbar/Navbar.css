@@ -278,11 +278,9 @@
 /* --- Mega Menu List (Brands) --- */
 .mega-menu-list {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem 2rem;
-    width: 1000px;
-    /* Wide layout */
-    padding: 2rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem 2rem;
+    width: 300px;
 }
 
 .mega-menu-item {
@@ -488,4 +486,68 @@
         display: none;
         /* Simplify logo on mobile */
     }
+}
+/* --- CSS cho Menu Người dùng --- */
+
+/* Để định vị menu con theo icon cha */
+.user-menu-container {
+    position: relative;
+    cursor: pointer;
+}
+
+/* Hiệu ứng khi di chuột vào icon */
+.user-icon-wrapper:hover .icon {
+    color: #555; /* Hoặc màu chủ đạo của web bạn */
+}
+
+/* Hộp menu thả xuống */
+.user-dropdown {
+    position: absolute;
+    top: 130%; /* Cách icon một chút */
+    right: 0;   /* Căn phải theo icon */
+    width: 180px; /* Độ rộng của menu */
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Đổ bóng */
+    border-radius: 8px; /* Bo góc */
+    border: 1px solid #f0f0f0;
+    z-index: 1000; /* Đảm bảo nằm trên cùng */
+    overflow: hidden;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Mũi tên nhỏ chỉ lên trên (Option - cho đẹp) */
+.user-dropdown::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    right: 10px;
+    width: 12px;
+    height: 12px;
+    background: white;
+    transform: rotate(45deg);
+    border-top: 1px solid #f0f0f0;
+    border-left: 1px solid #f0f0f0;
+}
+
+/* Link bên trong menu */
+.user-dropdown-item {
+    display: block;
+    padding: 12px 16px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+    text-align: left;
+}
+
+.user-dropdown-item:hover {
+    background-color: #f5f5f5; /* Màu nền khi di chuột vào */
+    color: #000;
+}
+
+/* Hiệu ứng hiện ra nhẹ nhàng */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
