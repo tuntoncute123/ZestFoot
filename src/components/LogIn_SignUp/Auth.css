@@ -137,3 +137,36 @@
         padding: 2rem;
     }
 }
+
+.cancel-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #ffffff;
+    color: #000; /* Chữ đen */
+    border: 1px solid #000;
+    border-radius: 30px; /* Bo tròn nút */
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: opacity 0.3s;
+    margin-top: 15px;
+}
+
+.cancel-btn:hover {
+    opacity: 0.9;
+}
+
+.btn-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.btn-container .auth-btn,
+.btn-container .cancel-btn {
+    flex-grow: 1;
+    width: auto;
+    margin-top: 0;
+}
