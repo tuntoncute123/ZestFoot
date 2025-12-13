@@ -44,7 +44,7 @@ const Login = () => {
                             </div>
 
                             <div className="form-actions">
-                                <a href="#" className="forgot-password">Quên mật khẩu?</a>
+                                <a href="/forgot" className="forgot-password">Quên mật khẩu?</a>
                             </div>
 
                             <button type="submit" className="auth-btn">ĐĂNG NHẬP</button>
