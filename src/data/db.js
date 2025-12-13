@@ -173,3 +173,32 @@ export const products = [
         category: 'shoes'
     },
 ];
+
+export const news = [
+    {
+        id: 1,
+        title: "[SỰ KIỆN] Không Gian Thời Trang Đường Phố Tại...",
+        date: "Ngày 25/10 vừa qua, cửa hàng ABC-MART Saigon Centre đã trở thành điểm hẹn của những tín đồ yêu th...",
+        image: "https://abc-mart.com.vn/cdn/shop/articles/z5971485642533_5fc2279b3621516e53a31c55b630e6a9.jpg?v=1730099419&width=360"
+    },
+    {
+        id: 2,
+        title: "TỰ DO THỂ HIỆN CHẤT RIÊNG VỚI CHUỖI SỰ KIỆN V...",
+        date: "Trong vòng chưa đầy một năm, Vans và ABC-MART đã cùng nhau tổ chức hai sự kiện sáng tạo cho cộng ...",
+        image: "https://abc-mart.com.vn/cdn/shop/articles/z5890885233075_af8e5c8981f4a2119c83664d47c4627b.jpg?v=1727850064&width=360"
+    },
+    {
+        id: 3,
+        title: "ABC-MART VÀ K-SWISS KHUẤY ĐỘNG CỘNG ĐỒNG VỚI ...",
+        date: "Ngày 12/04/2025, ABC-MART và K-SWISS hợp tác tổ chức Pickleball Tournament tại Sân Pickleball QTC...",
+        image: "https://abc-mart.com.vn/cdn/shop/articles/DSCF8119.jpg?v=1713172083&width=360"
+    }
+];
+
+export const faqs = [
+    "faq_1",
+    "faq_2",
+    "faq_3",
+    "faq_4",
+    "faq_5"
+];

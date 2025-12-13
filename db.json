@@ -1,0 +1,265 @@
+{
+    "brands": [
+        {
+            "id": 1,
+            "name": "Nike",
+            "logo": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg",
+            "slug": "nike"
+        },
+        {
+            "id": 2,
+            "name": "Adidas",
+            "logo": "https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg",
+            "slug": "adidas"
+        },
+        {
+            "id": 3,
+            "name": "Vans",
+            "logo": "https://upload.wikimedia.org/wikipedia/commons/9/90/Vans-logo.svg",
+            "slug": "vans"
+        },
+        {
+            "id": 4,
+            "name": "Converse",
+            "logo": "https://upload.wikimedia.org/wikipedia/commons/3/30/Converse_logo.svg",
+            "slug": "converse"
+        },
+        {
+            "id": 5,
+            "name": "Puma",
+            "logo": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Puma_logo.svg",
+            "slug": "puma"
+        },
+        {
+            "id": 6,
+            "name": "New Balance",
+            "logo": "https://upload.wikimedia.org/wikipedia/commons/e/ea/New_Balance_logo.svg",
+            "slug": "new-balance"
+        },
+        {
+            "id": 7,
+            "name": "ASICS",
+            "logo": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Asics_Logo.svg",
+            "slug": "asics"
+        }
+    ],
+    "products": [
+        {
+            "id": 1,
+            "name": "Giày Nike Air Force 1 07",
+            "brand": "Nike",
+            "price": 2929000,
+            "image": "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/b7d9211c-26e7-431a-ac24-b0540fb3c00f/air-force-1-07-shoe-rWtqPn.png",
+            "isNew": true,
+            "category": "shoes"
+        },
+        {
+            "id": 2,
+            "name": "Giày Adidas Superstar",
+            "brand": "Adidas",
+            "price": 2400000,
+            "image": "https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/7ed0855435194229a525aad6009a0497_9366/Superstar_Shoes_White_EG4958_01_standard.jpg",
+            "isNew": true,
+            "category": "shoes"
+        },
+        {
+            "id": 3,
+            "name": "Giày Vans Old Skool",
+            "brand": "Vans",
+            "price": 1950000,
+            "image": "https://images.vans.com/is/image/Vans/VN000D3HY28-HERO?$583x583$",
+            "isNew": true,
+            "category": "shoes"
+        },
+        {
+            "id": 4,
+            "name": "Giày Converse Chuck 70",
+            "brand": "Converse",
+            "price": 1800000,
+            "image": "https://images.converse.com/is/image/Converse/162050C_A_08X1?fmt=jpeg&qlt=90&wid=1000",
+            "isNew": true,
+            "category": "shoes"
+        },
+        {
+            "id": 5,
+            "name": "Giày Puma Suede Classic",
+            "brand": "Puma",
+            "price": 2200000,
+            "salePrice": 1540000,
+            "image": "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_600,h_600/global/352634/03/sv01/fnd/EEA/fmt/png/Suede-Classic-XXI-Sneakers",
+            "isSale": true,
+            "category": "shoes"
+        },
+        {
+            "id": 6,
+            "name": "Giày New Balance 574",
+            "brand": "New Balance",
+            "price": 2500000,
+            "salePrice": 1750000,
+            "image": "https://nb.scene7.com/is/image/NB/ml574evg_nb_02_i?$pdpflexf2$",
+            "isSale": true,
+            "category": "shoes"
+        },
+        {
+            "id": 7,
+            "name": "Giày Fila Disruptor 2",
+            "brand": "Fila",
+            "price": 1900000,
+            "salePrice": 1330000,
+            "image": "https://m.media-amazon.com/images/I/71h3+8+93oL._AC_UY1000_.jpg",
+            "isSale": true,
+            "category": "shoes"
+        },
+        {
+            "id": 8,
+            "name": "Giày Reebok Club C 85",
+            "brand": "Reebok",
+            "price": 2100000,
+            "salePrice": 1470000,
+            "image": "https://assets.reebok.com/images/w_600,f_auto,q_auto/19726889_45239077_2048/Club_C_85_Vintage_Shoes_White_V67899_01_standard.jpg",
+            "isSale": true,
+            "category": "shoes"
+        },
+        {
+            "id": 101,
+            "name": "GIÀY LIFEWALKER HERITAGE - BLACK/BLACK",
+            "brand": "ASICS",
+            "price": 2649000,
+            "image": "https://abc-mart.com.vn/cdn/shop/files/z_30277f98-1aaa-49c6-a38e-724458b909e6.jpg?v=1765433222&width=600",
+            "badges": [
+                "NEW",
+                "EXCLUSIVE"
+            ],
+            "isAsicsExclusive": true,
+            "category": "shoes"
+        },
+        {
+            "id": 102,
+            "name": "GIÀY LIFEWALKER HERITAGE - KHAKI/KHAKI",
+            "brand": "ASICS",
+            "price": 2649000,
+            "image": "https://abc-mart.com.vn/cdn/shop/files/z_fdd20c76-da57-48a4-bb18-ecb1e5623083.jpg?v=1765433241&width=600",
+            "badges": [
+                "NEW",
+                "EXCLUSIVE",
+                "LIMITED"
+            ],
+            "isAsicsExclusive": true,
+            "category": "shoes"
+        },
+        {
+            "id": 103,
+            "name": "GIÀY NỮ LIFEWALKER HERITAGE - BLACK/BLACK",
+            "brand": "ASICS",
+            "price": 2649000,
+            "image": "https://abc-mart.com.vn/cdn/shop/files/z_a11be02f-d6e6-42ce-b18d-ba1e4fe0dd29.jpg?v=1765433257&width=600",
+            "badges": [
+                "NEW",
+                "EXCLUSIVE",
+                "LIMITED"
+            ],
+            "isAsicsExclusive": true,
+            "category": "shoes"
+        },
+        {
+            "id": 104,
+            "name": "GIÀY NỮ LIFEWALKER HERITAGE - KHAKI/KHAKI",
+            "brand": "ASICS",
+            "price": 2649000,
+            "image": "https://abc-mart.com.vn/cdn/shop/files/z_e4793373-f31a-4db9-8d95-35204cb643ac.jpg?v=1765433278&width=600",
+            "badges": [
+                "NEW",
+                "EXCLUSIVE",
+                "LIMITED"
+            ],
+            "isAsicsExclusive": true,
+            "category": "shoes"
+        },
+        {
+            "id": 105,
+            "name": "GIÀY GEL-CUMULUS 16 - WHITE/WHITE",
+            "brand": "ASICS",
+            "price": 3299000,
+            "image": "https://abc-mart.com.vn/cdn/shop/files/1_2_e94a2aca-5cdf-4640-897c-aa2b687713cd.jpg?v=1761641507&width=600",
+            "badges": [
+                "NEW"
+            ],
+            "isAsicsExclusive": true,
+            "category": "shoes"
+        },
+        {
+            "id": 106,
+            "name": "GIÀY GEL-CUMULUS 16 - WHITE/IRONCLAD",
+            "brand": "ASICS",
+            "price": 3299000,
+            "image": "https://abc-mart.com.vn/cdn/shop/files/1_a50ec09c-d00d-42eb-888e-71c356005da0.jpg?v=1755838258&width=600",
+            "badges": [],
+            "isAsicsExclusive": true,
+            "category": "shoes"
+        },
+        {
+            "id": 107,
+            "name": "GIÀY GEL-CUMULUS 16 - CREAM/CLAY GREY",
+            "brand": "ASICS",
+            "price": 3299000,
+            "image": "https://abc-mart.com.vn/cdn/shop/files/1_43337496-21ff-4f18-be6b-6323bc1a80af.jpg?v=1755838260&width=600",
+            "badges": [],
+            "isAsicsExclusive": true,
+            "category": "shoes"
+        },
+        {
+            "id": 108,
+            "name": "GIÀY GEL-NYC - POLAR NIGHT/CREAM",
+            "brand": "ASICS",
+            "price": 3199000,
+            "image": "https://abc-mart.com.vn/cdn/shop/files/1_2_185a6d51-5a1a-4ed0-abe1-093e389124b2.jpg?v=1761641664&width=600",
+            "badges": [
+                "NEW"
+            ],
+            "isAsicsExclusive": true,
+            "category": "shoes"
+        }
+    ],
+    "news": [
+        {
+            "id": 1,
+            "title": "[SỰ KIỆN] Không Gian Thời Trang Đường Phố Tại...",
+            "date": "Ngày 25/10 vừa qua, cửa hàng ABC-MART Saigon Centre đã trở thành điểm hẹn của những tín đồ yêu th...",
+            "image": "https://abc-mart.com.vn/cdn/shop/articles/z5971485642533_5fc2279b3621516e53a31c55b630e6a9.jpg?v=1730099419&width=360"
+        },
+        {
+            "id": 2,
+            "title": "TỰ DO THỂ HIỆN CHẤT RIÊNG VỚI CHUỖI SỰ KIỆN V...",
+            "date": "Trong vòng chưa đầy một năm, Vans và ABC-MART đã cùng nhau tổ chức hai sự kiện sáng tạo cho cộng ...",
+            "image": "https://abc-mart.com.vn/cdn/shop/articles/z5890885233075_af8e5c8981f4a2119c83664d47c4627b.jpg?v=1727850064&width=360"
+        },
+        {
+            "id": 3,
+            "title": "ABC-MART VÀ K-SWISS KHUẤY ĐỘNG CỘNG ĐỒNG VỚI ...",
+            "date": "Ngày 12/04/2025, ABC-MART và K-SWISS hợp tác tổ chức Pickleball Tournament tại Sân Pickleball QTC...",
+            "image": "https://abc-mart.com.vn/cdn/shop/articles/DSCF8119.jpg?v=1713172083&width=360"
+        }
+    ],
+    "faqs": [
+        {
+            "id": 1,
+            "key": "faq_1"
+        },
+        {
+            "id": 2,
+            "key": "faq_2"
+        },
+        {
+            "id": 3,
+            "key": "faq_3"
+        },
+        {
+            "id": 4,
+            "key": "faq_4"
+        },
+        {
+            "id": 5,
+            "key": "faq_5"
+        }
+    ]
+}

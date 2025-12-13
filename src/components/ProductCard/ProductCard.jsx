@@ -1,8 +1,10 @@
 import React from 'react';
 import './ProductCard.css';
 import { formatCurrency } from '../../utils/format.js';
+import { useLanguage } from '../../context/LanguageContext';
 
 const ProductCard = ({ product }) => {
+    const { t } = useLanguage();
     return (
         <div className="product-card">
             <div className="product-image-container">
@@ -17,8 +19,8 @@ const ProductCard = ({ product }) => {
                     {product.badges && product.badges.map((b, i) => (
                         <span key={i} className={`badge ${b.toLowerCase()}`}>{b}</span>
                     ))}
-                    {!product.badges && product.isNew && <span className="badge new">NEW</span>}
-                    {!product.badges && product.isSale && <span className="badge sale">SALE</span>}
+                    {!product.badges && product.isNew && <span className="badge new">{t('new')}</span>}
+                    {!product.badges && product.isSale && <span className="badge sale">{t('sale_badge')}</span>}
                 </div>
             </div>
             <div className="product-info">
