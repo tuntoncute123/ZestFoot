@@ -150,7 +150,6 @@
     cursor: pointer;
     text-transform: uppercase;
     transition: opacity 0.3s;
-    margin-top: 15px;
 }
 
 .cancel-btn:hover {
