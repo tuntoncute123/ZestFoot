@@ -1,9 +1,8 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import ProductCard from '../components/ProductCard';
-import CategoryBar from '../components/CategoryBar';
-import BannerCarousel from '../components/BannerCarousel';
+import Navbar from '../Navbar/Navbar';
+import Footer from '../Footer/Footer';
+import ProductCard from '../ProductCard/ProductCard';
+import CategoryBar from '../CategoryBar/CategoryBar';
 import './HomePage.css';
 
 const HomePage = () => {
@@ -38,7 +37,15 @@ const HomePage = () => {
             <CategoryBar />
 
             {/* Hero Carousel */}
-            <BannerCarousel />
+            <section className="hero-section">
+                <div className="hero-banner">
+                    <div className="banner-content">
+                        <h1>BỘ SƯU TẬP MỚI 2025</h1>
+                        <p>Khám phá phong cách của bạn với những mẫu giày thời thượng nhất.</p>
+                        <button className="btn btn-primary">XEM NGAY</button>
+                    </div>
+                </div>
+            </section>
 
             <main>
                 {/* Brand Section */}
