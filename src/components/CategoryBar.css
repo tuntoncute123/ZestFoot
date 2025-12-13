@@ -1,0 +1,60 @@
+.category-bar {
+    background-color: #112228;
+    /* Dark color from screenshot */
+    color: white;
+    padding: 10px 0;
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    /* Static/Relative so it scrolls with page */
+}
+
+.category-bar-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    overflow-x: auto;
+    /* Allow scroll on small screens */
+    padding: 0 1rem;
+}
+
+.category-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    gap: 0.5rem;
+    transition: opacity 0.2s;
+    min-width: 80px;
+    /* Ensure clickable area */
+}
+
+.category-item:hover {
+    opacity: 0.8;
+}
+
+.category-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 32px;
+}
+
+.category-icon svg {
+    /* width: 32px; height: 32px; - SVGs have own sizes */
+    fill: white;
+    /* Default fill */
+}
+
+/* Specific adjustments for icons that are fills vs strokes based on user SVG data */
+/* Will handle inside SVG or specific classes if needed */
+
+.category-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
