@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../Navbar/Navbar';
-import Footer from '../Footer/Footer';
+import BannerCarousel from '../Banner/BannerCarousel';
 import ProductCard from '../ProductCard/ProductCard';
-import CategoryBar from '../CategoryBar/CategoryBar';
-import BannerCarousel from '../Banner/BannerCarousel'; // Update path if needed
-import ProductCarousel from '../ProductCarousel'; // Flat file in components
+import ProductCarousel from '../ProductCarousel';
 import SocialNewsSection from '../SocialNews/SocialNewsSection';
 import { getBrands, getNewArrivals, getSaleProducts, getAsicsProducts } from '../../services/api';
 import './HomePage.css';
@@ -55,9 +52,6 @@ const HomePage = () => {
 
     return (
         <>
-            <Navbar />
-            <CategoryBar />
-
             {/* Hero Carousel */}
             <BannerCarousel />
 
@@ -108,8 +102,6 @@ const HomePage = () => {
                 <SocialNewsSection />
 
             </main>
-
-            <Footer />
         </>
     );
 };
