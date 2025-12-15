@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './ProductCard.css';
 import { formatCurrency } from '../../utils/format.js';
 import { useLanguage } from '../../context/LanguageContext';
@@ -6,7 +7,7 @@ import { useLanguage } from '../../context/LanguageContext';
 const ProductCard = ({ product }) => {
     const { t } = useLanguage();
     return (
-        <div className="product-card">
+        <Link to={`/products/${product.id}`} className="product-card">
             <div className="product-image-container">
                 <img src={product.image} alt={product.name} className="product-image" />
 
@@ -37,7 +38,7 @@ const ProductCard = ({ product }) => {
                     )}
                 </div>
             </div>
-        </div>
+        </Link>
     );
 };
 

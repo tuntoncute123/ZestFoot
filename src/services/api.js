@@ -42,6 +42,16 @@ export const getAllProducts = async () => {
     }
 };
 
+export const getProductById = async (id) => {
+    try {
+        const response = await axios.get(`${API_URL}/products/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching product by ID:", error);
+        return null;
+    }
+};
+
 export const getProductsByCollection = async (slug) => {
     try {
         // Query param 'brand' is case-sensitive or depends on db.json structure. 
