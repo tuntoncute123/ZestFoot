@@ -54,18 +54,18 @@ export const getProductById = async (id) => {
 
 export const getProductsByCollection = async (slug) => {
     try {
-        // Query param 'brand' is case-sensitive or depends on db.json structure. 
+        // Query param 'brand' is case-sensitive or depends on db.json structure.
         // We'll try to match brand name broadly or handle "all" case.
         let url = `${API_URL}/products`;
         if (slug && slug !== 'all') {
             // Capitalize first letter to match db (e.g. 'nike' -> 'Nike') or just search/filter
             // json-server supports full text search with q= but filtering by brand is better.
             // Let's assume slug matches brand but lowercased.
-            // We need to check if we can filter by 'brand' field case-insensitively using json-server? 
+            // We need to check if we can filter by 'brand' field case-insensitively using json-server?
             // json-server doesn't support regex out of box easily unless custom routes.
             // We'll fetch all and filter in frontend OR map slug to exact Brand Name.
 
-            // Just for MVP, let's fetch all and filter JS side if exact match is tricky, 
+            // Just for MVP, let's fetch all and filter JS side if exact match is tricky,
             // OR strict match if we ensure DB has "Nike" and slug is "nike".
 
             // Actually, let's just make a simple map or try capitalized.
@@ -116,40 +116,95 @@ export const getFaqs = async () => {
     }
 
 };
+/* ===============================
+   AUTH – LOCALSTORAGE ONLY
+   (NO BACKEND, NO JSON-SERVER)
+================================ */
 export const registerUser = async (userData) => {
+    const { email, password } = userData;
+
+    // validate password
+    if (!password || password.length < 6) {
+        return {
+            success: false,
+            message: "Mật khẩu phải có ít nhất 6 ký tự"
+        };
+    }
+
     try {
-        // Bước 1: Kiểm tra xem email đã tồn tại trong db.json chưa
-        const checkRes = await axios.get(`${API_URL}/users?email=${userData.email}`);
+        // 1️⃣ kiểm tra email đã tồn tại chưa
+        const checkRes = await axios.get(
+            `${API_URL}/users?email=${email.trim()}`
+        );
 
         if (checkRes.data.length > 0) {
-            return { success: false, message: "Email này đã được sử dụng!" };
+            return {
+                success: false,
+                message: "Email này đã được sử dụng!"
+            };
         }
 
-        // Bước 2: Nếu chưa tồn tại, tạo user mới
-        const createRes = await axios.post(`${API_URL}/users`, userData);
-        return { success: true, data: createRes.data };
+        // 2️⃣ tạo user mới
+        const createRes = await axios.post(`${API_URL}/users`, {
+            ...userData,
+            email: email.trim(),
+            password: password.trim()
+        });
 
-    } catch (error) {
-        console.error("Error registering user:", error);
-        return { success: false, message: "Lỗi kết nối server khi đăng ký" };
+        // 3️⃣ auto login
+        localStorage.setItem(
+            "currentUser",
+            JSON.stringify(createRes.data)
+        );
+
+        return { success: true, user: createRes.data };
+    } catch (err) {
+        console.error(err);
+        return {
+            success: false,
+            message: "Không kết nối được server"
+        };
     }
 };
 
-// 2. Đăng nhập
+// Đăng nhập
 export const loginUser = async (email, password) => {
     try {
-        // Tìm user có email và password trùng khớp
-        const response = await axios.get(`${API_URL}/users?email=${email}&password=${password}`);
+        const res = await axios.get(
+            `${API_URL}/users?email=${email.trim()}`
+        );
 
-        if (response.data.length > 0) {
-            // Tìm thấy user -> Đăng nhập thành công
-            return { success: true, user: response.data[0] };
-        } else {
-            // Không tìm thấy -> Sai email hoặc pass
-            return { success: false, message: "Email hoặc mật khẩu không chính xác" };
+        if (res.data.length === 0) {
+            return { success: false, message: "Email không tồn tại" };
         }
+
+        const user = res.data[0];
+
+        if (user.password !== password.trim()) {
+            return { success: false, message: "Mật khẩu không đúng" };
+        }
+
+        localStorage.setItem("currentUser", JSON.stringify(user));
+
+        return { success: true, user };
     } catch (error) {
-        console.error("Error logging in:", error);
-        return { success: false, message: "Lỗi kết nối server khi đăng nhập" };
+        console.error(error);
+        return { success: false, message: "Lỗi kết nối server" };
     }
+};
+
+
+// Logout
+export const logoutUser = () => {
+    localStorage.removeItem("currentUser");
+};
+
+// Kiểm tra đã login chưa (dùng để chặn route)
+export const isAuthenticated = () => {
+    return !!localStorage.getItem("currentUser");
+};
+
+// Lấy user hiện tại
+export const getCurrentUser = () => {
+    return JSON.parse(localStorage.getItem("currentUser"));
 };
