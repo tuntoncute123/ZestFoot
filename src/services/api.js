@@ -114,4 +114,42 @@ export const getFaqs = async () => {
         console.error("Error fetching FAQs:", error);
         return [];
     }
+
+};
+export const registerUser = async (userData) => {
+    try {
+        // Bước 1: Kiểm tra xem email đã tồn tại trong db.json chưa
+        const checkRes = await axios.get(`${API_URL}/users?email=${userData.email}`);
+
+        if (checkRes.data.length > 0) {
+            return { success: false, message: "Email này đã được sử dụng!" };
+        }
+
+        // Bước 2: Nếu chưa tồn tại, tạo user mới
+        const createRes = await axios.post(`${API_URL}/users`, userData);
+        return { success: true, data: createRes.data };
+
+    } catch (error) {
+        console.error("Error registering user:", error);
+        return { success: false, message: "Lỗi kết nối server khi đăng ký" };
+    }
+};
+
+// 2. Đăng nhập
+export const loginUser = async (email, password) => {
+    try {
+        // Tìm user có email và password trùng khớp
+        const response = await axios.get(`${API_URL}/users?email=${email}&password=${password}`);
+
+        if (response.data.length > 0) {
+            // Tìm thấy user -> Đăng nhập thành công
+            return { success: true, user: response.data[0] };
+        } else {
+            // Không tìm thấy -> Sai email hoặc pass
+            return { success: false, message: "Email hoặc mật khẩu không chính xác" };
+        }
+    } catch (error) {
+        console.error("Error logging in:", error);
+        return { success: false, message: "Lỗi kết nối server khi đăng nhập" };
+    }
 };
