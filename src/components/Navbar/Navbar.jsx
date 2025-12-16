@@ -6,6 +6,7 @@ import './Navbar.css';
 import logo from '../../assets/logo.jpg';
 import '../LogIn_SignUp/Auth.css';
 import { useAuth } from '../../context/AuthContext';
+import { useCart } from '../../context/CartContext';
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('active-tab-1');
@@ -18,6 +19,7 @@ const Navbar = () => {
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const langMenuRef = useRef(null);
   const { user, logout } = useAuth();
+  const { getCartCount } = useCart();
 
   const handleLanguageChange = (lang) => {
     setLanguage(lang);
@@ -275,109 +277,109 @@ const Navbar = () => {
             {/* --- MỚI: Bắt đầu phần USER MENU --- */}
             <div className="icon-item user-menu-container" ref={userMenuRef}>
               <div
-                  className="user-icon-wrapper"
-                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  style={{display: 'flex', alignItems: 'center', gap: '5px'}}
+                className="user-icon-wrapper"
+                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
               >
-                <User size={25} className="icon"/>
+                <User size={25} className="icon" />
                 {/* Hiển thị tên nếu đã đăng nhập */}
-                {user && <span style={{fontSize: '0.9rem', fontWeight: 'bold'}}>{user.lastName}</span>}
+                {user && <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{user.lastName}</span>}
               </div>
 
               {/* Menu con thả xuống */}
               {isUserMenuOpen && (
-                  <div className="user-dropdown" style={{ paddingTop: '20px' }}>
+                <div className="user-dropdown" style={{ paddingTop: '20px' }}>
 
-                    {user ? (
-                        // Giao diện KHI ĐÃ ĐĂNG NHẬP
-                        <>
-                          <div className="user-dropdown-item" style={{color: '#84cc16'}}>
-                            Xin chào, {user.firstName} {user.lastName}
-                          </div>
-                          <Link to="/profile" className="user-dropdown-item">
-                            Thông tin tài khoản
-                          </Link>
-                          <Link to="/orders" className="user-dropdown-item">
-                            Đơn hàng của tôi
-                          </Link>
-                          <div
-                              className="user-dropdown-item"
-                              onClick={() => {
-                                logout();
-                                setIsUserMenuOpen(false);
-                              }}
-                              style={{cursor: 'pointer', borderTop: '1px solid #eee'}}
-                          >
-                            Đăng xuất
-                          </div>
-                        </>
-                    ) : (
-                        // Giao diện KHI CHƯA ĐĂNG NHẬP (Cũ)
-                        <>
-                          <div className="user-dropdown-item">Theo dõi đơn hàng và thanh toán dễ dàng hơn</div>
-                          <Link
-                              to="/login"
-                              className="user-dropdown-item"
-                              onClick={() => setIsUserMenuOpen(false)}
-                          >
-                            <button className="auth-btn">Đăng nhập</button>
-                          </Link>
-                          <Link
-                              to="/register"
-                              className="user-dropdown-item"
-                              onClick={() => setIsUserMenuOpen(false)}
-                          >
-                            <button className="cancel-btn">Tạo tài khoản</button>
-                          </Link>
-                        </>
-                    )}
+                  {user ? (
+                    // Giao diện KHI ĐÃ ĐĂNG NHẬP
+                    <>
+                      <div className="user-dropdown-item" style={{ color: '#84cc16' }}>
+                        Xin chào, {user.firstName} {user.lastName}
+                      </div>
+                      <Link to="/profile" className="user-dropdown-item">
+                        Thông tin tài khoản
+                      </Link>
+                      <Link to="/orders" className="user-dropdown-item">
+                        Đơn hàng của tôi
+                      </Link>
+                      <div
+                        className="user-dropdown-item"
+                        onClick={() => {
+                          logout();
+                          setIsUserMenuOpen(false);
+                        }}
+                        style={{ cursor: 'pointer', borderTop: '1px solid #eee' }}
+                      >
+                        Đăng xuất
+                      </div>
+                    </>
+                  ) : (
+                    // Giao diện KHI CHƯA ĐĂNG NHẬP (Cũ)
+                    <>
+                      <div className="user-dropdown-item">Theo dõi đơn hàng và thanh toán dễ dàng hơn</div>
+                      <Link
+                        to="/login"
+                        className="user-dropdown-item"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <button className="auth-btn">Đăng nhập</button>
+                      </Link>
+                      <Link
+                        to="/register"
+                        className="user-dropdown-item"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <button className="cancel-btn">Tạo tài khoản</button>
+                      </Link>
+                    </>
+                  )}
 
-                  </div>
+                </div>
               )}
             </div>
             <Link to="/cart" className="icon-item cart-item">
-              <ShoppingBag size={25} className="icon"/>
-              <span className="cart-badge">0</span>
+              <ShoppingBag size={25} className="icon" />
+              <span className="cart-badge">{getCartCount()}</span>
             </Link>
             <div className="lang-select" ref={langMenuRef} onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}>
               <img
-                  src={language === 'VI' ? "https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Vietnam.svg" : "https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg"}
-                  alt={language}
-                  className="flag-icon"
+                src={language === 'VI' ? "https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Vietnam.svg" : "https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg"}
+                alt={language}
+                className="flag-icon"
               />
               <span className="lang-code">{language}</span>
 
               {isLangMenuOpen && (
-                  <div className="lang-dropdown">
-                    <div
-                        className="lang-dropdown-item"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleLanguageChange('VI');
-                        }}
-                    >
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Vietnam.svg" alt="VI"
-                           className="flag-icon-sm"/>
-                      <span>Tiếng Việt</span>
-                    </div>
-                    <div
-                        className="lang-dropdown-item"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleLanguageChange('EN');
-                        }}
-                    >
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg"
-                           alt="EN" className="flag-icon-sm"/>
-                      <span>English</span>
-                    </div>
+                <div className="lang-dropdown">
+                  <div
+                    className="lang-dropdown-item"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleLanguageChange('VI');
+                    }}
+                  >
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Vietnam.svg" alt="VI"
+                      className="flag-icon-sm" />
+                    <span>Tiếng Việt</span>
                   </div>
+                  <div
+                    className="lang-dropdown-item"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleLanguageChange('EN');
+                    }}
+                  >
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg"
+                      alt="EN" className="flag-icon-sm" />
+                    <span>English</span>
+                  </div>
+                </div>
               )}
             </div>
 
             {/* Mobile Menu Button */}
             <button className="mobile-menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              <Menu size={32}/>
+              <Menu size={32} />
             </button>
           </div>
         </div>

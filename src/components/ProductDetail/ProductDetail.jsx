@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getProductById } from '../../services/api';
 import './ProductDetail.css';
 import { CheckCircle, Truck, RefreshCw, ShieldCheck } from 'lucide-react';
+import { useCart } from '../../context/CartContext';
 
 const ProductDetail = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [selectedSize, setSelectedSize] = useState(null);
+    const { addToCart } = useCart();
 
     // Mock Sizes (Since db.json doesn't have them per product yet)
     const sizes = ['US 7', 'US 7.5', 'US 8', 'US 8.5', 'US 9', 'US 9.5', 'US 10', 'US 10.5', 'US 11'];
@@ -95,8 +98,30 @@ const ProductDetail = () => {
 
                         {/* Actions */}
                         <div className="product-actions">
-                            <button className="action-btn add-cart-btn">THÊM VÀO GIỎ</button>
-                            <button className="action-btn buy-now-btn">MUA NGAY</button>
+                            <button
+                                className="action-btn add-cart-btn"
+                                onClick={() => {
+                                    if (!selectedSize) {
+                                        alert('Vui lòng chọn size!');
+                                        return;
+                                    }
+                                    addToCart(product, selectedSize);
+                                }}
+                            >
+                                THÊM VÀO GIỎ
+                            </button>
+                            <button
+                                className="action-btn buy-now-btn"
+                                onClick={() => {
+                                    if (!selectedSize) {
+                                        alert('Vui lòng chọn size!');
+                                        return;
+                                    }
+                                    navigate('/checkout', { state: { product, size: selectedSize } });
+                                }}
+                            >
+                                MUA NGAY
+                            </button>
                         </div>
 
                         {/* Policies */}

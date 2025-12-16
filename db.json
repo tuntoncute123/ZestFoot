@@ -355,5 +355,80 @@
       "password": "Hoc1209",
       "id": 2
     }
+  ],
+  "orders": [
+    {
+      "customer": {
+        "fullName": "Lieu Hoc",
+        "phone": "0862614541",
+        "address": "33/15/13, Đường số 8,Linh xuân, Thủ Đức",
+        "email": "lieuvanhoc@gmail.com"
+      },
+      "items": [
+        {
+          "productId": 101,
+          "productName": "GIÀY LIFEWALKER HERITAGE - BLACK/BLACK",
+          "price": 2649000,
+          "quantity": 1,
+          "size": "US 7.5"
+        }
+      ],
+      "totalAmount": 2649000,
+      "date": "2025-12-16T16:11:33.086Z",
+      "status": "success",
+      "paymentMethod": "momo",
+      "id": 1765901493086
+    },
+    {
+      "customer": {
+        "fullName": "Lieu Hoc",
+        "phone": "0862614541",
+        "address": "33/15/13, Đường số 8, Phường Linh Xuân, Thủ Đức",
+        "email": "lieuvanhoc@gmail.com"
+      },
+      "items": [
+        {
+          "productId": 102,
+          "productName": "GIÀY LIFEWALKER HERITAGE - KHAKI/KHAKI",
+          "price": 2649000,
+          "quantity": 2,
+          "size": "US 8"
+        }
+      ],
+      "totalAmount": 5298000,
+      "date": "2025-12-16T16:18:00.565Z",
+      "status": "success",
+      "paymentMethod": "momo",
+      "id": 1765901880565
+    },
+    {
+      "customer": {
+        "fullName": "Lieu Hoc",
+        "phone": "0862614541",
+        "address": "33/15/13, Đường số 8, Phường Linh Xuân, Thủ Đức",
+        "email": "vanhoclieu@gmail.com"
+      },
+      "items": [
+        {
+          "productId": 2,
+          "productName": "Giày Adidas Superstar",
+          "price": 2400000,
+          "quantity": 1,
+          "size": "US 10.5"
+        },
+        {
+          "productId": 3,
+          "productName": "Giày Vans Old Skool",
+          "price": 1950000,
+          "quantity": 1,
+          "size": "US 10"
+        }
+      ],
+      "totalAmount": 4350000,
+      "date": "2025-12-16T16:22:08.727Z",
+      "status": "success",
+      "paymentMethod": "vnpay",
+      "id": 1765902128727
+    }
   ]
 }
