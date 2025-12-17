@@ -1,3 +1,4 @@
+// src/components/Checkout/PaymentGateway.jsx
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { processPayment } from '../../services/paymentService';
@@ -9,7 +10,8 @@ const PaymentGateway = () => {
     const { state } = useLocation();
     const navigate = useNavigate();
     const { clearCart } = useCart();
-    // Redirect if no order data
+
+    // Redirect nếu không có dữ liệu đơn hàng
     useEffect(() => {
         if (!state || !state.orderData) {
             navigate('/');
@@ -23,18 +25,15 @@ const PaymentGateway = () => {
     const handleConfirm = async () => {
         setStatus('processing');
         try {
-            // Call the same backend service, but now we are "on the gateway"
+            // Giả lập gọi API xử lý thanh toán
             await processPayment(orderData, method);
 
             if (fromCart) clearCart();
 
             setStatus('success');
-            // Auto redirect after success
+            // Tự động chuyển trang sau khi thành công
             setTimeout(() => {
                 navigate('/', { state: { paymentSuccess: true } });
-                // In a real app we might go to a specific /order-success page, 
-                // but for now redirecting to home or back to checkout with success flag is fine.
-                // Or better, let's just show success here and a "Back to Merchant" button.
             }, 2000);
         } catch (error) {
             setStatus('fail');
@@ -90,15 +89,31 @@ const PaymentGateway = () => {
                             </div>
                         </div>
 
-                        {/* Fake QR or Login Form */}
+                        {/* --- PHẦN SỬA ĐỔI: MÃ QR CODE GIẢ LẬP NHƯ THẬT --- */}
                         <div style={{ margin: '30px 0', padding: '20px', border: '1px dashed #ddd', borderRadius: '8px' }}>
                             <p style={{ marginBottom: '15px', color: '#555', fontStyle: 'italic' }}>
-                                {isMomo ? 'Quét mã QR để thanh toán' : 'Mở ứng dụng Mobile Banking để quét mã'}
+                                {isMomo ? 'Quét mã QR bằng ứng dụng MoMo' : 'Mở ứng dụng Ngân hàng/VNPAY để quét mã'}
                             </p>
-                            <div style={{ width: '200px', height: '200px', background: '#eee', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#999' }}>
-                                [FAKE QR CODE]
+
+                            <div style={{
+                                width: 'fit-content',
+                                margin: '0 auto',
+                                padding: '10px',
+                                background: 'white',
+                                border: '1px solid #eee'
+                            }}>
+                                <img
+                                    src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=ThanhToan_${method.toUpperCase()}_DonHang_${orderData.id}_SoTien_${orderData.totalAmount}`}
+                                    alt="Payment QR Code"
+                                    style={{ display: 'block', width: '220px', height: '220px' }}
+                                />
+                            </div>
+
+                            <div style={{marginTop: '15px', fontSize: '0.85rem', color: '#888'}}>
+                                Nội dung: <strong>Thanh toán đơn hàng #{orderData.id}</strong>
                             </div>
                         </div>
+                        {/* -------------------------------------------------- */}
 
                         <div style={{ display: 'flex', gap: '15px' }}>
                             <button
