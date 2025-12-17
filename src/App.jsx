@@ -13,6 +13,8 @@ import Cart from './components/Cart/Cart';
 import PaymentGateway from './components/Payment/PaymentGateway';
 import OrderHistory from './components/Order/OrderHistory';
 import OrderDetail from './components/Order/OrderDetail';
+import Profile from './components/Profile/Profile';
+import Addresses from './components/Profile/Addresses';
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
             <Route path="/" element={<HomePage />} />
 
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/addresses" element={<Addresses />} />
 
             <Route path="/Home/thuong-hieu" element={<div style={{ padding: '50px', textAlign: 'center' }}><h2>Danh sách Thương Hiệu</h2></div>} />
             <Route path="/collections/:slug" element={<CollectionPage />} />
