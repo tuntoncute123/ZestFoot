@@ -11,6 +11,8 @@ import ForgotPassword from './components/LogIn_SignUp/ForgotPassword';
 import Checkout from './components/Checkout/Checkout';
 import Cart from './components/Cart/Cart';
 import PaymentGateway from './components/Payment/PaymentGateway';
+import OrderHistory from './components/Order/OrderHistory';
+import OrderDetail from './components/Order/OrderDetail';
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
 
 
             <Route path="/cart" element={<Cart />} />
+            <Route path="/orders" element={<OrderHistory />} />
+            <Route path="/orders/:id" element={<OrderDetail />} />
 
             <Route path="/payment-gateway/:method" element={<PaymentGateway />} />
           </Route>
