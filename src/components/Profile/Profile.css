@@ -1,0 +1,120 @@
+.profile-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
+    color: #333;
+}
+
+.breadcrumb {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.breadcrumb a {
+    color: #666;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    color: #000;
+}
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    border-bottom: 1px solid #eee;
+    /* Optional styling */
+    padding-bottom: 20px;
+}
+
+.profile-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    color: #333;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.logout-btn:hover {
+    color: #000;
+    font-weight: 500;
+}
+
+.profile-content {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    /* 3 parts for main, 1 part for sidebar */
+    gap: 40px;
+}
+
+.section-heading {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    /* Match the "Lịch sử đặt hàng" style often used */
+}
+
+/* Order History Section */
+.profile-main {
+    /* Main content area */
+}
+
+.order-history-placeholder {
+    font-size: 0.95rem;
+    color: #666;
+}
+
+/* Sidebar Section */
+.profile-sidebar {
+    /* Sidebar area */
+}
+
+.account-details-card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 4px;
+}
+
+.user-name {
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 1rem;
+}
+
+.user-location {
+    color: #666;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+}
+
+.view-addresses a {
+    color: #333;
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
+
+.view-addresses a:hover {
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .profile-content {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-title {
+        font-size: 1.5rem;
+    }
+}

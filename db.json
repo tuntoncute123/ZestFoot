@@ -1,43 +1,43 @@
 {
   "brands": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Nike",
       "logo": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg",
       "slug": "nike"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Adidas",
       "logo": "https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg",
       "slug": "adidas"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Vans",
       "logo": "https://upload.wikimedia.org/wikipedia/commons/9/90/Vans-logo.svg",
       "slug": "vans"
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Converse",
       "logo": "https://upload.wikimedia.org/wikipedia/commons/3/30/Converse_logo.svg",
       "slug": "converse"
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Puma",
       "logo": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Puma_logo.svg",
       "slug": "puma"
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "New Balance",
       "logo": "https://upload.wikimedia.org/wikipedia/commons/e/ea/New_Balance_logo.svg",
       "slug": "new-balance"
     },
     {
-      "id": 7,
+      "id": "7",
       "name": "ASICS",
       "logo": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Asics_Logo.svg",
       "slug": "asics"
@@ -45,7 +45,7 @@
   ],
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Giày Nike Air Force 1 07",
       "brand": "Nike",
       "price": 2929000,
@@ -54,7 +54,7 @@
       "category": "shoes"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Giày Adidas Superstar",
       "brand": "Adidas",
       "price": 2400000,
@@ -63,7 +63,7 @@
       "category": "shoes"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Giày Vans Old Skool",
       "brand": "Vans",
       "price": 1950000,
@@ -72,7 +72,7 @@
       "category": "shoes"
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Giày Converse Chuck 70",
       "brand": "Converse",
       "price": 1800000,
@@ -81,7 +81,7 @@
       "category": "shoes"
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Giày Puma Suede Classic",
       "brand": "Puma",
       "price": 2200000,
@@ -91,7 +91,7 @@
       "category": "shoes"
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "Giày New Balance 574",
       "brand": "New Balance",
       "price": 2500000,
@@ -101,7 +101,7 @@
       "category": "shoes"
     },
     {
-      "id": 7,
+      "id": "7",
       "name": "Giày Fila Disruptor 2",
       "brand": "Fila",
       "price": 1900000,
@@ -111,7 +111,7 @@
       "category": "shoes"
     },
     {
-      "id": 8,
+      "id": "8",
       "name": "Giày Reebok Club C 85",
       "brand": "Reebok",
       "price": 2100000,
@@ -121,7 +121,7 @@
       "category": "shoes"
     },
     {
-      "id": 9,
+      "id": "9",
       "name": "Giày Nike Air Max 90",
       "brand": "Nike",
       "price": 3229000,
@@ -130,7 +130,7 @@
       "category": "shoes"
     },
     {
-      "id": 10,
+      "id": "10",
       "name": "Giày Adidas Stan Smith",
       "brand": "Adidas",
       "price": 2300000,
@@ -139,7 +139,7 @@
       "category": "shoes"
     },
     {
-      "id": 11,
+      "id": "11",
       "name": "Giày Vans Slip-On Checkerboard",
       "brand": "Vans",
       "price": 1750000,
@@ -148,7 +148,7 @@
       "category": "shoes"
     },
     {
-      "id": 12,
+      "id": "12",
       "name": "Giày Converse Chuck Taylor All Star",
       "brand": "Converse",
       "price": 1600000,
@@ -157,7 +157,7 @@
       "category": "shoes"
     },
     {
-      "id": 13,
+      "id": "13",
       "name": "Giày Puma RS-X",
       "brand": "Puma",
       "price": 2800000,
@@ -167,7 +167,7 @@
       "category": "shoes"
     },
     {
-      "id": 14,
+      "id": "14",
       "name": "Giày New Balance 327",
       "brand": "New Balance",
       "price": 2600000,
@@ -177,7 +177,7 @@
       "category": "shoes"
     },
     {
-      "id": 15,
+      "id": "15",
       "name": "Giày Fila Ray Tracer",
       "brand": "Fila",
       "price": 2000000,
@@ -187,7 +187,7 @@
       "category": "shoes"
     },
     {
-      "id": 16,
+      "id": "16",
       "name": "Giày Reebok Club C 85 Vintage",
       "brand": "Reebok",
       "price": 2200000,
@@ -197,7 +197,7 @@
       "category": "shoes"
     },
     {
-      "id": 101,
+      "id": "101",
       "name": "GIÀY LIFEWALKER HERITAGE - BLACK/BLACK",
       "brand": "ASICS",
       "price": 2649000,
@@ -210,7 +210,7 @@
       "category": "shoes"
     },
     {
-      "id": 102,
+      "id": "102",
       "name": "GIÀY LIFEWALKER HERITAGE - KHAKI/KHAKI",
       "brand": "ASICS",
       "price": 2649000,
@@ -224,7 +224,7 @@
       "category": "shoes"
     },
     {
-      "id": 103,
+      "id": "103",
       "name": "GIÀY NỮ LIFEWALKER HERITAGE - BLACK/BLACK",
       "brand": "ASICS",
       "price": 2649000,
@@ -238,7 +238,7 @@
       "category": "shoes"
     },
     {
-      "id": 104,
+      "id": "104",
       "name": "GIÀY NỮ LIFEWALKER HERITAGE - KHAKI/KHAKI",
       "brand": "ASICS",
       "price": 2649000,
@@ -252,7 +252,7 @@
       "category": "shoes"
     },
     {
-      "id": 105,
+      "id": "105",
       "name": "GIÀY GEL-CUMULUS 16 - WHITE/WHITE",
       "brand": "ASICS",
       "price": 3299000,
@@ -264,7 +264,7 @@
       "category": "shoes"
     },
     {
-      "id": 106,
+      "id": "106",
       "name": "GIÀY GEL-CUMULUS 16 - WHITE/IRONCLAD",
       "brand": "ASICS",
       "price": 3299000,
@@ -274,7 +274,7 @@
       "category": "shoes"
     },
     {
-      "id": 107,
+      "id": "107",
       "name": "GIÀY GEL-CUMULUS 16 - CREAM/CLAY GREY",
       "brand": "ASICS",
       "price": 3299000,
@@ -284,7 +284,7 @@
       "category": "shoes"
     },
     {
-      "id": 108,
+      "id": "108",
       "name": "GIÀY GEL-NYC - POLAR NIGHT/CREAM",
       "brand": "ASICS",
       "price": 3199000,
@@ -298,19 +298,19 @@
   ],
   "news": [
     {
-      "id": 1,
+      "id": "1",
       "title": "[SỰ KIỆN] Không Gian Thời Trang Đường Phố Tại...",
       "date": "Ngày 25/10 vừa qua, cửa hàng ABC-MART Saigon Centre đã trở thành điểm hẹn của những tín đồ yêu th...",
       "image": "https://abc-mart.com.vn/cdn/shop/articles/z5971485642533_5fc2279b3621516e53a31c55b630e6a9.jpg?v=1730099419&width=360"
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "TỰ DO THỂ HIỆN CHẤT RIÊNG VỚI CHUỖI SỰ KIỆN V...",
       "date": "Trong vòng chưa đầy một năm, Vans và ABC-MART đã cùng nhau tổ chức hai sự kiện sáng tạo cho cộng ...",
       "image": "https://abc-mart.com.vn/cdn/shop/articles/z5890885233075_af8e5c8981f4a2119c83664d47c4627b.jpg?v=1727850064&width=360"
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "ABC-MART VÀ K-SWISS KHUẤY ĐỘNG CỘNG ĐỒNG VỚI ...",
       "date": "Ngày 12/04/2025, ABC-MART và K-SWISS hợp tác tổ chức Pickleball Tournament tại Sân Pickleball QTC...",
       "image": "https://abc-mart.com.vn/cdn/shop/articles/DSCF8119.jpg?v=1713172083&width=360"
@@ -318,23 +318,23 @@
   ],
   "faqs": [
     {
-      "id": 1,
+      "id": "1",
       "key": "faq_1"
     },
     {
-      "id": 2,
+      "id": "2",
       "key": "faq_2"
     },
     {
-      "id": 3,
+      "id": "3",
       "key": "faq_3"
     },
     {
-      "id": 4,
+      "id": "4",
       "key": "faq_4"
     },
     {
-      "id": 5,
+      "id": "5",
       "key": "faq_5"
     }
   ],
@@ -345,7 +345,7 @@
       "dob": "2008-09-17",
       "email": "vanhoclieu@gmail.com",
       "password": "Hoc1209",
-      "id": 1
+      "id": "1"
     },
     {
       "firstName": "Hoc",
@@ -353,7 +353,15 @@
       "dob": "2025-12-03",
       "email": "lieuvanhoc@gmail.com",
       "password": "Hoc1209",
-      "id": 2
+      "id": "2"
+    },
+    {
+      "id": "529b",
+      "firstName": "Khang",
+      "lastName": "Le",
+      "dob": "1995-02-17",
+      "email": "ngngocan456@gmail.com",
+      "password": "ConboNgu@123"
     }
   ],
   "orders": [
@@ -377,7 +385,7 @@
       "date": "2025-12-16T16:11:33.086Z",
       "status": "success",
       "paymentMethod": "momo",
-      "id": 1765901493086
+      "id": "1765901493086"
     },
     {
       "customer": {
@@ -399,7 +407,7 @@
       "date": "2025-12-16T16:18:00.565Z",
       "status": "success",
       "paymentMethod": "momo",
-      "id": 1765901880565
+      "id": "1765901880565"
     },
     {
       "customer": {
@@ -428,7 +436,7 @@
       "date": "2025-12-16T16:22:08.727Z",
       "status": "success",
       "paymentMethod": "vnpay",
-      "id": 1765902128727
+      "id": "1765902128727"
     },
     {
       "customer": {
@@ -469,7 +477,7 @@
         "transactionId": "MOMOZXF47ORLNE",
         "paidAt": "2025-12-17T07:27:48.535Z"
       },
-      "id": 1765956468535
+      "id": "1765956468535"
     },
     {
       "customer": {
@@ -503,7 +511,7 @@
         "transactionId": "MOMOHK1HEYHKL9",
         "paidAt": "2025-12-17T08:02:30.069Z"
       },
-      "id": 1765958550069
+      "id": "1765958550069"
     }
   ]
 }
