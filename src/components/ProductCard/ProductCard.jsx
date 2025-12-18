@@ -25,7 +25,9 @@ const ProductCard = ({ product }) => {
                 </div>
             </div>
             <div className="product-info">
-                <h4 className="product-brand">{product.brand}</h4>
+                <h4 className="product-brand">
+                    {product.brand} {product.gender && `| ${product.gender === 'men' ? 'Nam' : product.gender === 'women' ? 'Nữ' : 'Unisex'}`}
+                </h4>
                 <h3 className="product-name">{product.name}</h3>
                 <div className="product-price">
                     {product.salePrice ? (

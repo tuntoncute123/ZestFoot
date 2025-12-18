@@ -5,9 +5,22 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import './BannerCarousel.css';
+import fallbackVideo from '../../assets/HKTShoes.mp4';
 
 const BannerCarousel = () => {
     const slides = [
+        {
+            id: 7,
+            type: 'vimeo',
+            video: "https://player.vimeo.com/video/1103618921?badge=0&autopause=0&player_id=0&app_id=58479&background=1&autoplay=1&loop=1&muted=1",
+            link: "/collections/new-arrivals"
+        },
+        {
+            id: 6,
+            type: 'vimeo',
+            video: "https://player.vimeo.com/video/988262463?badge=0&autopause=0&player_id=0&app_id=58479&background=1&autoplay=1&loop=1&muted=1",
+            link: "/collections/new-arrivals"
+        },
         {
             id: 1,
             type: 'image',
@@ -48,7 +61,7 @@ const BannerCarousel = () => {
                 slidesPerView={'auto'}
                 centeredSlides={true}
                 loop={true}
-                autoplay={{ delay: 3000, disableOnInteraction: false }}
+                autoplay={{ delay: 10000, disableOnInteraction: false }}
                 navigation={{
                     nextEl: '.swiper-button-next-custom',
                     prevEl: '.swiper-button-prev-custom',
@@ -69,6 +82,22 @@ const BannerCarousel = () => {
                                 >
                                     <source src={slide.video} type="video/mp4" />
                                 </video>
+                            ) : slide.type === 'vimeo' ? (
+                                <div className="banner-media video-iframe-wrapper">
+                                    {/* Placeholder / Fallback Video */}
+                                    <video className="video-placeholder" autoPlay loop muted playsInline>
+                                        <source src={fallbackVideo} type="video/mp4" />
+                                    </video>
+
+                                    <iframe
+                                        src={slide.video}
+                                        frameBorder="0"
+                                        allow="autoplay; fullscreen; picture-in-picture"
+                                        allowFullScreen
+                                        title="vimeo-banner"
+                                        style={{ width: '100%', height: '100%', pointerEvents: 'none', position: 'relative', zIndex: 2 }}
+                                    ></iframe>
+                                </div>
                             ) : (
                                 <img src={slide.image} alt="Banner" className="banner-media" />
                             )}

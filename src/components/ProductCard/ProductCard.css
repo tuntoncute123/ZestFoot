@@ -51,10 +51,16 @@
     /* For swiper */
     display: flex;
     flex-direction: column;
+    text-decoration: none !important;
+    /* Force remove underline */
+    color: inherit;
 }
 
 .product-card:hover {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-decoration: none !important;
+    /* Force remove underline */
+    color: inherit;
 }
 
 .product-image-container {
@@ -102,6 +108,7 @@
 .product-info {
     padding: 1rem;
     text-align: center;
+    /* Center align text */
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -109,10 +116,14 @@
 }
 
 .product-brand {
-    font-size: 0.8rem;
-    color: #888;
-    margin-bottom: 0.25rem;
+    font-size: 0.55rem;
+    color: #b0b0b0;
+    opacity: 0.6;
+    font-weight: 300;
+    margin-bottom: 0.2rem;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-decoration: none !important;
 }
 
 .product-name {
@@ -126,15 +137,22 @@
     overflow: hidden;
     height: 2.8em;
     /* Force height for alignment */
+    color: #000;
+    /* Ensure name is distinct */
+    text-decoration: none !important;
+    /* Ensure no underline on name either */
 }
 
 .product-price {
+    font-size: 1rem;
     font-weight: 700;
     color: #000;
+    text-decoration: none !important;
 }
 
 .price-current {
     font-size: 1rem;
+    text-decoration: none !important;
 }
 
 .price-old {
