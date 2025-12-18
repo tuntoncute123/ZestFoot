@@ -8,25 +8,41 @@ import Login from './components/LogIn_SignUp/Login';
 import SignUp from './components/LogIn_SignUp/SignUp';
 import ForgotPassword from './components/LogIn_SignUp/ForgotPassword';
 
+import Checkout from './components/Checkout/Checkout';
+import Cart from './components/Cart/Cart';
+import PaymentGateway from './components/Payment/PaymentGateway';
+import OrderHistory from './components/Order/OrderHistory';
+import OrderDetail from './components/Order/OrderDetail';
+import Profile from './components/Profile/Profile';
+import Addresses from './components/Profile/Addresses';
+
 function App() {
   return (
     <Router>
       <div className="App">
         <Routes>
-          {/* Routes with Navbar & Footer */}
           <Route element={<MainLayout />}>
             <Route path="/" element={<HomePage />} />
 
-            {/* Placeholders for links in Navbar */}
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/addresses" element={<Addresses />} />
+
             <Route path="/Home/thuong-hieu" element={<div style={{ padding: '50px', textAlign: 'center' }}><h2>Danh sách Thương Hiệu</h2></div>} />
             <Route path="/collections/:slug" element={<CollectionPage />} />
             <Route path="/products/:id" element={<ProductDetail />} />
             <Route path="/blogs/news" element={<div style={{ padding: '50px', textAlign: 'center' }}><h2>Tin tức & Sự kiện</h2></div>} />
             <Route path="/Home/he-thong-cua-hang-abc-mart" element={<div style={{ padding: '50px', textAlign: 'center' }}><h2>Hệ thống cửa hàng</h2></div>} />
-            <Route path="/cart" element={<div style={{ padding: '50px', textAlign: 'center' }}><h2>Giỏ hàng của bạn</h2></div>} />
+
+
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/orders" element={<OrderHistory />} />
+            <Route path="/orders/:id" element={<OrderDetail />} />
+
+            <Route path="/payment-gateway/:method" element={<PaymentGateway />} />
           </Route>
 
-          {/* Auth Routes (Standalone) */}
+          {/* Auth Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<SignUp />} />
           <Route path="/forgot" element={<ForgotPassword />} />

@@ -491,13 +491,14 @@
 /* --- CSS cho Menu Người dùng --- */
 
 /* Để định vị menu con theo icon cha */
-.user-menu-container {
+.user-menu-container, .cart-item {
     position: relative;
     cursor: pointer;
 }
 
 /* Hiệu ứng khi di chuột vào icon */
-.user-icon-wrapper:hover .icon {
+.user-icon-wrapper:hover .icon,
+.cart-icon-wrapper:hover .icon{
     color: #555;
     /* Hoặc màu chủ đạo của web bạn */
 }
@@ -523,6 +524,23 @@
     animation: fadeIn 0.2s ease-in-out;
 }
 
+.cart-dropdown {
+    width: 320px;
+}
+
+.cart-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #8fd659; /* Màu xanh lá giống mẫu */
+    color: #ffffff; /* Chữ đen hoặc trắng tùy mẫu thực tế, mẫu này chữ đen */
+    border: none;
+    border-radius: 30px; /* Bo tròn nút */
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: opacity 0.3s;
+}
 /* Mũi tên nhỏ chỉ lên trên (Option - cho đẹp) */
 .user-dropdown::before {
     content: "";

@@ -131,6 +131,99 @@ export const getFaqs = async () => {
         console.error("Error fetching FAQs:", error);
         return [];
     }
+
+};
+/* ===============================
+   AUTH – LOCALSTORAGE ONLY
+   (NO BACKEND, NO JSON-SERVER)
+================================ */
+export const registerUser = async (userData) => {
+    const { email, password } = userData;
+
+    // validate password
+    if (!password || password.length < 6) {
+        return {
+            success: false,
+            message: "Mật khẩu phải có ít nhất 6 ký tự"
+        };
+    }
+
+    try {
+        // 1️⃣ kiểm tra email đã tồn tại chưa
+        const checkRes = await axios.get(
+            `${API_URL}/users?email=${email.trim()}`
+        );
+
+        if (checkRes.data.length > 0) {
+            return {
+                success: false,
+                message: "Email này đã được sử dụng!"
+            };
+        }
+
+        // 2️⃣ tạo user mới
+        const createRes = await axios.post(`${API_URL}/users`, {
+            ...userData,
+            email: email.trim(),
+            password: password.trim()
+        });
+
+        // 3️⃣ auto login
+        localStorage.setItem(
+            "currentUser",
+            JSON.stringify(createRes.data)
+        );
+
+        return { success: true, user: createRes.data };
+    } catch (err) {
+        console.error(err);
+        return {
+            success: false,
+            message: "Không kết nối được server"
+        };
+    }
+};
+
+// Đăng nhập
+export const loginUser = async (email, password) => {
+    try {
+        const res = await axios.get(
+            `${API_URL}/users?email=${email.trim()}`
+        );
+
+        if (res.data.length === 0) {
+            return { success: false, message: "Email không tồn tại" };
+        }
+
+        const user = res.data[0];
+
+        if (user.password !== password.trim()) {
+            return { success: false, message: "Mật khẩu không đúng" };
+        }
+
+        localStorage.setItem("currentUser", JSON.stringify(user));
+
+        return { success: true, user };
+    } catch (error) {
+        console.error(error);
+        return { success: false, message: "Lỗi kết nối server" };
+    }
+};
+
+
+// Logout
+export const logoutUser = () => {
+    localStorage.removeItem("currentUser");
+};
+
+// Kiểm tra đã login chưa (dùng để chặn route)
+export const isAuthenticated = () => {
+    return !!localStorage.getItem("currentUser");
+};
+
+// Lấy user hiện tại
+export const getCurrentUser = () => {
+    return JSON.parse(localStorage.getItem("currentUser"));
 };
 
 export const getTrendingProducts = async () => {
