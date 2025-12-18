@@ -3,7 +3,8 @@ import BannerCarousel from '../Banner/BannerCarousel';
 import ProductCard from '../ProductCard/ProductCard';
 import ProductCarousel from '../ProductCarousel';
 import SocialNewsSection from '../SocialNews/SocialNewsSection';
-import { getBrands, getNewArrivals, getSaleProducts, getAsicsProducts } from '../../services/api';
+import { getBrands, getNewArrivals, getSaleProducts, getAsicsProducts, getTrendingProducts } from '../../services/api';
+import TrendSection from './TrendSection';
 import './HomePage.css';
 
 import { useLanguage } from '../../context/LanguageContext';
@@ -14,23 +15,26 @@ const HomePage = () => {
     const [newArrivals, setNewArrivals] = useState([]);
     const [saleProducts, setSaleProducts] = useState([]);
     const [asicsProducts, setAsicsProducts] = useState([]);
+    const [trendingProducts, setTrendingProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 // Fetch all data in parallel for efficiency
-                const [brandsData, newData, saleData, asicsData] = await Promise.all([
+                const [brandsData, newData, saleData, asicsData, trendingData] = await Promise.all([
                     getBrands(),
                     getNewArrivals(),
                     getSaleProducts(),
-                    getAsicsProducts()
+                    getAsicsProducts(),
+                    getTrendingProducts()
                 ]);
 
                 setBrands(brandsData);
                 setNewArrivals(newData);
                 setSaleProducts(saleData);
                 setAsicsProducts(asicsData);
+                setTrendingProducts(trendingData);
             } catch (error) {
                 console.error("Failed to fetch home page data:", error);
             } finally {
@@ -74,6 +78,9 @@ const HomePage = () => {
                     products={asicsProducts}
                     link="/collections/asics"
                 />
+
+                {/* Trending Section - NEW */}
+                <TrendSection trendingProducts={trendingProducts} />
 
                 {/* New Arrivals */}
                 <section className="section-container bg-light">

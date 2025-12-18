@@ -54,32 +54,49 @@ export const getProductById = async (id) => {
 
 export const getProductsByCollection = async (slug) => {
     try {
-        // Query param 'brand' is case-sensitive or depends on db.json structure. 
-        // We'll try to match brand name broadly or handle "all" case.
-        let url = `${API_URL}/products`;
-        if (slug && slug !== 'all') {
-            // Capitalize first letter to match db (e.g. 'nike' -> 'Nike') or just search/filter
-            // json-server supports full text search with q= but filtering by brand is better.
-            // Let's assume slug matches brand but lowercased.
-            // We need to check if we can filter by 'brand' field case-insensitively using json-server? 
-            // json-server doesn't support regex out of box easily unless custom routes.
-            // We'll fetch all and filter in frontend OR map slug to exact Brand Name.
+        const response = await axios.get(`${API_URL}/products`);
+        const allProducts = response.data;
 
-            // Just for MVP, let's fetch all and filter JS side if exact match is tricky, 
-            // OR strict match if we ensure DB has "Nike" and slug is "nike".
-
-            // Actually, let's just make a simple map or try capitalized.
-            const brandName = slug.charAt(0).toUpperCase() + slug.slice(1);
-            // Simple Capitalization for now: "nike" -> "Nike", "new-balance" -> "New Balance" (need logic)
-
-            // Better approach: Get all products and filter locally for flexibility in this mock environment
-            const response = await axios.get(`${API_URL}/products`);
-            const all = response.data;
-            return all.filter(p => p.brand.toLowerCase().replace(/\s+/g, '-') === slug.toLowerCase());
+        if (!slug || slug === 'all') {
+            return allProducts;
         }
 
-        const response = await axios.get(url);
-        return response.data;
+        const lowerSlug = slug.toLowerCase();
+
+        // 1. Check for specific Category/Gender slugs
+        switch (lowerSlug) {
+            case 'giay-nu':
+                return allProducts.filter(p => p.gender === 'women' && p.category === 'shoes');
+            case 'giay-nam':
+                return allProducts.filter(p => p.gender === 'men' && p.category === 'shoes');
+            case 'quan-ao':
+                return allProducts.filter(p => p.category === 'apparel');
+            case 'tui':
+                // Check if name contains "túi" or "balo" or category matches
+                return allProducts.filter(p => p.subCategory === 'bag' || p.name.toLowerCase().includes('balo') || p.name.toLowerCase().includes('túi'));
+            case 'non':
+                return allProducts.filter(p => p.subCategory === 'hat' || p.name.toLowerCase().includes('nón'));
+            case 'vo':
+                return allProducts.filter(p => p.subCategory === 'socks' || p.name.toLowerCase().includes('vớ'));
+            case 'chay-bo':
+                // rudimentary filter for running shoes
+                return allProducts.filter(p => p.category === 'shoes' && (p.name.toLowerCase().includes('running') || p.name.toLowerCase().includes('chạy')));
+            case 'doc-quyen':
+                return allProducts.filter(p => p.isAsicsExclusive || p.badges?.includes('EXCLUSIVE'));
+            case 'cham-soc-giay':
+                return allProducts.filter(p => p.category === 'care');
+        }
+
+        // 2. Fallback: Filter by Brand (slug matching brand name)
+        // Check if slug matches a brand
+        const brandMatch = allProducts.filter(p => p.brand.toLowerCase().replace(/\s+/g, '-') === lowerSlug);
+        if (brandMatch.length > 0) {
+            return brandMatch;
+        }
+
+        // 3. Fallback: Filter by Tag/Type if needed, or return empty
+        return [];
+
     } catch (error) {
         console.error("Error fetching collection products:", error);
         return [];
@@ -112,6 +129,16 @@ export const getFaqs = async () => {
         return response.data;
     } catch (error) {
         console.error("Error fetching FAQs:", error);
+        return [];
+    }
+};
+
+export const getTrendingProducts = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/products?isTrending=true`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching trending products:", error);
         return [];
     }
 };
