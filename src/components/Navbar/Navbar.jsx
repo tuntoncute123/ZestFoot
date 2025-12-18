@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { Search, User, ShoppingBag, Menu, X, CheckCircle, Truck, CreditCard, ChevronDown } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { searchProducts } from '../../services/api';
 import './Navbar.css';
 import logo from '../../assets/logo.jpg';
 import '../LogIn_SignUp/Auth.css';
@@ -22,11 +23,14 @@ const Navbar = () => {
   const { getCartCount } = useCart();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const handleSearch = () => {
     if (searchTerm.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
       setIsMenuOpen(false);
+      setShowSuggestions(false);
     }
   };
 
@@ -36,6 +40,23 @@ const Navbar = () => {
     }
   };
 
+  const handleInputChange = async (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+
+    if (value.trim().length > 1) {
+      try {
+        const results = await searchProducts(value);
+        setSuggestions(results.slice(0, 5)); // Limit to 5 suggestions
+        setShowSuggestions(true);
+      } catch (error) {
+        console.error("Error fetching suggestions:", error);
+      }
+    } else {
+      setSuggestions([]);
+      setShowSuggestions(false);
+    }
+  };
 
   const handleLanguageChange = (lang) => {
     setLanguage(lang);
@@ -45,6 +66,9 @@ const Navbar = () => {
   // --- MỚI: Xử lý click ra ngoài để đóng menu ---
   useEffect(() => {
     const handleClickOutside = (event) => {
+      if (!event.target.closest('.search-bar')) {
+        setShowSuggestions(false);
+      }
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
         setIsUserMenuOpen(false);
       }
@@ -285,10 +309,38 @@ const Navbar = () => {
               placeholder="Tìm kiếm"
               className="search-input"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={handleInputChange}
               onKeyDown={handleKeyDown}
+              onFocus={() => {
+                if (searchTerm.length > 1 && suggestions.length > 0) setShowSuggestions(true);
+              }}
             />
             <Search size={23} className="search-icon" onClick={handleSearch} style={{ cursor: 'pointer' }} />
+
+            {/* Suggestions Dropdown */}
+            {showSuggestions && suggestions.length > 0 && (
+              <div className="search-suggestions">
+                {suggestions.map(product => (
+                  <Link
+                    to={`/products/${product.id}`}
+                    key={product.id}
+                    className="suggestion-item"
+                    onClick={() => {
+                      setShowSuggestions(false);
+                      setSearchTerm(''); // Optional: clear search on selection
+                    }}
+                  >
+                    <img src={product.image} alt={product.name} className="suggestion-image" />
+                    <div className="suggestion-info">
+                      <span className="suggestion-name">{product.name}</span>
+                      <span className="suggestion-price">
+                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.salePrice || product.price)}
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Icons */}
