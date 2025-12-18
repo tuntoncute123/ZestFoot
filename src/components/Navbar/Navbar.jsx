@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { Search, User, ShoppingBag, Menu, X, CheckCircle, Truck, CreditCard, ChevronDown } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import logo from '../../assets/logo.jpg';
 import '../LogIn_SignUp/Auth.css';
@@ -20,6 +20,22 @@ const Navbar = () => {
   const langMenuRef = useRef(null);
   const { user, logout } = useAuth();
   const { getCartCount } = useCart();
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = () => {
+    if (searchTerm.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+      setIsMenuOpen(false);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
 
   const handleLanguageChange = (lang) => {
     setLanguage(lang);
@@ -268,8 +284,11 @@ const Navbar = () => {
               type="text"
               placeholder="Tìm kiếm"
               className="search-input"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
-            <Search size={23} className="search-icon" />
+            <Search size={23} className="search-icon" onClick={handleSearch} style={{ cursor: 'pointer' }} />
           </div>
 
           {/* Icons */}

@@ -245,3 +245,22 @@ export const getTrendingProducts = async () => {
         return [];
     }
 };
+
+export const searchProducts = async (query) => {
+    try {
+        const response = await axios.get(`${API_URL}/products`);
+        const allProducts = response.data;
+
+        if (!query) return [];
+
+        const lowerQuery = query.toLowerCase().trim();
+
+        return allProducts.filter(product =>
+            product.name.toLowerCase().includes(lowerQuery) ||
+            product.brand.toLowerCase().includes(lowerQuery)
+        );
+    } catch (error) {
+        console.error("Error searching products:", error);
+        return [];
+    }
+};

@@ -19,6 +19,8 @@ import Addresses from './components/Profile/Addresses';
 import BlogPage from './components/Blog/BlogPage';
 import ArticleDetail from './components/Blog/ArticleDetail';
 
+import SearchPage from './components/Search/SearchPage';
+
 function App() {
   return (
     <Router>
@@ -26,6 +28,8 @@ function App() {
         <Routes>
           <Route element={<MainLayout />}>
             <Route path="/" element={<HomePage />} />
+
+            <Route path="/search" element={<SearchPage />} />
 
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/profile" element={<Profile />} />
