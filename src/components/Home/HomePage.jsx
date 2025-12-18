@@ -5,6 +5,7 @@ import ProductCarousel from '../ProductCarousel';
 import SocialNewsSection from '../SocialNews/SocialNewsSection';
 import { getBrands, getNewArrivals, getSaleProducts, getAsicsProducts, getTrendingProducts } from '../../services/api';
 import TrendSection from './TrendSection';
+import ScrollingLogos from './ScrollingLogos';
 import './HomePage.css';
 
 import { useLanguage } from '../../context/LanguageContext';
@@ -77,7 +78,11 @@ const HomePage = () => {
                     title={t('exclusive_asics')}
                     products={asicsProducts}
                     link="/collections/asics"
+                    style={{ paddingBottom: '0' }}
                 />
+
+                {/* Scrolling Logos Section */}
+                <ScrollingLogos />
 
                 {/* Trending Section - NEW */}
                 <TrendSection trendingProducts={trendingProducts} />

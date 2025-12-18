@@ -105,7 +105,7 @@ export const getProductsByCollection = async (slug) => {
 
 export const getAsicsProducts = async () => {
     try {
-        const response = await axios.get(`${API_URL}/products?brand=ASICS&isAsicsExclusive=true`);
+        const response = await axios.get(`${API_URL}/products?brand=ASICS`);
         return response.data;
     } catch (error) {
         console.error("Error fetching ASICS products:", error);
@@ -120,6 +120,16 @@ export const getNews = async () => {
     } catch (error) {
         console.error("Error fetching news:", error);
         return [];
+    }
+};
+
+export const getNewsById = async (id) => {
+    try {
+        const response = await axios.get(`${API_URL}/news/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching news by ID:", error);
+        return null;
     }
 };
 

@@ -16,6 +16,9 @@ import OrderDetail from './components/Order/OrderDetail';
 import Profile from './components/Profile/Profile';
 import Addresses from './components/Profile/Addresses';
 
+import BlogPage from './components/Blog/BlogPage';
+import ArticleDetail from './components/Blog/ArticleDetail';
+
 function App() {
   return (
     <Router>
@@ -31,7 +34,8 @@ function App() {
             <Route path="/Home/thuong-hieu" element={<div style={{ padding: '50px', textAlign: 'center' }}><h2>Danh sách Thương Hiệu</h2></div>} />
             <Route path="/collections/:slug" element={<CollectionPage />} />
             <Route path="/products/:id" element={<ProductDetail />} />
-            <Route path="/blogs/news" element={<div style={{ padding: '50px', textAlign: 'center' }}><h2>Tin tức & Sự kiện</h2></div>} />
+            <Route path="/blogs/news" element={<BlogPage />} />
+            <Route path="/blogs/news/:id" element={<ArticleDetail />} />
             <Route path="/Home/he-thong-cua-hang-abc-mart" element={<div style={{ padding: '50px', textAlign: 'center' }}><h2>Hệ thống cửa hàng</h2></div>} />
 
 

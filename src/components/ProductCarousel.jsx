@@ -7,12 +7,12 @@ import ProductCard from './ProductCard/ProductCard';
 import './ProductCarousel.css';
 import { useLanguage } from '../context/LanguageContext';
 
-const ProductCarousel = ({ title, products, link }) => {
+const ProductCarousel = ({ title, products, link, className = '', style = {} }) => {
     const { t } = useLanguage();
     if (!products || products.length === 0) return null;
 
     return (
-        <section className="section-container product-carousel-section">
+        <section className={`section-container product-carousel-section ${className}`} style={style}>
             <div className="section-header">
                 <h2 className="section-title text-left">{title}</h2>
                 {link && (
