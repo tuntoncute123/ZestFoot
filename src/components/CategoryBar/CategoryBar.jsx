@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './CategoryBar.css';
 
 const CategoryBar = () => {
@@ -113,13 +114,13 @@ const CategoryBar = () => {
         <div className="category-bar">
             <div className="category-bar-container">
                 {categories.map((cat, index) => (
-                    <a key={index} href={cat.link} className="category-item">
+                    <Link key={index} to={cat.link} className="category-item">
                         <div className="category-icon">
                             {/* Placeholder for SVG */}
                             <span style={{ fontSize: '24px' }}>{cat.icon}</span>
                         </div>
                         <span className="category-name">{cat.name}</span>
-                    </a>
+                    </Link>
                 ))}
             </div>
         </div>
