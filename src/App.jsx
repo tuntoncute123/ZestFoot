@@ -21,6 +21,7 @@ import ArticleDetail from './components/Blog/ArticleDetail';
 
 import SearchPage from './components/Search/SearchPage';
 import { WishlistProvider } from './context/WishlistContext';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
             <Route path="/register" element={<SignUp />} />
             <Route path="/forgot" element={<ForgotPassword />} />
           </Routes>
+          <ScrollToTop />
         </div>
       </Router>
     </WishlistProvider>
