@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { logoutUser } from '../services/api';
 import PropTypes from 'prop-types'; // Import PropTypes để fix lỗi kiểm tra kiểu dữ liệu
 
 const AuthContext = createContext();
@@ -19,7 +20,8 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('currentUser', JSON.stringify(userData));
     };
 
-    const logout = () => {
+    const logout = async () => {
+        await logoutUser();
         setUser(null);
         localStorage.removeItem('currentUser');
     };

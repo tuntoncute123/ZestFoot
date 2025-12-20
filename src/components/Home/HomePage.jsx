@@ -6,6 +6,7 @@ import SocialNewsSection from '../SocialNews/SocialNewsSection';
 import { getBrands, getNewArrivals, getSaleProducts, getAsicsProducts, getTrendingProducts } from '../../services/api';
 import TrendSection from './TrendSection';
 import ScrollingLogos from './ScrollingLogos';
+import ScrollingPromotion from './ScrollingPromotion';
 import './HomePage.css';
 
 import { useLanguage } from '../../context/LanguageContext';
@@ -86,6 +87,9 @@ const HomePage = () => {
 
                 {/* Trending Section - NEW */}
                 <TrendSection trendingProducts={trendingProducts} />
+
+                {/* Scrolling Promotion Section (Green) */}
+                <ScrollingPromotion />
 
                 {/* New Arrivals */}
                 <section className="section-container bg-light">

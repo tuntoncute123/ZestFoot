@@ -17,6 +17,8 @@
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 1px;
+    font-family: 'Oswald', sans-serif;
+    line-height: 1;
 }
 
 .collection__view-all .link {

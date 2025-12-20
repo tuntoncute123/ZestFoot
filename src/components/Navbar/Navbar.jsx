@@ -354,7 +354,9 @@ const Navbar = () => {
               >
                 <User size={25} className="icon" />
                 {/* Hiển thị tên nếu đã đăng nhập */}
-                {user && <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{user.lastName}</span>}
+                {user && <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>
+                  {user.user_metadata?.last_name || user.lastName || "Khách"}
+                </span>}
               </div>
 
               {/* Menu con thả xuống */}
@@ -365,7 +367,7 @@ const Navbar = () => {
                     // Giao diện KHI ĐÃ ĐĂNG NHẬP
                     <>
                       <div className="user-dropdown-item" style={{ color: '#84cc16' }}>
-                        Xin chào, {user.firstName} {user.lastName}
+                        Xin chào, {user.user_metadata?.first_name || user.firstName} {user.user_metadata?.last_name || user.lastName}
                       </div>
                       <Link to="/profile" className="user-dropdown-item">
                         Thông tin tài khoản

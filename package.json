@@ -12,7 +12,9 @@
     "start": "node server.cjs"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.89.0",
     "axios": "^1.13.2",
+    "dotenv": "^17.2.3",
     "json-server": "^0.17.4",
     "lucide-react": "^0.561.0",
     "react": "^18.2.0",
