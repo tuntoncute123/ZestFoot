@@ -1,7 +1,8 @@
 .scroll-to-top {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
+    bottom: 90px;
+    right: 25px;
+    /* Aligned with ChatBot center visually or slightly offset */
     z-index: 1000;
 }
 
