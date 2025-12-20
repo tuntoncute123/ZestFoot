@@ -21,6 +21,9 @@ import ArticleDetail from './components/Blog/ArticleDetail';
 
 import SearchPage from './components/Search/SearchPage';
 import { WishlistProvider } from './context/WishlistContext';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
+import ChatBot from './components/ChatBot/ChatBot';
+import Membership from './components/Membership/Membership';
 
 function App() {
   return (
@@ -57,6 +60,9 @@ function App() {
             <Route path="/register" element={<SignUp />} />
             <Route path="/forgot" element={<ForgotPassword />} />
           </Routes>
+          <ScrollToTop />
+          <ChatBot />
+          <Membership />
         </div>
       </Router>
     </WishlistProvider>
