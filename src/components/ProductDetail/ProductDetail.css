@@ -235,3 +235,32 @@
         grid-template-columns: repeat(4, 1fr);
     }
 }
+
+/* Wishlist Button */
+.wishlist-btn {
+    width: 54px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border: 1px solid #333;
+    color: #333;
+    flex: 0 0 54px;
+}
+
+.wishlist-btn:hover {
+    background-color: #f5f5f5;
+}
+
+.wishlist-btn .heart-icon {
+    width: 24px;
+    height: 24px;
+    stroke-width: 1.5px;
+    transition: all 0.2s ease;
+}
+
+.wishlist-btn .heart-icon.filled {
+    fill: #ff4d4f;
+    stroke: #ff4d4f;
+}
