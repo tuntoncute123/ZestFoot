@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getProductById } from '../../services/api';
 import './ProductDetail.css';
+import ProductReviews from './ProductReviews';
 import { CheckCircle, Truck, RefreshCw, ShieldCheck } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 
@@ -153,6 +154,7 @@ const ProductDetail = () => {
 
                     </div>
                 </div>
+                <ProductReviews />
             </div>
         </div>
     );
