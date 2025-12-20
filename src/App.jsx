@@ -23,6 +23,7 @@ import SearchPage from './components/Search/SearchPage';
 import { WishlistProvider } from './context/WishlistContext';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import ChatBot from './components/ChatBot/ChatBot';
+import Membership from './components/Membership/Membership';
 
 function App() {
   return (
@@ -61,6 +62,7 @@ function App() {
           </Routes>
           <ScrollToTop />
           <ChatBot />
+          <Membership />
         </div>
       </Router>
     </WishlistProvider>
