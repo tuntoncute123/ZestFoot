@@ -9,8 +9,8 @@ const Profile = () => {
 
     // Mock state matching the form
     const [profileData, setProfileData] = useState({
-        username: '0vit5w2a32',
-        name: user?.firstName ? `${user.firstName} ${user.lastName}` : 'Yuuu',
+        username: user?.email ? user.email.split('@')[0] : 'user123',
+        name: user?.user_metadata?.first_name ? `${user.user_metadata.first_name} ${user.user_metadata.last_name}` : (user?.firstName ? `${user.firstName} ${user.lastName}` : 'Khách'),
         email: user?.email || 'test@example.com',
         phone: '********42',
         gender: 'male',

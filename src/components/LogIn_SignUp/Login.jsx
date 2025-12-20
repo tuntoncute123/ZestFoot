@@ -31,7 +31,9 @@ const Login = () => {
         if (result.success) {
             // Lưu thông tin user vào Context (và LocalStorage)
             login(result.user);
-            alert(`Chào mừng ${result.user.lastName} ${result.user.firstName}!`);
+            // Supabase user object has metadata in user_metadata
+            const name = result.user.user_metadata?.last_name || result.user.email;
+            alert(`Chào mừng ${name}!`);
             navigate('/'); // Chuyển về trang chủ
         } else {
             setError(result.message);
@@ -40,8 +42,8 @@ const Login = () => {
 
     return (
         <>
-            <Navbar/>
-            <CategoryBar/>
+            <Navbar />
+            <CategoryBar />
             <div className="auth-wrapper">
                 <div className="auth-container">
                     {/* Cột Trái */}
@@ -56,7 +58,7 @@ const Login = () => {
                         <div className="auth-image">
                             <img
                                 src={pic1}
-                                alt="Welcome to HKT-SHOES"/>
+                                alt="Welcome to HKT-SHOES" />
                         </div>
                     </div>
 
@@ -64,7 +66,7 @@ const Login = () => {
                     <div className="auth-right">
                         <form onSubmit={handleLogin}>
                             {/* Hiển thị lỗi nếu có */}
-                            {error && <p style={{color: 'red', marginBottom: '10px', fontSize: '0.9rem'}}>{error}</p>}
+                            {error && <p style={{ color: 'red', marginBottom: '10px', fontSize: '0.9rem' }}>{error}</p>}
 
                             <div className="form-group">
                                 <label>Email</label>
@@ -101,7 +103,7 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </>
     );
 };
