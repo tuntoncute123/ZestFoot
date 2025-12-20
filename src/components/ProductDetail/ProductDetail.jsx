@@ -3,8 +3,9 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getProductById } from '../../services/api';
 import './ProductDetail.css';
 import ProductReviews from './ProductReviews';
-import { CheckCircle, Truck, RefreshCw, ShieldCheck } from 'lucide-react';
+import { CheckCircle, Truck, RefreshCw, ShieldCheck, Heart } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
+import { useWishlist } from '../../context/WishlistContext';
 
 const ProductDetail = () => {
     const { id } = useParams();
@@ -13,6 +14,7 @@ const ProductDetail = () => {
     const [loading, setLoading] = useState(true);
     const [selectedSize, setSelectedSize] = useState(null);
     const { addToCart } = useCart();
+    const { isInWishlist, toggleWishlist } = useWishlist();
 
     // Mock Sizes (Since db.json doesn't have them per product yet)
     const sizes = ['US 7', 'US 7.5', 'US 8', 'US 8.5', 'US 9', 'US 9.5', 'US 10', 'US 10.5', 'US 11'];
@@ -122,6 +124,12 @@ const ProductDetail = () => {
                                 }}
                             >
                                 MUA NGAY
+                            </button>
+                            <button
+                                className={`action-btn wishlist-btn ${product && isInWishlist(product.id) ? 'active' : ''}`}
+                                onClick={() => product && toggleWishlist(product.id)}
+                            >
+                                <Heart className={`heart-icon ${product && isInWishlist(product.id) ? 'filled' : ''}`} />
                             </button>
                         </div>
 
