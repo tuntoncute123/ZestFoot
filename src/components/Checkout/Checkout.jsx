@@ -55,6 +55,9 @@ const Checkout = () => {
         } else if (code === 'GIAM50K') {
             setDiscount(50000);
             setCouponMsg('Áp dụng thành công! Giảm 50.000đ');
+        } else if (code === 'JOY-RKKA1FDFGVZU') {
+            setDiscount(200000);
+            setCouponMsg('Áp dụng thành công! Giảm 200.000đ');
         } else {
             setDiscount(0);
             setCouponMsg('Mã giảm giá không hợp lệ hoặc đã hết hạn.');
@@ -217,7 +220,7 @@ const Checkout = () => {
                 </div>
 
                 <div className="form-group" style={{ marginBottom: '15px', padding: '15px', background: '#f5f5f5', borderRadius: '6px' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '5px', fontWeight: 'bold' }}><Tag size={16}/> Mã giảm giá</label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '5px', fontWeight: 'bold' }}><Tag size={16} /> Mã giảm giá</label>
                     <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
                         <input
                             type="text"

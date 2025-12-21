@@ -54,23 +54,14 @@
 
 .chatbot-header {
     background-color: #79DA3F;
-    /* Lighter green for header */
     color: white;
-    padding: 20px;
+    padding: 12px 16px 12px 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.chatbot-header h3 {
-    margin: 0 0 8px 0;
-    font-size: 18px;
-    font-weight: 600;
-}
 
-.chatbot-header p {
-    margin: 0;
-    font-size: 13px;
-    line-height: 1.4;
-    opacity: 0.95;
-}
 
 .chatbot-body {
     padding: 15px;
@@ -131,4 +122,195 @@
 
 .faq-item:hover {
     background-color: #f5f5f5;
+}
+
+/* Chat Message Styles */
+
+.back-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.header-title h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.header-title p {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+/* Category View - Image 1 Style */
+.categories-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px 5px;
+}
+
+.welcome-text {
+    font-size: 15px;
+    color: #333;
+    margin-bottom: 5px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.category-item {
+    background-color: white;
+    border-radius: 12px;
+    padding: 25px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+    transition: all 0.2s;
+}
+
+.category-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.cat-icon {
+    font-size: 32px;
+    margin-bottom: 5px;
+}
+
+.cat-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+}
+
+.cat-arrow {
+    font-size: 14px;
+    color: #ccc;
+    margin-top: 5px;
+}
+
+/* Chat Message Layout */
+.message-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 10px;
+}
+
+/* User Message - Green Bubble */
+.message-item.user {
+    align-self: flex-end;
+    max-width: 80%;
+}
+
+.message-item.user .msg-bubble {
+    background-color: #79DA3F;
+    color: white;
+    padding: 12px 16px;
+    border-radius: 18px 18px 4px 18px;
+    font-size: 14px;
+    line-height: 1.4;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Bot Message - Complex Bubble (Image 2) */
+.message-item.bot {
+    align-self: flex-start;
+    max-width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.bot-container {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    border: 1px solid #eee;
+}
+
+.bot-text-content {
+    padding: 15px;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.bot-options-header {
+    padding: 0 15px 10px 15px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.bot-options-list {
+    border-top: 1px solid #eee;
+}
+
+.bot-option-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 12px 15px;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #eee;
+    color: #2196F3;
+    /* Blue link color */
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.bot-option-btn:last-child {
+    border-bottom: none;
+}
+
+.bot-option-btn:hover {
+    background-color: #f5fafd;
+    text-decoration: underline;
+}
+
+.bot-footer {
+    padding: 0 15px 10px 15px;
+    font-size: 11px;
+    color: #999;
+    text-align: right;
+    margin-top: -5px;
+}
+
+.msg-time {
+    font-size: 10px;
+    opacity: 0.8;
+    margin-top: 5px;
+    text-align: right;
+    display: block;
+}
+
+/* Remove old styles */
+.faq-chips,
+.chip-item {
+    display: none;
+}
+
+.typing-indicator {
+    font-size: 12px;
+    color: #888;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    font-style: italic;
 }
