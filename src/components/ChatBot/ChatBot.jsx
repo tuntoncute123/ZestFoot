@@ -29,17 +29,17 @@ const ChatBot = () => {
         {
             id: 'order',
             questions: [
-                { q: "Theo dõi đơn hàng của tôi", a: "Bạn có thể theo dõi đơn hàng bằng 2 cách:\n\n1. Đăng nhập vào tài khoản, chọn mục \"Lịch sử đơn hàng\" để xem trạng thái cập nhật.\n2. Kiểm tra email xác nhận đơn hàng, chúng tôi có gửi kèm mã vận đơn và link theo dõi vị trí gói hàng theo thời gian thực." },
-                { q: "Thời gian giao hàng bao lâu?", a: "Thời gian giao hàng dự kiến phụ thuộc vào địa chỉ của bạn:\n\n- Nội thành (TP.HCM/Hà Nội): 1 - 2 ngày làm việc.\n- Các tỉnh thành khác: 3 - 5 ngày làm việc.\n\n(Lưu ý: Thời gian có thể thay đổi vào các dịp lễ tết hoặc sự kiện khuyến mãi lớn)." },
+                { q: "Theo dõi đơn hàng của tôi", a: "Bạn có thể theo dõi đơn hàng bằng 2 cách:\n1. Đăng nhập vào tài khoản, chọn mục \"Lịch sử đơn hàng\" để xem trạng thái cập nhật.\n2. Kiểm tra email xác nhận đơn hàng, chúng tôi có gửi kèm mã vận đơn và link theo dõi vị trí gói hàng theo thời gian thực." },
+                { q: "Thời gian giao hàng bao lâu?", a: "Thời gian giao hàng dự kiến phụ thuộc vào địa chỉ của bạn:\n- Nội thành (TP.HCM/Hà Nội): 1 - 2 ngày làm việc.\n- Các tỉnh thành khác: 3 - 5 ngày làm việc.\n(Lưu ý: Thời gian có thể thay đổi vào các dịp lễ tết hoặc sự kiện khuyến mãi lớn)." },
                 { q: "Có thể thay đổi địa chỉ sau khi đặt hàng?", a: "Bạn có thể thay đổi nếu đơn hàng đang ở trạng thái \"Đang xử lý\". Vui lòng liên hệ ngay qua Hotline hoặc Fanpage để nhân viên hỗ trợ kịp thời. Nếu đơn hàng đã chuyển sang trạng thái \"Đang giao\", chúng tôi sẽ cố gắng liên hệ đơn vị vận chuyển nhưng không đảm bảo 100% sẽ thay đổi được." }
             ]
         },
         {
             id: 'payment',
             questions: [
-                { q: "Có những hình thức thanh toán nào trên trang ?", a: "Chúng tôi hỗ trợ đa dạng các phương thức thanh toán:\n\n- Thanh toán khi nhận hàng (COD).\n- Chuyển khoản ngân hàng (QR Code).\n- Ví điện tử (Momo, ZaloPay).\n- Thẻ tín dụng/ghi nợ quốc tế (Visa, Mastercard)." },
+                { q: "Có những hình thức thanh toán nào trên trang ?", a: "Chúng tôi hỗ trợ đa dạng các phương thức thanh toán:\n- Thanh toán khi nhận hàng (COD).\n- Chuyển khoản ngân hàng (QR Code).\n- Ví điện tử (Momo, ZaloPay)." },
                 { q: "Khi sản phẩm tới tay bị hư hỏng thì như thế nào?", a: "Nếu hộp giày bị móp méo nghiêm trọng hoặc sản phẩm bên trong bị lỗi/hư hỏng do vận chuyển, bạn vui lòng quay video lúc mở hộp và liên hệ ngay với chúng tôi. Shop sẽ gửi đổi sản phẩm mới ngay lập tức và chịu hoàn toàn phí vận chuyển 2 chiều." },
-                { q: "Tôi có thể đổi lại các sản phẩm tôi đã mua không?", a: "Chúng tôi hỗ trợ đổi size hoặc đổi mẫu trong vòng 07 ngày kể từ khi nhận hàng.\n\nĐiều kiện: Giày chưa qua sử dụng, đế chưa bị bẩn/mòn, còn nguyên tem mác và hộp.\n\nVui lòng liên hệ CSKH để được hướng dẫn quy trình đổi hàng." }
+                { q: "Tôi có thể đổi lại các sản phẩm tôi đã mua không?", a: "Chúng tôi hỗ trợ đổi size hoặc đổi mẫu trong vòng 07 ngày kể từ khi nhận hàng.\nĐiều kiện: Giày chưa qua sử dụng, đế chưa bị bẩn/mòn, còn nguyên tem mác và hộp.\nVui lòng liên hệ CSKH để được hướng dẫn quy trình đổi hàng." }
             ]
         }
     ];
