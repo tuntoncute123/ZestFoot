@@ -114,12 +114,12 @@ const CategoryBar = () => {
         <div className="category-bar">
             <div className="category-bar-container">
                 {categories.map((cat, index) => (
-                    <Link key={index} to={cat.link} className="category-item">
-                        <div className="category-icon">
+                    <Link key={index} to={cat.link} className="category-bar-item">
+                        <div className="category-bar-icon">
                             {/* Placeholder for SVG */}
                             <span style={{ fontSize: '24px' }}>{cat.icon}</span>
                         </div>
-                        <span className="category-name">{cat.name}</span>
+                        <span className="category-bar-name">{cat.name}</span>
                     </Link>
                 ))}
             </div>
