@@ -22,7 +22,7 @@
     padding: 0 1rem;
 }
 
-.category-item {
+.category-bar-item {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -34,27 +34,22 @@
     /* Ensure clickable area */
 }
 
-.category-item:hover {
+.category-bar-item:hover {
     opacity: 0.8;
 }
 
-.category-icon {
+.category-bar-icon {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 32px;
 }
 
-.category-icon svg {
-    /* width: 32px; height: 32px; - SVGs have own sizes */
+.category-bar-icon svg {
     fill: white;
-    /* Default fill */
 }
 
-/* Specific adjustments for icons that are fills vs strokes based on user SVG data */
-/* Will handle inside SVG or specific classes if needed */
-
-.category-name {
+.category-bar-name {
     font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
