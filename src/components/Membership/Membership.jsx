@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Membership.css';
 import { useAuth } from '../../context/AuthContext';
+import { supabase } from '../../services/supabaseClient';
 
 const Membership = () => {
     const { user } = useAuth();
@@ -15,73 +16,127 @@ const Membership = () => {
         earn: false
     });
 
-    React.useEffect(() => {
-        const storedPoints = localStorage.getItem('membership_points');
-        const storedHistory = localStorage.getItem('membership_history');
-
-        let currentPoints = 0;
-        let currentHistory = [];
-
-        if (storedPoints) currentPoints = parseInt(storedPoints);
-        if (storedHistory) currentHistory = JSON.parse(storedHistory);
-
-        setPoints(currentPoints);
-        setHistory(currentHistory);
-
-        // This check should ideally be done after the initial state is set,
-        // and handleAddPoints should be stable (e.g., wrapped in useCallback or defined outside useEffect)
-        // For simplicity in this context, we'll call it directly.
-        // If handleAddPoints relies on 'points' or 'history' from state, it might not reflect the *latest* state immediately after setPoints/setHistory.
-        // However, for a one-time initial bonus, it's usually fine.
-        const hasLoginBonus = currentHistory.some(item => item.reason === 'Đăng ký thành viên');
-        if (!hasLoginBonus) {
-            // Directly call the logic for adding points, as handleAddPoints might not be stable yet
-            // or we need to ensure it uses the current values from this effect.
-            // For a more robust solution, handleAddPoints should be memoized or passed current values.
-            // For now, let's simulate the add points logic here for the initial bonus.
-            const bonusAmount = 200;
-            const bonusReason = 'Đăng ký thành viên';
-
-            const newPointsAfterBonus = currentPoints + bonusAmount;
-            const newHistoryAfterBonus = [{
-                date: new Date().toLocaleDateString('vi-VN'),
-                time: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
-                reason: bonusReason,
-                amount: bonusAmount,
-                type: 'earn'
-            }, ...currentHistory];
-
-            setPoints(newPointsAfterBonus);
-            setHistory(newHistoryAfterBonus);
-            localStorage.setItem('membership_points', newPointsAfterBonus);
-            localStorage.setItem('membership_history', JSON.stringify(newHistoryAfterBonus));
+    useEffect(() => {
+        if (!user) {
+            setPoints(0);
+            setHistory([]);
+            return;
         }
-    }, []); // Empty dependency array means this runs once on mount
 
-    const handleAddPoints = (amount, reason) => {
-        // Prevent duplicate 'Đăng ký thành viên' via click if already exists
+        const fetchMembershipData = async () => {
+            try {
+                // 1. Get Profile (Points)
+                let { data: profile, error } = await supabase
+                    .from('profiles')
+                    .select('points')
+                    .eq('id', user.id)
+                    .single();
+
+                // If profile doesn't exist (e.g. old user created before trigger), create one
+                if (error && error.code === 'PGRST116') {
+                    const { data: newProfile, error: createError } = await supabase
+                        .from('profiles')
+                        .insert([
+                            {
+                                id: user.id,
+                                full_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Member',
+                                points: 200
+                            }
+                        ])
+                        .select()
+                        .single();
+
+                    if (!createError && newProfile) {
+                        profile = newProfile;
+                        // Log initial bonus
+                        await supabase.from('point_transactions').insert([
+                            { user_id: user.id, amount: 200, reason: 'Đăng ký thành viên', type: 'earn' }
+                        ]);
+                    }
+                }
+
+                if (profile) {
+                    setPoints(profile.points);
+                }
+
+                // 2. Get Transaction History
+                const { data: transactions } = await supabase
+                    .from('point_transactions')
+                    .select('*')
+                    .eq('user_id', user.id)
+                    .order('created_at', { ascending: false });
+
+                if (transactions) {
+                    setHistory(transactions.map(t => ({
+                        ...t,
+                        date: new Date(t.created_at).toLocaleDateString('vi-VN'),
+                        time: new Date(t.created_at).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })
+                    })));
+                }
+
+            } catch (error) {
+                console.error("Error fetching membership data:", error);
+            }
+        };
+
+        fetchMembershipData();
+    }, [user]);
+
+    const handleAddPoints = async (amount, reason) => {
+        if (!user) return;
+
+        // Prevent duplicate 'Đăng ký thành viên' check locally first for UX
         if (reason === 'Đăng ký thành viên' && history.some(item => item.reason === 'Đăng ký thành viên')) {
             return;
         }
 
         // Prevent negative points if trying to spend more than available
         if (amount < 0 && points + amount < 0) {
+            alert("Bạn không đủ điểm để thực hiện đổi quà này.");
             return;
         }
 
-        const newPoints = points + amount;
-        const newHistory = [{
-            date: new Date().toLocaleDateString('vi-VN'),
-            time: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
-            reason,
-            amount,
-            type: amount >= 0 ? 'earn' : 'spend'
-        }, ...history];
+        try {
+            // 1. Insert Transaction
+            const { error: txError } = await supabase
+                .from('point_transactions')
+                .insert([
+                    { user_id: user.id, amount: amount, reason: reason, type: amount >= 0 ? 'earn' : 'spend' }
+                ]);
 
-        setPoints(newPoints);
-        setHistory(newHistory);
-        localStorage.setItem('membership_points', newPoints);
-        localStorage.setItem('membership_history', JSON.stringify(newHistory));
+            if (txError) throw txError;
+
+            // 2. Update Profile Points
+            const newPoints = points + amount;
+            const { error: updateError } = await supabase
+                .from('profiles')
+                .update({ points: newPoints, updated_at: new Date() })
+                .eq('id', user.id);
+
+            if (updateError) throw updateError;
+
+            // 3. Update Local State (Optimistic or Refetch)
+            setPoints(newPoints);
+
+            // Refetch history to safeguard
+            const { data: transactions } = await supabase
+                .from('point_transactions')
+                .select('*')
+                .eq('user_id', user.id)
+                .order('created_at', { ascending: false });
+
+            if (transactions) {
+                setHistory(transactions.map(t => ({
+                    ...t,
+                    date: new Date(t.created_at).toLocaleDateString('vi-VN'),
+                    time: new Date(t.created_at).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })
+                })));
+            }
+
+        } catch (error) {
+            console.error("Error updating points:", error);
+            alert("Có lỗi xảy ra khi cập nhật điểm.");
+        }
     };
 
     const hasJoined = history.some(item => item.reason === 'Đăng ký thành viên');
