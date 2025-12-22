@@ -4,7 +4,7 @@ import { Search, User, ShoppingBag, Menu, X, CheckCircle, Truck, CreditCard, Che
 import { Link, useNavigate } from 'react-router-dom';
 import { searchProducts } from '../../services/api';
 import './Navbar.css';
-import logo from '../../assets/logo.jpg';
+import logo from '../../assets/logoHKTShoes.png';
 import '../LogIn_SignUp/Auth.css';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
@@ -217,7 +217,7 @@ const Navbar = () => {
               src={logo}
               alt="ABC-MART Việt Nam"
               className="logo-main"
-              style={{ width: 'auto', height: '70px' }}
+              style={{ width: 'auto', height: '140px' }}
             />
           </Link>
 

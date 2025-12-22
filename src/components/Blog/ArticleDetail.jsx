@@ -74,7 +74,7 @@ const ArticleDetail = () => {
 
             <div className="article-main-grid">
                 {/* Main Content (Left) */}
-                <div className="grid__item articleleft">
+                <div className="grid__item articleleft" data-aos="fade-up">
                     <div className="article-content" dangerouslySetInnerHTML={{ __html: article.content || article.excerpt }}>
                         {/* Content from JSON injected here */}
                     </div>
@@ -89,7 +89,7 @@ const ArticleDetail = () => {
                 </div>
 
                 {/* Sidebar (Right) */}
-                <div className="grid__item articleright article-sidebar">
+                <div className="grid__item articleright article-sidebar" data-aos="fade-left">
                     <div className="sidebar-section">
                         <h2>Theo dõi chúng tôi</h2>
                         <ul className="social-list">

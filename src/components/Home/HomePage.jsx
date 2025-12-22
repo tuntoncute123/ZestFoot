@@ -63,7 +63,7 @@ const HomePage = () => {
 
             <main>
                 {/* Brand Section */}
-                <section className="section-container">
+                <section className="section-container" data-aos="fade-up">
                     <h2 className="section-title">{t('featured_brands')}</h2>
                     <div className="brand-grid">
                         {brands.map((brand) => (
@@ -75,24 +75,32 @@ const HomePage = () => {
                 </section>
 
                 {/* Exclusive ASICS Section */}
-                <ProductCarousel
-                    title={t('exclusive_asics')}
-                    products={asicsProducts}
-                    link="/collections/asics"
-                    style={{ paddingBottom: '0' }}
-                />
+                <div data-aos="fade-right">
+                    <ProductCarousel
+                        title={t('exclusive_asics')}
+                        products={asicsProducts}
+                        link="/collections/asics"
+                        style={{ paddingBottom: '0' }}
+                    />
+                </div>
 
                 {/* Scrolling Logos Section */}
-                <ScrollingLogos />
+                <div data-aos="fade-in">
+                    <ScrollingLogos />
+                </div>
 
                 {/* Trending Section - NEW */}
-                <TrendSection trendingProducts={trendingProducts} />
+                <div data-aos="zoom-in">
+                    <TrendSection trendingProducts={trendingProducts} />
+                </div>
 
                 {/* Scrolling Promotion Section (Green) */}
-                <ScrollingPromotion />
+                <div data-aos="flip-up">
+                    <ScrollingPromotion />
+                </div>
 
                 {/* New Arrivals */}
-                <section className="section-container bg-light">
+                <section className="section-container bg-light" data-aos="fade-up">
                     <h2 className="section-title">{t('new_products')}</h2>
                     <div className="product-grid">
                         {newArrivals.map((prod) => (
@@ -105,7 +113,7 @@ const HomePage = () => {
                 </section>
 
                 {/* Sale Section */}
-                <section className="section-container">
+                <section className="section-container" data-aos="fade-up">
                     <h2 className="section-title text-red">{t('sale_products')}</h2>
                     <div className="product-grid">
                         {saleProducts.map((prod) => (
@@ -115,7 +123,9 @@ const HomePage = () => {
                 </section>
 
                 {/* Social & News Section */}
-                <SocialNewsSection />
+                <div data-aos="fade-left">
+                    <SocialNewsSection />
+                </div>
 
             </main>
         </>
