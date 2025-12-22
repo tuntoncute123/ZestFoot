@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { processPayment } from '../../services/paymentService';
+import { supabase } from '../../services/supabaseClient';
 import './Checkout.css';
 import { CreditCard, Truck, Wallet, Tag } from 'lucide-react';
 import ProvinceSelector from './ProvinceSelector';
@@ -137,8 +138,57 @@ const Checkout = () => {
 
 
 
+
+
+            // ... inside checkout component ...
+
             if (paymentMethod === 'cod') {
                 await processPayment(orderData, 'cod');
+
+                // --- TÍCH ĐIỂM THÀNH VIÊN (NEW) ---
+                if (user) {
+                    try {
+                        // Quy đổi điểm: 10,000 VND = 1 điểm (Tương đương 3,000,000 = 300 điểm)
+                        // Công thức: total_amount / 10000
+                        const pointsEarned = Math.floor(finalTotal / 10000);
+
+                        if (pointsEarned > 0) {
+                            // 1. Lấy điểm hiện tại
+                            const { data: profile } = await supabase
+                                .from('profiles')
+                                .select('points')
+                                .eq('id', user.id)
+                                .single();
+
+                            const currentPoints = profile ? profile.points : 0;
+                            const newPoints = currentPoints + pointsEarned;
+
+                            // 2. Cập nhật điểm mới
+                            await supabase
+                                .from('profiles')
+                                .update({ points: newPoints, updated_at: new Date() })
+                                .eq('id', user.id);
+
+                            // 3. Ghi lịch sử giao dịch
+                            await supabase
+                                .from('point_transactions')
+                                .insert([
+                                    {
+                                        user_id: user.id,
+                                        amount: pointsEarned,
+                                        reason: `Tích điểm đơn hàng #${Date.now().toString().slice(-6)}`,
+                                        type: 'earn'
+                                    }
+                                ]);
+
+                            console.log(`Đã tích ${pointsEarned} điểm cho user ${user.id}`);
+                        }
+                    } catch (pointError) {
+                        console.error("Lỗi tích điểm:", pointError);
+                        // Không chặn luồng thanh toán chính nếu lỗi tích điểm
+                    }
+                }
+                // ------------------------------------
 
                 // LƯU Ý: Nếu chỉ thanh toán 1 phần, ta không nên clearCart() toàn bộ.
                 // Tuy nhiên, context hiện tại của bạn chỉ có clearCart().

@@ -59,20 +59,16 @@ export const getProductById = async (id) => {
 export const getProductsByCollection = async (slug) => {
     try {
         let query = supabase.from('products').select('*');
-
-        // Fetch all first (optimizable later with specific queries)
-        // For simplicity and matching complex JS logic, we fetch all and filter in JS 
-        // OR we try to map common slugs to DB queries.
-
-        // Optimization: Handle simple cases directly in DB
         const lowerSlug = slug ? slug.toLowerCase() : 'all';
 
+        // 1. ALL
         if (lowerSlug === 'all') {
             const { data, error } = await query;
             if (error) throw error;
             return data;
         }
 
+        // 2. MAIN CATEGORIES
         if (lowerSlug === 'giay-nu') {
             const { data, error } = await query.eq('gender', 'women').eq('category', 'shoes');
             if (error) throw error; return data;
@@ -81,21 +77,96 @@ export const getProductsByCollection = async (slug) => {
             const { data, error } = await query.eq('gender', 'men').eq('category', 'shoes');
             if (error) throw error; return data;
         }
-        if (lowerSlug === 'quan-ao') {
+        // Handle both common slugs for apparel
+        if (lowerSlug === 'quan-ao' || lowerSlug === 'phu-trang') {
             const { data, error } = await query.eq('category', 'apparel');
             if (error) throw error; return data;
         }
-        if (lowerSlug === 'doc-quyen') {
-            // 'or' syntax: isAsicsExclusive.eq.true
-            // Supabase OR: .or('isAsicsExclusive.eq.true,badges.cs.{"EXCLUSIVE"}') -> complicated for jsonb array check
-            // Fallback to fetching all and filtering for complex cases
+        if (lowerSlug === 'phu-kien1' || lowerSlug === 'phu-kien') { // Navbar uses phu-kien1?
+            // Fetch accessories
+            const { data, error } = await query.neq('category', 'shoes').neq('category', 'apparel');
+            if (error) throw error; return data;
         }
 
-        // Fallback: Fetch all and filter in JS (Legacy Logic)
+        // 3. SUB-CATEGORIES (Requires Filtering)
+        let baseQuery = query;
+        let filterFn = null;
+
+        if (lowerSlug.includes('giay-the-thao')) {
+            const gender = lowerSlug.includes('nu') ? 'women' : (lowerSlug.includes('nam') ? 'men' : null);
+            if (gender) baseQuery = baseQuery.eq('gender', gender);
+            baseQuery = baseQuery.eq('category', 'shoes');
+            // Logic: Is Sneaker/Sport OR (Empty subCategory AND NOT Sandal/Slipper/Formal)
+            filterFn = p => {
+                const nameHigh = p.name.toLowerCase();
+                const sub = p.subCategory ? p.subCategory.toLowerCase() : '';
+                const isExplicitSneaker = sub === 'sneaker' || nameHigh.includes('sneaker') || nameHigh.includes('thể thao') || nameHigh.includes('running') || nameHigh.includes('walking');
+                const isOtherType = nameHigh.includes('sandal') || nameHigh.includes('xăng đan') || nameHigh.includes('dép') || nameHigh.includes('slide') || nameHigh.includes('da ') || nameHigh.includes('tây') || nameHigh.includes('boot') || nameHigh.includes('loafer');
+
+                return isExplicitSneaker || (!sub && !isOtherType);
+            };
+        }
+        else if (lowerSlug.includes('giay-xang-dan')) {
+            const gender = lowerSlug.includes('nu') ? 'women' : (lowerSlug.includes('nam') ? 'men' : null);
+            if (gender) baseQuery = baseQuery.eq('gender', gender);
+            baseQuery = baseQuery.eq('category', 'shoes');
+            filterFn = p => {
+                const nameHigh = p.name.toLowerCase();
+                const sub = p.subCategory ? p.subCategory.toLowerCase() : '';
+                return sub === 'sandal' || nameHigh.includes('sandal') || nameHigh.includes('xăng đan');
+            };
+        }
+        else if (lowerSlug.includes('dep')) { // dep-nu, dep-nam
+            const gender = lowerSlug.includes('nu') ? 'women' : (lowerSlug.includes('nam') ? 'men' : null);
+            if (gender) baseQuery = baseQuery.eq('gender', gender);
+            baseQuery = baseQuery.eq('category', 'shoes');
+            filterFn = p => {
+                const nameHigh = p.name.toLowerCase();
+                const sub = p.subCategory ? p.subCategory.toLowerCase() : '';
+                return sub === 'slipper' || sub === 'slide' || nameHigh.includes('dép') || nameHigh.includes('slide');
+            };
+        }
+        else if (lowerSlug.includes('giay-da')) {
+            const gender = lowerSlug.includes('nu') ? 'women' : (lowerSlug.includes('nam') ? 'men' : null);
+            if (gender) baseQuery = baseQuery.eq('gender', gender);
+            baseQuery = baseQuery.eq('category', 'shoes');
+            filterFn = p => {
+                const nameHigh = p.name.toLowerCase();
+                const sub = p.subCategory ? p.subCategory.toLowerCase() : '';
+                return sub === 'formal' || nameHigh.includes('giày da') || nameHigh.includes('business') || nameHigh.includes('loafer') || nameHigh.includes('boot') || nameHigh.includes('tây');
+            };
+        }
+        else if (lowerSlug === 'ao') {
+            baseQuery = baseQuery.eq('category', 'apparel');
+            filterFn = p => {
+                const nameHigh = p.name.toLowerCase();
+                const sub = p.subCategory ? p.subCategory.toLowerCase() : '';
+                return sub === 'shirt' || sub === 'top' || nameHigh.includes('áo') || nameHigh.includes('hoodie') || nameHigh.includes('jacket') || nameHigh.includes('tee');
+            };
+        }
+        else if (lowerSlug === 'quan') {
+            baseQuery = baseQuery.eq('category', 'apparel');
+            filterFn = p => {
+                const nameHigh = p.name.toLowerCase();
+                const sub = p.subCategory ? p.subCategory.toLowerCase() : '';
+                return sub === 'pant' || sub === 'bottom' || nameHigh.includes('quần') || nameHigh.includes('short') || nameHigh.includes('legging');
+            };
+        }
+        else if (lowerSlug === 'day-giay') {
+            filterFn = p => p.name.toLowerCase().includes('dây') || (p.subCategory && p.subCategory.toLowerCase() === 'shoelace');
+        }
+
+        // Execute Query
+        if (filterFn) {
+            const { data, error } = await baseQuery;
+            if (error) throw error;
+            return data.filter(filterFn);
+        }
+
+        // 4. FALLBACK / LEGACY CASES
         const { data: allProducts, error } = await supabase.from('products').select('*');
         if (error) throw error;
 
-        // Reuse the logic from original file
         switch (lowerSlug) {
             case 'tui':
                 return allProducts.filter(p => p.subCategory === 'bag' || p.name.toLowerCase().includes('balo') || p.name.toLowerCase().includes('túi'));
@@ -105,11 +176,11 @@ export const getProductsByCollection = async (slug) => {
                 return allProducts.filter(p => p.subCategory === 'socks' || p.name.toLowerCase().includes('vớ'));
             case 'chay-bo':
                 return allProducts.filter(p => p.category === 'shoes' && (p.name.toLowerCase().includes('running') || p.name.toLowerCase().includes('chạy')));
-            case 'doc-quyen':
-                // Check boolean or JSON array involves 'EXCLUSIVE'
-                return allProducts.filter(p => p.isAsicsExclusive || (p.badges && JSON.stringify(p.badges).includes('EXCLUSIVE')));
             case 'cham-soc-giay':
                 return allProducts.filter(p => p.category === 'care');
+            case 'doc-quyen':
+                // Use simple check for now
+                return allProducts.filter(p => p.isAsicsExclusive || (p.badges && JSON.stringify(p.badges).includes('EXCLUSIVE')));
         }
 
         // Brand match
