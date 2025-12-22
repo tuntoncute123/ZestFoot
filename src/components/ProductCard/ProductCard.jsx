@@ -7,7 +7,7 @@ import { useLanguage } from '../../context/LanguageContext';
 const ProductCard = ({ product }) => {
     const { t } = useLanguage();
     return (
-        <Link to={`/products/${product.id}`} className="product-card">
+        <Link to={`/products/${product.id}`} className="product-card" data-aos="fade-up">
             <div className="product-image-container">
                 <img src={product.image} alt={product.name} className="product-image" />
 

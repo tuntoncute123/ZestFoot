@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.89.0",
+    "aos": "^2.3.4",
     "axios": "^1.13.2",
     "dotenv": "^17.2.3",
     "json-server": "^0.17.4",

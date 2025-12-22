@@ -1,23 +1,49 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useAuth } from './AuthContext';
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-    const [cartItems, setCartItems] = useState(() => {
-        try {
-            const storedCart = localStorage.getItem('cartItems');
-            return storedCart ? JSON.parse(storedCart) : [];
-        } catch (error) {
-            console.error("Failed to load cart from local storage", error);
-            return [];
-        }
-    });
+    const { user } = useAuth();
+    const [cartItems, setCartItems] = useState([]);
 
+    // Load cart when user changes
     useEffect(() => {
-        localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    }, [cartItems]);
+        if (user) {
+            try {
+                // Key theo email hoặc ID để tách biệt giỏ hàng từng user
+                const userCartKey = `cartItems_${user.email || user.id}`;
+                const storedCart = localStorage.getItem(userCartKey);
+                if (storedCart) {
+                    setCartItems(JSON.parse(storedCart));
+                } else {
+                    setCartItems([]);
+                }
+            } catch (error) {
+                console.error("Failed to load cart", error);
+                setCartItems([]);
+            }
+        } else {
+            setCartItems([]); // Clear cart (visual only) if no user, or keep it empty
+        }
+    }, [user]);
+
+    // Save cart when cartItems changes (only if user logged in)
+    useEffect(() => {
+        if (user && cartItems.length >= 0) { // allow saving empty array
+            const userCartKey = `cartItems_${user.email || user.id}`;
+            localStorage.setItem(userCartKey, JSON.stringify(cartItems));
+        }
+    }, [cartItems, user]);
 
     const addToCart = (product, size, quantity = 1) => {
+        if (!user) {
+            alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!");
+            // Optional: redirect logic logic here or in component
+            // window.location.href = '/login'; 
+            return;
+        }
+
         setCartItems(prevItems => {
             const existingItemIndex = prevItems.findIndex(item => item.product.id === product.id && item.size === size);
             if (existingItemIndex > -1) {
@@ -28,7 +54,7 @@ export const CartProvider = ({ children }) => {
                 return [...prevItems, { product, size, quantity }];
             }
         });
-        alert("Đã thêm vào giỏ hàng!"); // Simple feedback
+        alert("Đã thêm vào giỏ hàng!");
     };
 
     const removeFromCart = (productId, size) => {

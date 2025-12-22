@@ -34,7 +34,7 @@ const BlogPage = () => {
                 <div className="tab-content">
                     <div className="blog-articles">
                         {articles.map((article) => (
-                            <article key={article.id} className="article-card">
+                            <article key={article.id} className="article-card" data-aos="fade-up">
                                 <div className="article-card__image-wrapper">
                                     <div className="article-card__image">
                                         <Link to={`/blogs/news/${article.id}`}>

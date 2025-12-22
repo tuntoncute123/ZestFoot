@@ -1,98 +1,102 @@
-# ZestFoot - E-commerce Website (ABC Mart Clone)
 
-## 📝 Giới thiệu
-**ZestFoot** là một dự án Front-end xây dựng trang web thương mại điện tử chuyên về giày dép và phụ kiện thể thao. Giao diện và trải nghiệm người dùng (UX/UI) được lấy cảm hứng từ **ABC Mart Việt Nam**, hướng tới phong cách hiện đại, năng động và tối ưu hóa trải nghiệm mua sắm trực tuyến.
+# HKT-SHOES (ZestFoot) - Cửa Hàng Giày Dép Trực Tuyến
 
-Dự án này là minh chứng cho kỹ năng xây dựng giao diện phức tạp với ReactJS, quản lý trạng thái, tích hợp API và xử lý đa ngôn ngữ.
+Chào mừng đến với **HKT-SHOES**, một nền tảng thương mại điện tử chuyên cung cấp các sản phẩm giày dép thời trang chính hãng. Dự án được xây dựng bằng **React (Vite)** và sử dụng **Supabase** làm nền tảng Backend (CSDL & Xác thực).
 
-## 🚀 Tính năng nổi bật
+![HKT-SHOES Banner](public/logoHKTShoes.png)
 
-### 1. Giao diện (UI/UX)
-*   **Responsive Design**: Tương thích hoàn toàn trên Desktop, Tablet và Mobile.
-*   **Banner Carousel**: Slider trình chiếu ảnh và video mượt mà (sử dụng *SwiperJS*), hỗ trợ điều hướng và autoplay.
-*   **Mega Menu**: Hệ thống menu điều hướng đa cấp, hiển thị danh sách thương hiệu, danh mục sản phẩm và hình ảnh trực quan.
-*   **Product Cards**: Thẻ sản phẩm chi tiết với hình ảnh, giá bán, giá giảm, và các nhãn (badges) như "New", "Sale", "Exclusive".
+## 🚀 Tính Năng Nổi Bật
 
-### 2. Chức năng (Functionality)
-*   **Đa ngôn ngữ (i18n)**: Hỗ trợ chuyển đổi tức thì giữa **Tiếng Việt** và **Tiếng Anh** sử dụng *Context API*.
-*   **Dữ liệu động**: Toàn bộ dữ liệu hiển thị (Sản phẩm, Thương hiệu, Tin tức, FAQ) đều được fetch từ API.
-*   **Giả lập Backend**: Sử dụng `json-server` để tạo REST API giả lập, cho phép thực hiện các thao tác GET dữ liệu như một hệ thống thực thụ.
+*   **🛒 Mua Sắm Trực Tuyến:**
+    *   Xem danh sách sản phẩm, hàng mới về, và các chương trình khuyến mãi.
+    *   Tìm kiếm sản phẩm theo tên.
+    *   Bộ lọc theo thương hiệu (Nike, Adidas, Puma, v.v.) và danh mục.
+    *   Xem chi tiết sản phẩm, kích thước và hình ảnh.
 
-### 3. Các Section chính
-*   **Hero Section**: Banner quảng cáo lớn, thu hút.
-*   **Brand Grid**: Lưới logo các thương hiệu nổi tiếng (Nike, Adidas, Puma, ASICS...).
-*   **Exclusive Collections**: Khu vực dành riêng cho các dòng sản phẩm độc quyền (ví dụ: ASICS Lifewalker).
-*   **Social & News**: Tích hợp feed bài viết tin tức và các liên kết mạng xã hội chính thức với icon SVG chuẩn.
-*   **Footer**: Thông tin liên hệ và chính sách cửa hàng.
+*   **🔐 Tài Khoản & Bảo Mật:**
+    *   Đăng ký / Đăng nhập tài khoản (Sử dụng Supabase Auth).
+    *   Quản lý thông tin cá nhân (Profile).
+    *   Bảo mật thông tin người dùng.
 
-## 🛠️ Công nghệ sử dụng
+*   **🛍️ Giỏ Hàng & Đặt Hàng:**
+    *   Thêm/Sửa/Xóa sản phẩm trong giỏ hàng.
+    *   Giỏ hàng được lưu riêng biệt cho từng tài khoản người dùng.
+    *   Quy trình thanh toán (Checkout) và xem lịch sử đơn hàng.
 
-*   **Core**: [React](https://reactjs.org/) (Vite)
-*   **Language**: JavaScript (ES6+)
-*   **Styling**: CSS3 (Custom CSS Modules/BEM naming convention)
-*   **Fonts**: Google Fonts (Oswald, Inter)
-*   **Icons**: [Lucide React](https://lucide.dev/)
-*   **Slider Library**: [Swiper](https://swiperjs.com/)
-*   **HTTP Client**: [Axios](https://axios-http.com/)
-*   **Mock Backend**: [JSON Server](https://github.com/typicode/json-server)
+*   **🌐 Trải Nghiệm Người Dùng:**
+    *   Giao diện Responsive (Thích ứng tốt trên Mobile và Desktop).
+    *   Đa ngôn ngữ: Hỗ trợ Tiếng Việt & Tiếng Anh.
+    *   Hiệu ứng chuyển động mượt mà (Animations với AOS).
+    *   Tích hợp Chatbot hỗ trợ khách hàng.
 
-## ⚙️ Hướng dẫn Cài đặt & Chạy dự án
+## 🛠️ Công Nghệ Sử Dụng
 
-Để chạy dự án trên máy cục bộ, hãy làm theo các bước sau:
+**Frontend:**
+*   **React JS**: Thư viện UI chính.
+*   **Vite**: Công cụ build tool siêu tốc.
+*   **React Router Dom**: Quản lý điều hướng trang.
+*   **CSS / Lucide React**: Giao diện và Icon.
+*   **Swiper**: Tạo các Slider/Carousel đẹp mắt.
+*   **AOS (Animate On Scroll)**: Hiệu ứng khi cuộn trang.
 
-### Bước 1: Clone dự án
+**Backend & Database:**
+*   **Supabase**: Nền tảng Backend-as-a-Service (BaaS).
+    *   **PostgreSQL**: Cơ sở dữ liệu quan hệ mạnh mẽ.
+    *   **Authentication**: Quản lý người dùng an toàn.
+
+**Deploy (Triển khai):**
+*   **Vercel**: Hosting cho Frontend.
+
+## ⚙️ Cài Đặt & Chạy Dự Án
+
+Làm theo các bước sau để chạy dự án trên máy cá nhân của bạn:
+
+### 1. Clone dự án
 ```bash
-git clone https://github.com/username/zestfoot.git
-cd zestfoot
+git clone https://github.com/tuntoncute123/ZestFoot.git
+cd ZestFoot
 ```
 
-### Bước 2: Cài đặt dependencies
-Đảm bảo bạn đã cài đặt [Node.js](https://nodejs.org/).
+### 2. Cài đặt thư viện
 ```bash
 npm install
 ```
 
-### Bước 3: Khởi động Mock Server và Frontend
-Dự án cần chạy song song 2 tiến trình: **JSON Server** (đóng vai trò Backend) và **Vite Dev Server** (Frontend).
+### 3. Cấu hình biến môi trường
+Tạo file `.env` tại thư mục gốc và thêm thông tin kết nối Supabase của bạn (Lấy từ Supabase Dashboard):
 
-**Mở Terminal 1 (Chạy Server giả):**
-```bash
-npm run server
+```env
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
-*Server sẽ khởi chạy tại: `http://localhost:3000`*
 
-**Mở Terminal 2 (Chạy React App):**
+### 4. Chạy dự án (Development)
 ```bash
 npm run dev
 ```
-*Ứng dụng sẽ khởi chạy tại: `http://localhost:5173` (hoặc port hiển thị trên terminal)*
+Truy cập: `http://localhost:5173`
 
-## 📂 Cấu trúc thư mục
+## 📂 Cấu Trúc Thư Mục
 
 ```
-zestfoot/
-├── public/                 # Tài nguyên tĩnh (favicon, robots.txt...)
+ZestFoot/
+├── public/              # File tĩnh (Logo, favicon...)
+├── scripts/             # Script hỗ trợ (Migrate data, seed data...)
 ├── src/
-│   ├── assets/             # Hình ảnh, logo, media
-│   ├── components/         # Các UI Components tái sử dụng
-│   │   ├── Banner/         # Banner Carousel
-│   │   ├── Navbar/         # Thanh điều hướng & Mega Menu
-│   │   ├── ProductCard/    # Component hiển thị sản phẩm
-│   │   ├── SocialNews/     # Section Tin tức & Mạng xã hội
-│   │   └── ...
-│   ├── context/            # React Context (LanguageContext...)
-│   ├── data/               # File cấu hình locales, db.js (backup)
-│   ├── services/           # Cấu hình Axios & gọi API
-│   ├── utils/              # Các hàm tiện ích (format currency...)
-│   ├── App.jsx             # Component gốc
-│   └── main.jsx            # Entry point
-├── db.json                 # Cơ sở dữ liệu cho JSON Server
-├── package.json            # Khai báo thư viện & scripts
-└── README.md               # Tài liệu dự án
+│   ├── assets/          # Hình ảnh, video, font
+│   ├── components/      # Các thành phần giao diện (Header, Footer, Product, v.v.)
+│   ├── context/         # React Context (Auth, Cart, Language...)
+│   ├── data/            # Dữ liệu tĩnh (Locales...)
+│   ├── pages/           # (Các trang chính nếu tách riêng)
+│   ├── services/        # Xử lý gọi API (Supabase client...)
+│   ├── utils/           # Hàm tiện ích (Format tiền tệ...)
+│   └── App.jsx          # Component gốc
+├── .env                 # Biến môi trường
+└── package.json         # Khai báo thư viện
 ```
 
-## 🤝 Đóng góp (Contributing)
-Dự án được xây dựng với mục đích học tập và rèn luyện kỹ năng. Mọi ý kiến đóng góp, báo lỗi hoặc yêu cầu tính năng mới đều được hoan nghênh. Vui lòng tạo [Issue](https://github.com/username/zestfoot/issues) hoặc gửi Pull Request.
+## 🤝 Đóng Góp
+Mọi ý kiến đóng góp hoặc báo lỗi đều được hoan nghênh. Vui lòng tạo "New Issue" hoặc gửi "Pull Request".
 
 ---
-*© 2025 ZestFoot Project.*
+**© 2025 HKT-SHOES Team.**

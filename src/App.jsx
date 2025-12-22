@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import MainLayout from './components/MainLayout';
 import HomePage from './components/Home/HomePage';
 import CollectionPage from './components/Collection/CollectionPage';
@@ -26,6 +28,15 @@ import ChatBot from './components/ChatBot/ChatBot';
 import Membership from './components/Membership/Membership';
 
 function App() {
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      easing: 'ease-in-out',
+      once: true,
+      offset: 100,
+    });
+  }, []);
+
   return (
     <WishlistProvider>
       <Router>
