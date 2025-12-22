@@ -1,9 +1,8 @@
 // src/services/paymentService.js
+import { supabase } from './supabaseClient';
 
 // Simulate API delay
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 // Hàm helper tạo chuỗi ngẫu nhiên (giả lập mã giao dịch)
 const generateRandomString = (length) => {
@@ -16,14 +15,10 @@ const generateRandomString = (length) => {
 };
 
 // Logic xử lý chính (Bạn gọi hàm này ở Checkout.jsx)
-// Lưu ý: Trong Checkout.jsx bạn đang navigate thủ công, nhưng logic chuẩn là
-// gọi API này để lấy URL, sau đó window.location.href = url.
-// Tuy nhiên để khớp với code hiện tại của bạn (redirect nội bộ), tôi sẽ giữ logic xử lý data.
-
 export const processPayment = async (orderData, method) => {
     await delay(1500); // Giả lập mạng lag khi đang "kết nối cổng thanh toán"
 
-    // 1. Giả lập xác suất lỗi (Demo thì comment lại, khi bảo vệ đồ án muốn show case lỗi thì mở ra)
+    // 1. Giả lập xác suất lỗi (Demo thì comment lại)
     // if (Math.random() < 0.1) throw new Error("Giao dịch bị từ chối bởi ngân hàng");
 
     let status = 'pending'; // Mặc định
@@ -43,35 +38,39 @@ export const processPayment = async (orderData, method) => {
     // Tạo mã giao dịch giả cho đẹp
     const transactionId = method === 'vnpay' ? `VNP${generateRandomString(8)}` : (method === 'momo' ? `MOMO${generateRandomString(10)}` : null);
 
+    // Chuẩn bị dữ liệu order để lưu vào Supabase
+    // Lưu ý: Cần đảm bảo table 'orders' trong Supabase có các cột tương ứng hoặc 1 cột JSONB để chứa customer/items
     const newOrder = {
-        ...orderData,
-        date: new Date().toISOString(),
-        status: status, // Trạng thái đơn hàng
-        paymentInfo: {
+        ...orderData, // customer, items, sub_total, shipping_fee, total_amount...
+
+        status: status, // pending | processing
+        payment_method: method, // cod | momo | vnpay
+
+        payment_info: {
             method: method,
-            status: paymentStatus, // Trạng thái thanh toán
-            transactionId: transactionId,
-            paidAt: method !== 'cod' ? new Date().toISOString() : null
-        },
-        id: Date.now()
+            status: paymentStatus,
+            transaction_id: transactionId,
+            paid_at: method !== 'cod' ? new Date().toISOString() : null
+        }
     };
 
-    try {
-        const response = await fetch(`${API_URL}/orders`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newOrder),
-        });
 
-        if (!response.ok) {
-            throw new Error('Failed to save order');
+    try {
+        console.log("Saving order to Supabase...");
+
+        const { data, error } = await supabase
+            .from('orders')
+            .insert(newOrder)
+            .select() // Trả về dòng vừa insert
+            .single();
+
+        if (error) {
+            throw new Error(`Supabase Error: ${error.message}`);
         }
 
-        return await response.json();
+        return data;
     } catch (error) {
-        console.error("Payment Error:", error);
+        console.error("Payment Service Error:", error);
         throw error;
     }
 };

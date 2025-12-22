@@ -113,22 +113,29 @@ const Checkout = () => {
         try {
             const fullAddress = `${formData.detailAddress}, ${formData.province}`;
             const orderData = {
-                customer: { ...formData, address: fullAddress },
+                customer: {
+                    fullName: formData.fullName,
+                    phone: formData.phone,
+                    email: formData.email,
+                    address: fullAddress
+                },
                 items: checkoutItems.map(item => ({
-                    productId: item.product.id,
-                    productName: item.product.name,
+                    product_id: item.product.id,
+                    product_name: item.product.name,
                     price: item.product.isSale ? item.product.salePrice : item.product.price,
                     quantity: item.quantity,
                     size: item.size,
                     image: item.product.image
                 })),
-                subTotal,
-                shippingFee,
-                discount,
-                totalAmount: finalTotal,
-                paymentMethod,
+                sub_total: subTotal,
+                shipping_fee: shippingFee,
+                discount: discount,
+                total_amount: finalTotal,
+                payment_method: paymentMethod,
                 status: 'pending'
             };
+
+
 
             if (paymentMethod === 'cod') {
                 await processPayment(orderData, 'cod');
@@ -150,8 +157,12 @@ const Checkout = () => {
                 navigate(`/payment-gateway/${paymentMethod}?${fakeParams}`, { state: { orderData, fromCart } });
             }
         } catch (err) {
-            console.error(err);
-            setError('Có lỗi xảy ra. Vui lòng thử lại.');
+            console.error("Checkout Error:", err);
+            setError(`Có lỗi xảy ra: ${err.message || 'Vui lòng thử lại.'}`);
+            // Check if it might be a connection error
+            if (err.message && err.message.includes('Failed to fetch')) {
+                setError('Lỗi kết nối mạng. Vui lòng kiểm tra đường truyền.');
+            }
         } finally {
             if (paymentMethod === 'cod') setLoading(false);
         }
