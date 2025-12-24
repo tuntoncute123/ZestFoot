@@ -8,7 +8,8 @@ const orderService = {
             const { data, error } = await supabase
                 .from('orders')
                 .select('*')
-                .eq('email', email)
+                // Fallback: Filter using JSONB containment since 'email' column might be missing
+                .contains('customer', { email: email })
                 .order('created_at', { ascending: false });
 
             if (error) throw error;
