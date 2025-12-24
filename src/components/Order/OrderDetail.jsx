@@ -22,12 +22,22 @@ const OrderDetail = () => {
             try {
                 const data = await orderService.getOrderById(id);
                 // Basic security check: ensure order belongs to current user
-                // Note: In a real app, the API should handle this check. 
-                // Since this is json-server, we check client-side or assume trusting the API query.
-                // However, matching email is safer.
-                if (data.customer.email !== user.email && data.customer.email !== undefined) {
-                    // Handle case where order doesn't belong to user (optional)
-                    // console.warn("Access denied: Order email mismatch");
+                // Note: In a real app, the API should handle this check with RLS.
+                // We check if the order email matches the logged-in user.
+                if (data.email && data.email !== user.email) {
+                    // If order has an email and it doesn't match, access denied.
+                    // For legacy orders without email column, we typically rely on the query or allow view if ID known (less secure).
+                    // Ideally, API should not return it.
+                    setOrder(null);
+                    alert("Bạn không có quyền xem đơn hàng này.");
+                    navigate('/orders');
+                    return;
+                } else if (!data.email && data.customer?.email && data.customer.email !== user.email) {
+                    // Fallback check for legacy data inside customer object
+                    setOrder(null);
+                    alert("Bạn không có quyền xem đơn hàng này.");
+                    navigate('/orders');
+                    return;
                 }
                 setOrder(data);
             } catch (error) {
@@ -74,25 +84,34 @@ const OrderDetail = () => {
             <div className="order-detail-header">
                 <div className="header-left">
                     <h1>Chi tiết đơn hàng #{order.id}</h1>
-                    <span className={`status-badge status-${order.status}`}>
-                        {getStatusText(order.status)}
-                    </span>
                 </div>
-                {order.status === 'processing' && (
-                    <button onClick={handleCancelOrder} className="cancel-order-btn">
-                        Hủy đơn hàng
-                    </button>
-                )}
+                <div className="header-right">
+                    {order.status === 'processing' && (
+                        <button onClick={handleCancelOrder} className="cancel-order-btn">
+                            Hủy đơn hàng
+                        </button>
+                    )}
+                </div>
             </div>
 
-            <div className="order-meta">
-                <div className="meta-item">
-                    <Calendar size={18} />
-                    <span>Ngày đặt: {new Date(order.date).toLocaleDateString('vi-VN')} {new Date(order.date).toLocaleTimeString('vi-VN')}</span>
+            <div className="order-tracking-timeline">
+                <div className={`tracking-step ${['pending', 'processing', 'paid', 'shipping', 'completed', 'success'].includes(order.status) ? 'active' : ''}`}>
+                    <div className="step-icon"><Calendar size={20} /></div>
+                    <div className="step-label">Đã đặt hàng</div>
+                    <div className="step-time">{new Date(order.date).toLocaleDateString('vi-VN')}</div>
                 </div>
-                <div className="meta-item">
-                    <CreditCard size={18} />
-                    <span>Phương thức: {order.paymentMethod?.toUpperCase() || "COD"}</span>
+                <div className={`tracking-step ${['processing', 'shipping', 'completed', 'success'].includes(order.status) ? 'active' : ''}`}>
+                    <div className="step-icon"><CreditCard size={20} /></div>
+                    <div className="step-label">Đã xác nhận</div>
+                </div>
+                <div className={`tracking-step ${['shipping', 'completed', 'success'].includes(order.status) ? 'active' : ''}`}>
+                    <div className="step-icon"><Package size={20} /></div>
+                    <div className="step-label">Đang giao hàng</div>
+                </div>
+                <div className={`tracking-step ${['completed', 'success'].includes(order.status) ? 'active' : ''}`}>
+                    <div className="step-icon"><MapPin size={20} /></div>
+                    <div className="step-label">Đã giao hàng</div>
+                    {['completed', 'success'].includes(order.status) && <div className="step-time">Thành công</div>}
                 </div>
             </div>
 

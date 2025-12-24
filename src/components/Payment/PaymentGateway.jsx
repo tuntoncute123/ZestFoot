@@ -26,14 +26,14 @@ const PaymentGateway = () => {
         setStatus('processing');
         try {
             // Giả lập gọi API xử lý thanh toán
-            await processPayment(orderData, method);
+            const result = await processPayment(orderData, method);
 
             if (fromCart) clearCart();
 
             setStatus('success');
             // Tự động chuyển trang sau khi thành công
             setTimeout(() => {
-                navigate('/', { state: { paymentSuccess: true } });
+                navigate(`/orders/${result.id}`);
             }, 2000);
         } catch (error) {
             setStatus('fail');
@@ -109,7 +109,7 @@ const PaymentGateway = () => {
                                 />
                             </div>
 
-                            <div style={{marginTop: '15px', fontSize: '0.85rem', color: '#888'}}>
+                            <div style={{ marginTop: '15px', fontSize: '0.85rem', color: '#888' }}>
                                 Nội dung: <strong>Thanh toán đơn hàng #{orderData.id}</strong>
                             </div>
                         </div>

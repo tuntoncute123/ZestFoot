@@ -11,6 +11,8 @@ const OrderHistory = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+    const [activeStatus, setActiveStatus] = useState('all');
+
     useEffect(() => {
         if (!user) {
             navigate('/login');
@@ -31,53 +33,75 @@ const OrderHistory = () => {
         fetchOrders();
     }, [user, navigate]);
 
-    if (loading) return <div className="loading-spinner">Loading...</div>;
-
     const getStatusColor = (status) => {
-        switch (status) {
-            case 'success':
-            case 'paid':
-                return 'status-success';
-            case 'processing':
-                return 'status-processing';
-            case 'cancelled':
-                return 'status-cancelled';
-            default:
-                return 'status-default';
-        }
+        if (status === 'processing' || status === 'pending') return 'status-processing';
+        if (status === 'cancelled') return 'status-cancelled';
+        return 'status-success';
     };
 
     const getStatusText = (status) => {
         switch (status) {
-            case 'success': return 'Thành công';
-            case 'paid': return 'Đã thanh toán';
             case 'processing': return 'Đang xử lý';
+            case 'pending': return 'Chờ thanh toán';
             case 'cancelled': return 'Đã hủy';
-            default: return status;
+            default: return 'Thành công';
         }
-    }
+    };
+
+    const filterOrders = (status) => {
+        if (status === 'all') return orders;
+        if (status === 'processing') return orders.filter(o => ['processing', 'pending', 'paid'].includes(o.status));
+        if (status === 'shipping') return orders.filter(o => o.status === 'shipping');
+        if (status === 'success') return orders.filter(o => ['success', 'completed'].includes(o.status));
+        if (status === 'cancelled') return orders.filter(o => o.status === 'cancelled');
+        return orders;
+    };
+
+    const filteredOrders = filterOrders(activeStatus);
+
+    const tabs = [
+        { id: 'all', label: 'Tất cả' },
+        { id: 'processing', label: 'Đang xử lý' },
+        { id: 'shipping', label: 'Đang giao' },
+        { id: 'success', label: 'Đã giao' },
+        { id: 'cancelled', label: 'Đã hủy' },
+    ];
+
+    if (loading) return <div className="loading-spinner">Đang tải...</div>;
 
     return (
         <div className="order-history-container">
             <h2 className="page-title">Lịch sử đơn hàng</h2>
 
-            {orders.length === 0 ? (
+            <div className="order-tabs">
+                {tabs.map(tab => (
+                    <button
+                        key={tab.id}
+                        className={`tab-item ${activeStatus === tab.id ? 'active' : ''}`}
+                        onClick={() => setActiveStatus(tab.id)}
+                    >
+                        {tab.label}
+                    </button>
+                ))}
+            </div>
+
+            {filteredOrders.length === 0 ? (
                 <div className="no-orders">
                     <Package size={48} />
-                    <p>Bạn chưa có đơn hàng nào.</p>
-                    <button onClick={() => navigate('/')} className="shop-now-btn">Mua sắm ngay</button>
+                    <p>Không có đơn hàng nào.</p>
+                    {activeStatus === 'all' && <button onClick={() => navigate('/')} className="shop-now-btn">Mua sắm ngay</button>}
                 </div>
             ) : (
                 <div className="orders-list">
-                    {orders.map((order) => (
-                        <div key={order.id} className="order-card" >
+                    {filteredOrders.map((order) => (
+                        <div key={order.id} className="order-card">
                             <div className="order-header">
                                 <div className="order-id">
                                     <span className="label">Đơn hàng</span>
                                     <span className="value">#{order.id}</span>
                                 </div>
                                 <div className={`order-status ${getStatusColor(order.status)}`}>
-                                    {order.status === 'success' || order.status === 'paid' ? <CheckCircle size={16} /> : <Clock size={16} />}
+                                    {order.status === 'processing' || order.status === 'pending' ? <Clock size={16} /> : <CheckCircle size={16} />}
                                     {getStatusText(order.status)}
                                 </div>
                             </div>
@@ -86,23 +110,34 @@ const OrderHistory = () => {
                                 <div className="order-info">
                                     <div className="info-item">
                                         <Calendar size={16} />
-                                        <span>{new Date(order.date).toLocaleDateString('vi-VN')} {new Date(order.date).toLocaleTimeString('vi-VN')}</span>
+                                        <span>{new Date(order.created_at).toLocaleDateString('vi-VN')} {new Date(order.created_at).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}</span>
                                     </div>
                                     <div className="info-item">
                                         <DollarSign size={16} />
-                                        <span className="price">{order.totalAmount.toLocaleString('vi-VN')}₫</span>
+                                        <span className="price">{Number(order.total_amount).toLocaleString('vi-VN')}₫</span>
                                     </div>
                                     <div className="info-item">
                                         <span>{order.items.length} sản phẩm</span>
                                     </div>
                                 </div>
-                                <div className="order-items-preview">
-                                    {order.items.slice(0, 3).map((item, idx) => (
-                                        <div key={idx} className="item-preview">
-                                            {item.productName} x{item.quantity}
+                                <div className="order-items-preview-visual">
+                                    {order.items.slice(0, 4).map((item, idx) => (
+                                        <div key={idx} className="item-preview-visual" title={`${item.product_name} x${item.quantity}`}>
+                                            <div className="preview-image-container">
+                                                {item.image ? (
+                                                    <img src={item.image} alt={item.product_name} />
+                                                ) : (
+                                                    <div className="no-image-preview"><Package size={16} /></div>
+                                                )}
+                                                <span className="preview-qty">x{item.quantity}</span>
+                                            </div>
                                         </div>
                                     ))}
-                                    {order.items.length > 3 && <div className="more-items">...và {order.items.length - 3} sản phẩm khác</div>}
+                                    {order.items.length > 4 && (
+                                        <div className="more-items-badge">
+                                            +{order.items.length - 4}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
