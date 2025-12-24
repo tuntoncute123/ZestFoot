@@ -6,6 +6,7 @@ CREATE TABLE orders (
 
     customer JSONB NOT NULL,
     items JSONB NOT NULL,
+    email TEXT, -- Added for easier filtering by user
 
     sub_total NUMERIC,
     shipping_fee NUMERIC,

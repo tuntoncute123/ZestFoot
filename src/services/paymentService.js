@@ -42,6 +42,7 @@ export const processPayment = async (orderData, method) => {
     // Lưu ý: Cần đảm bảo table 'orders' trong Supabase có các cột tương ứng hoặc 1 cột JSONB để chứa customer/items
     const newOrder = {
         ...orderData, // customer, items, sub_total, shipping_fee, total_amount...
+        // email: orderData.customer?.email, // <--- REMOVED: Caused schema error if column missing. We filter by JSONB now.
 
         status: status, // pending | processing
         payment_method: method, // cod | momo | vnpay
