@@ -21,6 +21,8 @@ const OrderDetail = () => {
     const [order, setOrder] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [showCancelModal, setShowCancelModal] = useState(false);
+    const [cancelReason, setCancelReason] = useState('Cập nhật địa chỉ/sđt');
 
     useEffect(() => {
         if (!user) {
@@ -57,7 +59,33 @@ const OrderDetail = () => {
         };
 
         fetchOrder();
+        fetchOrder();
     }, [id, user, navigate]);
+
+    const handleCancelClick = () => {
+        setShowCancelModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowCancelModal(false);
+        setCancelReason('Cập nhật địa chỉ/sđt');
+    };
+
+    const handleConfirmCancel = async () => {
+        try {
+            setLoading(true);
+            await orderService.cancelOrder(order.id, cancelReason);
+            // Reload order data
+            const updatedOrder = await orderService.getOrderById(order.id);
+            setOrder(updatedOrder);
+            setShowCancelModal(false);
+        } catch (err) {
+            console.error(err);
+            alert('Lỗi khi hủy đơn hàng');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const formatPrice = (v) =>
         Number(v || 0).toLocaleString('vi-VN');
@@ -247,6 +275,40 @@ const OrderDetail = () => {
                         <span className="s-value big-total">{formatPrice((order.totalAmount ?? order.total_amount) + 1500)}₫</span>
                     </div>
                 </div>
+
+                {/* Footer Actions */}
+                {['pending', 'processing'].includes(order.status) && (
+                    <div className="shopee-footer-actions">
+                        <button className="shopee-btn cancel" onClick={handleCancelClick}>Hủy Đơn Hàng</button>
+                    </div>
+                )}
+
+                {/* Cancel Modal */}
+                {showCancelModal && (
+                    <div className="modal-overlay">
+                        <div className="modal-content">
+                            <h3>Chọn lý do hủy</h3>
+                            <div className="cancel-reasons">
+                                {['Cập nhật địa chỉ/sđt', 'Thay đổi mã giảm giá', 'Không còn nhu cầu', 'Lý do khác'].map(r => (
+                                    <label key={r} className="reason-option">
+                                        <input
+                                            type="radio"
+                                            name="cancelReason"
+                                            value={r}
+                                            checked={cancelReason === r}
+                                            onChange={(e) => setCancelReason(e.target.value)}
+                                        />
+                                        <span>{r}</span>
+                                    </label>
+                                ))}
+                            </div>
+                            <div className="modal-actions">
+                                <button className="modal-btn secondary" onClick={handleCloseModal}>Đóng</button>
+                                <button className="modal-btn primary" onClick={handleConfirmCancel}>Đồng ý</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
             </div>
         </div>
