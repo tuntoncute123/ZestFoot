@@ -49,12 +49,29 @@ const orderService = {
         }
     },
 
-    cancelOrder: async (id) => {
+    cancelOrder: async (id, reason) => {
         try {
+            // First get the current payment_info to avoid overwriting it
+            const { data: currentOrder, error: fetchError } = await supabase
+                .from('orders')
+                .select('payment_info')
+                .eq('id', id)
+                .single();
+
+            if (fetchError) throw fetchError;
+
+            const updatedPaymentInfo = {
+                ...currentOrder.payment_info,
+                cancellation_reason: reason,
+                cancelled_at: new Date().toISOString()
+            };
+
             const { data, error } = await supabase
                 .from('orders')
-
-                .update({ status: 'cancelled' })
+                .update({
+                    status: 'cancelled',
+                    payment_info: updatedPaymentInfo
+                })
                 .eq('id', id)
                 .select();
 
