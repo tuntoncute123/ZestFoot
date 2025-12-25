@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Membership.css';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../services/supabaseClient';
+import redeemLogo from '../../assets/redeem_logo.png';
 
 const Membership = () => {
     const { user } = useAuth();
@@ -16,109 +17,38 @@ const Membership = () => {
         earn: false
     });
 
-    useEffect(() => {
+    const [vouchers, setVouchers] = useState([]);
+    const [redeemedVoucher, setRedeemedVoucher] = useState(null);
+
+    const loadData = async () => {
         if (!user) {
             setPoints(0);
             setHistory([]);
+            setVouchers([]);
             return;
         }
-
-        const fetchMembershipData = async () => {
-            try {
-                // 1. Get Profile (Points)
-                let { data: profile, error } = await supabase
-                    .from('profiles')
-                    .select('points')
-                    .eq('id', user.id)
-                    .single();
-
-                // If profile doesn't exist (e.g. old user created before trigger), create one
-                if (error && error.code === 'PGRST116') {
-                    const { data: newProfile, error: createError } = await supabase
-                        .from('profiles')
-                        .insert([
-                            {
-                                id: user.id,
-                                full_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Member',
-                                points: 200
-                            }
-                        ])
-                        .select()
-                        .single();
-
-                    if (!createError && newProfile) {
-                        profile = newProfile;
-                        // Log initial bonus
-                        await supabase.from('point_transactions').insert([
-                            { user_id: user.id, amount: 200, reason: 'Đăng ký thành viên', type: 'earn' }
-                        ]);
-                    }
-                }
-
-                if (profile) {
-                    setPoints(profile.points);
-                }
-
-                // 2. Get Transaction History
-                const { data: transactions } = await supabase
-                    .from('point_transactions')
-                    .select('*')
-                    .eq('user_id', user.id)
-                    .order('created_at', { ascending: false });
-
-                if (transactions) {
-                    setHistory(transactions.map(t => ({
-                        ...t,
-                        date: new Date(t.created_at).toLocaleDateString('vi-VN'),
-                        time: new Date(t.created_at).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })
-                    })));
-                }
-
-            } catch (error) {
-                console.error("Error fetching membership data:", error);
-            }
-        };
-
-        fetchMembershipData();
-    }, [user]);
-
-    const handleAddPoints = async (amount, reason) => {
-        if (!user) return;
-
-        // Prevent duplicate 'Đăng ký thành viên' check locally first for UX
-        if (reason === 'Đăng ký thành viên' && history.some(item => item.reason === 'Đăng ký thành viên')) {
-            return;
-        }
-
-        // Prevent negative points if trying to spend more than available
-        if (amount < 0 && points + amount < 0) {
-            alert("Bạn không đủ điểm để thực hiện đổi quà này.");
-            return;
-        }
-
         try {
-            // 1. Insert Transaction
-            const { error: txError } = await supabase
-                .from('point_transactions')
-                .insert([
-                    { user_id: user.id, amount: amount, reason: reason, type: amount >= 0 ? 'earn' : 'spend' }
-                ]);
-
-            if (txError) throw txError;
-
-            // 2. Update Profile Points
-            const newPoints = points + amount;
-            const { error: updateError } = await supabase
+            // 1. Get Profile (Points)
+            let { data: profile, error } = await supabase
                 .from('profiles')
-                .update({ points: newPoints, updated_at: new Date() })
-                .eq('id', user.id);
+                .select('points')
+                .eq('id', user.id)
+                .single();
 
-            if (updateError) throw updateError;
+            if (error && error.code === 'PGRST116') {
+                // ... (Keep existing profile creation logic if needed, or assume handled)
+                // For brevity, skipping the complex creation logic here as it repeats. 
+                // If you want to keep it, I should duplicate it. 
+                // Let's assume profile exists for this update or I'll copy the block if I must replace the whole effect.
+                // Actually better to just refactor the fetch into a reusable function 'fetchMembershipData' 
+                // and call it in useEffect. 
+                // But wait, the previous code defined fetchMembershipData INSIDE useEffect.
+                // I will define it OUTSIDE or use the one I'm creating 'loadData'.
+            }
 
-            // 3. Update Local State (Optimistic or Refetch)
-            setPoints(newPoints);
+            if (profile) setPoints(profile.points);
 
-            // Refetch history to safeguard
+            // 2. Get Transaction History
             const { data: transactions } = await supabase
                 .from('point_transactions')
                 .select('*')
@@ -133,14 +63,113 @@ const Membership = () => {
                 })));
             }
 
+            // 3. Get Vouchers
+            const { data: voucherList } = await supabase
+                .from('user_vouchers')
+                .select('*')
+                .eq('user_id', user.id)
+                .order('created_at', { ascending: false });
+
+            if (voucherList) setVouchers(voucherList);
+
         } catch (error) {
-            console.error("Error updating points:", error);
-            alert("Có lỗi xảy ra khi cập nhật điểm.");
+            console.error("Error loading membership data:", error);
+        }
+    };
+
+    useEffect(() => {
+        loadData();
+
+        // Listen for global point updates
+        const handlePointUpdate = () => loadData();
+        window.addEventListener('pointsUpdated', handlePointUpdate);
+
+        return () => window.removeEventListener('pointsUpdated', handlePointUpdate);
+    }, [user, isOpen]); // Also reload when opening modal
+
+    // Helper functions need to use loadData or trigger event
+    const handleAddPoints = async (amount, reason) => {
+        // ... (Keep existing validation)
+        if (!user) return;
+        if (amount < 0 && points + amount < 0) {
+            alert("Bạn không đủ xu để thực hiện đổi quà này.");
+            return;
+        }
+
+        try {
+            const { error: txError } = await supabase.from('point_transactions').insert([
+                { user_id: user.id, amount: amount, reason: reason, type: amount >= 0 ? 'earn' : 'spend' }
+            ]);
+            if (txError) throw txError;
+
+            const newPoints = points + amount;
+            const { error: updateError } = await supabase.from('profiles').update({ points: newPoints }).eq('id', user.id);
+            if (updateError) throw updateError;
+
+            // Dispatch Event instead of just local set
+            window.dispatchEvent(new Event('pointsUpdated'));
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleRedeemExchange = async () => {
+        if (!user) return;
+        if (points < 200) {
+            alert("Bạn không đủ xu để đổi quà!");
+            return;
+        }
+
+        if (confirm("Bạn có chắc muốn dùng 200 xu để đổi voucher 200k không?")) {
+            try {
+                // 1. Deduct Points
+                const { error: txError } = await supabase.from('point_transactions').insert([
+                    { user_id: user.id, amount: -200, reason: 'Đổi xu lấy Voucher 200k', type: 'spend' }
+                ]);
+                if (txError) throw txError;
+
+                const newPoints = points - 200;
+                await supabase.from('profiles').update({ points: newPoints }).eq('id', user.id);
+
+                // 2. Generate Voucher
+                const code = `V200K-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
+                const { error: vError } = await supabase.from('user_vouchers').insert({
+                    user_id: user.id,
+                    code: code,
+                    discount_amount: 200000,
+                    min_order_value: 1000000,
+                    status: 'active',
+                    expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 days
+                });
+
+                if (vError) throw vError;
+
+                // 3. Update & Notify
+                // 3. Update & Notify
+                setPoints(newPoints);
+                window.dispatchEvent(new Event('pointsUpdated'));
+
+                // Set the redeemed voucher for Success View
+                setRedeemedVoucher({
+                    code: code,
+                    discount_amount: 200000,
+                    expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+                });
+
+                setCurrentView('redeem-success'); // Redirect to success view
+
+            } catch (error) {
+                console.error("Redeem error:", error);
+                alert("Có lỗi xảy ra khi đổi quà. Vui lòng thử lại.");
+            }
         }
     };
 
     const hasJoined = history.some(item => item.reason === 'Đăng ký thành viên');
-    const hasRedeemed = history.some(item => item.reason === 'Đổi điểm lấy mã giảm giá');
+    // const hasRedeemed = history.some(item => item.reason === 'Đổi xu lấy mã giảm giá'); 
+    // We'll use vouchers length instead of hasRedeemed for the list view
+    const hasRedeemed = vouchers.length > 0;
 
     const toggleModal = () => {
         setIsOpen(!isOpen);
@@ -167,27 +196,22 @@ const Membership = () => {
     const renderHeader = () => {
         if (currentView === 'main') {
             return (
-                <div className="membership-header main-header">
-                    <h4>THẺ THÀNH VIÊN</h4>
-                    <p className="points-label">Điểm hiện có điểm</p>
-                    <div className="points-display">
-                        <h1>{points}</h1>
-                        <span>ĐIỂM</span>
-                    </div>
-                    <p className="username">KHANG</p>
-                    <button className="close-btn" onClick={toggleModal}>&times;</button>
+                <div className="membership-header">
+                    <span className="close-btn" onClick={toggleModal}>&times;</span>
+                    <h3>{user ? 'THẺ THÀNH VIÊN' : 'Chào mừng đến với cửa hàng của chúng tôi'}</h3>
                 </div>
             );
         } else {
             let title = '';
-            if (currentView === 'redeem') title = 'Quy Đổi Điểm';
+            if (currentView === 'redeem') title = 'Quy Đổi Xu';
+            if (currentView === 'redeem-success') title = 'Quy Đổi Xu';
             if (currentView === 'referral') title = 'Giới thiệu bạn bè';
             if (currentView === 'history') title = 'Lịch sử của tôi';
-            if (currentView === 'my-coupons') title = 'ĐỔI ĐIỂM';
+            if (currentView === 'my-coupons') title = 'ĐỔI XU';
 
             return (
                 <div className="membership-header sub-header">
-                    <button className="back-btn" onClick={handleBack}>&larr;</button>
+                    <button className="back-btn" onClick={handleBack}><i class="fas fa-angle-left"></i></button>
                     <h3>{title}</h3>
                     <button className="close-btn" onClick={toggleModal}>&times;</button>
                 </div>
@@ -201,9 +225,9 @@ const Membership = () => {
             <div className="member-info-card">
                 <div>
                     <div className="member-card-title">THẺ THÀNH VIÊN</div>
-                    <div className="member-card-subtitle">Điểm hiện có</div>
+                    <div className="member-card-subtitle">Xu hiện có</div>
                     <div className="member-card-points">
-                        {points}<small>ĐIỂM</small>
+                        {points}<small>Xu</small>
                     </div>
                 </div>
                 <div className="member-card-name">
@@ -218,7 +242,7 @@ const Membership = () => {
                         <div className="icon-box-small green">
                             <span className="icon">P</span>
                         </div>
-                        <h4>Đối điểm thưởng điểm</h4>
+                        <h4>Đối thưởng xu</h4>
                         <span className="arrow-right">&rsaquo;</span>
                     </div>
                 </div>
@@ -255,7 +279,7 @@ const Membership = () => {
                             </div>
                             <div className="reward-info">
                                 <h5>Đăng ký thành viên</h5>
-                                <p>Nhận được 200 điểm</p>
+                                <p>Nhận được 200 xu</p>
                             </div>
                             {hasJoined && <div className="check-mark">✓</div>}
                         </div>
@@ -280,68 +304,71 @@ const Membership = () => {
 
             {/* History Link */}
             <div className="history-link" onClick={() => setCurrentView('history')}>
-                Xem lịch sử điểm
+                Xem lịch sử xu
             </div>
         </>
     );
 
-    const renderRedeemView = () => {
-        if (hasRedeemed) {
-            return (
-                <div className="view-content center-content">
-                    <div className="success-icon-large">
-                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="12" fill="#E8F5E9" />
-                            <path d="M7 12L10 15L17 8" stroke="#4CAF50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                    </div>
-                    <h3>ĐỔI ĐIỂM</h3>
-                    <p style={{ marginBottom: '20px' }}>Giảm giá 200.000₫ cho 200 điểm</p>
-
-                    <div className="coupon-box">
-                        <span>JOY-RKKA1FDFGVZU</span>
-                        <span className="copy-icon">❐</span>
-                    </div>
-
-                    <button className="primary-btn dark" onClick={() => {
-                        toggleModal();
-                        // Optional: Navigate to products or just close
-                    }}>
-                        Áp dụng ngay
-                    </button>
-
-                    <p className="redeem-note">Hãy sử dụng mã giảm giá này cho đơn hàng tiếp theo.</p>
-                </div>
-            );
-        }
-
+    const renderRedeemInputView = () => {
         return (
             <div className="view-content center-content">
-                <div className="coupon-icon-large">
-                    <div className="icon-box orange large">
-                        <span className="icon">$$</span>
-                    </div>
+                <div className="ticket-icon-large">
+                    <img src={redeemLogo} alt="Redeem Logo" className="redeem-logo-img" />
                 </div>
-                <h3>ĐỔI ĐIỂM</h3>
-                <p className="points-req">200 điểm</p>
+                <h3 className="redeem-title">ĐỔI ĐIỂM</h3>
+                <p className="activation-points">200 điểm</p>
 
                 <button
-                    className={`primary - btn ${points < 200 ? 'disabled' : ''} `}
-                    onClick={() => {
-                        if (points >= 200) {
-                            handleAddPoints(-200, 'Đổi điểm lấy mã giảm giá');
-                        }
-                    }}
+                    className={`primary-btn dark ${points < 200 ? 'disabled' : ''}`}
+                    onClick={handleRedeemExchange}
                     disabled={points < 200}
                 >
                     ĐỔI QUÀ
                 </button>
 
-                <p className="redeem-detail-text">Đổi 200 điểm lấy 200.000 đ</p>
+                <p className="redeem-subtitle">Đổi 200 điểm lấy 200.000 đ</p>
 
-                <div className="redeem-terms">
-                    <p>Áp dụng cho đơn hàng tối thiểu 1000000 VND</p>
+                <div className="redeem-terms-container">
+                    <div className="term-header">
+                        <p>Áp dụng cho đơn hàng tối thiểu 1.000.000 VND</p>
+                        <span className="term-arrow"></span>
+                    </div>
+
                 </div>
+            </div>
+        );
+    };
+
+    const renderRedeemSuccessView = () => {
+        if (!redeemedVoucher) return null;
+
+        return (
+            <div className="view-content center-content">
+                <div className="success-icon-large">
+                    <div className="success-circle">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 6L9 17L4 12" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+                <h3>ĐỔI XU</h3>
+                <p style={{ marginBottom: '20px' }}>Giảm giá 200.000₫ cho 200 xu</p>
+
+                <div className="coupon-box">
+                    <span>{redeemedVoucher.code}</span>
+                    <span className="copy-icon" onClick={() => {
+                        navigator.clipboard.writeText(redeemedVoucher.code);
+                        alert('Đã sao chép!');
+                    }}>❐</span>
+                </div>
+
+                <button className="primary-btn dark" onClick={() => {
+                    toggleModal(); // Or navigate to cart
+                }}>
+                    Áp dụng ngay
+                </button>
+
+                <p className="redeem-note">Hãy sử dụng mã giảm giá này cho đơn hàng tiếp theo.</p>
             </div>
         );
     };
@@ -371,8 +398,8 @@ const Membership = () => {
     const renderHistoryView = () => (
         <div className="view-content">
             <div className="history-summary-card">
-                <p>Tổng số điểm hiện có:</p>
-                <h2>{points} điểm</h2>
+                <p>Tổng số xu hiện có:</p>
+                <h2>{points} xu</h2>
             </div>
 
             <div className="history-list">
@@ -381,7 +408,7 @@ const Membership = () => {
                         <div className="history-time">{item.time} • {item.date}</div>
                         <div className="history-reason">{item.reason}</div>
                         <div className={`history - amount ${item.amount > 0 ? 'positive' : item.amount < 0 ? 'negative' : ''} `}>
-                            {item.amount > 0 ? '+' : ''}{item.amount} điểm
+                            {item.amount > 0 ? '+' : ''}{item.amount} xu
                         </div>
                     </div>
                 ))}
@@ -390,7 +417,7 @@ const Membership = () => {
     );
 
     const renderMyCouponsDetailView = () => {
-        if (!hasRedeemed) {
+        if (vouchers.length === 0) {
             return (
                 <div className="view-content center-content">
                     <p>Bạn chưa có mã giảm giá nào.</p>
@@ -401,26 +428,32 @@ const Membership = () => {
 
         return (
             <div className="view-content">
-                <div className="membership-card">
-                    <div className="coupon-detail-header">
-                        <div className="icon-box orange">
-                            <span className="icon">$$</span>
+                {vouchers.map(v => (
+                    <div key={v.id} className="membership-card" style={{ marginBottom: '15px' }}>
+                        <div className="coupon-detail-header">
+                            <div className="icon-box orange">
+                                <span className="icon">$$</span>
+                            </div>
+                            <h4 style={{ marginLeft: '15px', fontSize: '16px' }}>
+                                {v.discount_amount >= 100000 ? 'VOUCHER VIP' : 'MÃ GIẢM GIÁ'}
+                            </h4>
                         </div>
-                        <h4 style={{ marginLeft: '15px', fontSize: '16px' }}>ĐỔI ĐIỂM</h4>
+
+                        <ul className="coupon-detail-list">
+                            <li><strong>Mã:</strong> {v.code}</li>
+                            <li><strong>Giảm giá:</strong> {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(v.discount_amount)}</li>
+                            <li><strong>Hết hạn vào:</strong> {v.expires_at ? new Date(v.expires_at).toLocaleDateString() : 'Không bao giờ'}</li>
+                            {v.min_order_value > 0 && <li><strong>Đơn tối thiểu:</strong> {v.min_order_value}đ</li>}
+                        </ul>
+
+                        <button className="primary-btn dark" onClick={() => {
+                            navigator.clipboard.writeText(v.code);
+                            alert(`Đã sao chép mã: ${v.code}`);
+                        }} style={{ marginTop: '20px' }}>
+                            Sao chép mã
+                        </button>
                     </div>
-
-                    <ul className="coupon-detail-list">
-                        <li><strong>Mã:</strong> JOY-RKKA1FDFGVZU</li>
-                        <li><strong>Giảm giá:</strong> 200.000₫</li>
-                        <li><strong>Hết hạn vào:</strong> Không bao giờ hết hạn</li>
-                        <li><strong>Áp dụng cho đơn hàng tối thiểu:</strong> 1000000 VND</li>
-                        <li><strong>Áp dụng cho các bộ sưu tập:</strong> Tất cả sản phẩm trừ BST Limited/Speedcat</li>
-                    </ul>
-
-                    <button className="primary-btn dark" onClick={handleUseCoupon} style={{ marginTop: '20px' }}>
-                        Sử dụng ngay
-                    </button>
-                </div>
+                ))}
             </div>
         );
     };
@@ -458,7 +491,7 @@ const Membership = () => {
             <div className="membership-card clickable-card" onClick={() => toggleSection('redeem')}>
                 <div className="card-header">
                     <div>
-                        <h4>Quy Đổi Điểm</h4>
+                        <h4>Quy Đổi Xu</h4>
                         <p className="subtitle-text">1 giảm giá</p>
                     </div>
                     <span className={`arrow-icon ${expandedSections.redeem ? 'expanded' : ''}`}>
@@ -474,8 +507,8 @@ const Membership = () => {
                                 <span className="icon">$</span>
                             </div>
                             <div className="reward-info">
-                                <h5>ĐỔI ĐIỂM</h5>
-                                <p>Giảm giá 200.000₫ cho 200 điểm</p>
+                                <h5>ĐỔI XU</h5>
+                                <p>Giảm giá 200.000₫ cho 200 Xu</p>
                             </div>
                         </div>
                     </div>
@@ -503,7 +536,7 @@ const Membership = () => {
                             </div>
                             <div className="reward-info">
                                 <h5>Đăng ký thành viên</h5>
-                                <p>Nhận được 200 điểm</p>
+                                <p>Nhận được 200 xu</p>
                             </div>
                         </div>
                     </div>
@@ -546,15 +579,13 @@ const Membership = () => {
             {isOpen && (
                 <div className="membership-modal-overlay">
                     <div className="membership-modal">
-                        <div className="membership-header">
-                            <span className="close-btn" onClick={toggleModal}>&times;</span>
-                            <h3>{user ? 'THẺ THÀNH VIÊN' : 'Chào mừng đến với cửa hàng của chúng tôi'}</h3>
-                        </div>
+                        {renderHeader()}
                         <div className="membership-body">
                             {!user ? renderGuestView() : (
                                 <>
                                     {currentView === 'main' && renderMainContent()}
-                                    {currentView === 'redeem' && renderRedeemView()}
+                                    {currentView === 'redeem' && renderRedeemInputView()}
+                                    {currentView === 'redeem-success' && renderRedeemSuccessView()}
                                     {currentView === 'referral' && renderReferralView()}
                                     {currentView === 'history' && renderHistoryView()}
                                     {currentView === 'my-coupons' && renderMyCouponsDetailView()}

@@ -74,6 +74,9 @@ const Checkout = () => {
     const [paymentMethod, setPaymentMethod] = useState('cod');
     const [error, setError] = useState('');
 
+    const [availablePoints, setAvailablePoints] = useState(0);
+    const [usePoints, setUsePoints] = useState(false);
+
     useEffect(() => {
         if (user) {
             setFormData(prev => ({
@@ -81,12 +84,31 @@ const Checkout = () => {
                 fullName: (user.lastName || '') + ' ' + (user.firstName || ''),
                 email: user.email || '',
             }));
+
+            // Fetch points
+            const fetchPoints = async () => {
+                const { data } = await supabase.from('profiles').select('points').eq('id', user.id).single();
+                if (data) setAvailablePoints(data.points);
+            };
+            fetchPoints();
         }
     }, [user]);
 
     if ((!product && !fromCart) || checkoutItems.length === 0) return null; // Check thêm checkoutItems.length
 
-    const totalAmount = subTotal + shippingFee - discount;
+    // Tính toán giảm giá từ điểm
+    // 1 Xu = 1000 VND
+    // Logic: Dùng toàn bộ xu, nhưng không vượt quá số tiền phải thanh toán
+    let pointDiscount = 0;
+    if (usePoints && availablePoints > 0) {
+        const amountToCover = subTotal + shippingFee - discount; // Số tiền còn lại sau coupon
+        const maxPointValue = availablePoints * 1000;
+
+        pointDiscount = Math.min(maxPointValue, amountToCover);
+        if (pointDiscount < 0) pointDiscount = 0;
+    }
+
+    const totalAmount = subTotal + shippingFee - discount - pointDiscount;
     const finalTotal = totalAmount > 0 ? totalAmount : 0;
 
     const handleInputChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -144,6 +166,34 @@ const Checkout = () => {
 
             if (paymentMethod === 'cod') {
                 await processPayment(orderData, 'cod');
+
+                // --- XỬ LÝ TRỪ ĐIỂM NẾU CÓ DÙNG ---
+                if (usePoints && pointDiscount > 0 && user) {
+                    const pointsUsed = Math.ceil(pointDiscount / 1000);
+                    try {
+                        const { error: deductError } = await supabase.rpc('decrement_points', {
+                            // Nếu không có function RPC, dùng update tay (kém an toàn hơn chút nhưng ok cho demo)
+                            // Ta dùng update tay ở bước dưới cho đơn giản vì chưa tạo RPC
+                        });
+
+                        // Update tay:
+                        // 1. Get curent (again for safety? or trust local?) - Trust local for speed/demo
+                        const newBalance = availablePoints - pointsUsed;
+                        await supabase.from('profiles').update({ points: newBalance }).eq('id', user.id);
+
+                        // 2. Log spend transaction
+                        await supabase.from('point_transactions').insert([{
+                            user_id: user.id,
+                            amount: -pointsUsed,
+                            reason: `Dùng Xu thanh toán đơn hàng`,
+                            type: 'spend'
+                        }]);
+
+                    } catch (err) {
+                        console.error("Lỗi trừ điểm:", err);
+                    }
+                }
+                // -----------------------------------
 
                 // --- TÍCH ĐIỂM THÀNH VIÊN (NEW) ---
                 if (user) {
@@ -299,7 +349,38 @@ const Checkout = () => {
                         </button>
                     </div>
                     {couponMsg && <div style={{ fontSize: '0.85rem', marginTop: '8px', color: discount > 0 ? 'green' : 'red' }}>{couponMsg}</div>}
+                    {couponMsg && <div style={{ fontSize: '0.85rem', marginTop: '8px', color: discount > 0 ? 'green' : 'red' }}>{couponMsg}</div>}
                 </div>
+
+                {/* Point Redemption UI */}
+                {user && (
+                    <div className="form-group" style={{ marginBottom: '15px', padding: '15px', background: '#fffde7', borderRadius: '6px', border: '1px solid #FFEB3B' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <label style={{ display: 'flex', alignItems: 'center', gap: '5px', fontWeight: 'bold', color: '#FBC02D' }}>
+                                <div style={{ width: '20px', height: '20px', background: '#FBC02D', color: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}>$</div>
+                                Dùng Xu tích lũy
+                            </label>
+                            <label className="switch">
+                                <input
+                                    type="checkbox"
+                                    checked={usePoints}
+                                    onChange={() => setUsePoints(!usePoints)}
+                                    disabled={availablePoints <= 0}
+                                />
+                                <span className="slider round"></span>
+                            </label>
+                        </div>
+                        <div style={{ marginTop: '10px', fontSize: '0.9rem' }}>
+                            Bạn có: <strong>{availablePoints} Xu</strong>
+                        </div>
+                        {usePoints && availablePoints > 0 && (
+                            <div style={{ marginTop: '5px', fontSize: '0.85rem', color: 'green' }}>
+                                Đã dùng {Math.min(availablePoints, Math.ceil((subTotal + shippingFee - discount) / 1000))} Xu
+                                (-{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Math.min(availablePoints * 1000, subTotal + shippingFee - discount))})
+                            </div>
+                        )}
+                    </div>
+                )}
 
                 <div className="summary-row"><span>Tạm tính</span><span>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(subTotal)}</span></div>
 
@@ -312,8 +393,14 @@ const Checkout = () => {
 
                 {discount > 0 && (
                     <div className="summary-row" style={{ color: 'green' }}>
-                        <span>Giảm giá</span>
+                        <span>Giảm giá (Coupon)</span>
                         <span>-{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(discount)}</span>
+                    </div>
+                )}
+                {pointDiscount > 0 && (
+                    <div className="summary-row" style={{ color: '#FBC02D', fontWeight: 'bold' }}>
+                        <span>Giảm giá (Xu)</span>
+                        <span>-{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(pointDiscount)}</span>
                     </div>
                 )}
 

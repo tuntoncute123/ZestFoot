@@ -184,7 +184,7 @@ const Navbar = () => {
     },
     { name: t('sale'), path: "/collections/sale-item", className: "text-red" },
     { name: t('blogs'), path: "/blogs/news" },
-    { name: t('stores'), path: "/Home/he-thong-cua-hang-abc-mart" },
+    { name: "SĂN XU", path: "/rewards", className: "text-green" },
   ], [t]);
 
   return (
