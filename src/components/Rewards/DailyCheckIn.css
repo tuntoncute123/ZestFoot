@@ -75,6 +75,8 @@
 .day-box.day-7 {
     border-color: #FFEB3B;
     background: #FFFDE7;
+    /* Ensure it respects the same flex and height rules */
+    flex: 1;
 }
 
 .day-box.day-7 .points {

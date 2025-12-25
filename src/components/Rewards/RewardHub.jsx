@@ -54,7 +54,7 @@ const RewardHub = () => {
             {/* 2. Main Content */}
             <div className="reward-content">
                 {/* Check-in Strip */}
-                <DailyCheckIn />
+                <DailyCheckIn onPointUpdate={(addedPoints) => setPoints(prev => prev + addedPoints)} />
 
                 {/* Game Grid */}
                 <div className="games-section">

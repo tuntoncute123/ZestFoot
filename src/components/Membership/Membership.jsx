@@ -92,7 +92,7 @@ const Membership = () => {
 
         // Prevent negative points if trying to spend more than available
         if (amount < 0 && points + amount < 0) {
-            alert("Bạn không đủ điểm để thực hiện đổi quà này.");
+            alert("Bạn không đủ xuđể thực hiện đổi quà này.");
             return;
         }
 
@@ -135,12 +135,12 @@ const Membership = () => {
 
         } catch (error) {
             console.error("Error updating points:", error);
-            alert("Có lỗi xảy ra khi cập nhật điểm.");
+            alert("Có lỗi xảy ra khi cập nhật xu.");
         }
     };
 
     const hasJoined = history.some(item => item.reason === 'Đăng ký thành viên');
-    const hasRedeemed = history.some(item => item.reason === 'Đổi điểm lấy mã giảm giá');
+    const hasRedeemed = history.some(item => item.reason === 'Đổi xu lấy mã giảm giá');
 
     const toggleModal = () => {
         setIsOpen(!isOpen);
@@ -169,10 +169,10 @@ const Membership = () => {
             return (
                 <div className="membership-header main-header">
                     <h4>THẺ THÀNH VIÊN</h4>
-                    <p className="points-label">Điểm hiện có điểm</p>
+                    <p className="points-label">Xu hiện có</p>
                     <div className="points-display">
                         <h1>{points}</h1>
-                        <span>ĐIỂM</span>
+                        <span>Xu</span>
                     </div>
                     <p className="username">KHANG</p>
                     <button className="close-btn" onClick={toggleModal}>&times;</button>
@@ -180,10 +180,10 @@ const Membership = () => {
             );
         } else {
             let title = '';
-            if (currentView === 'redeem') title = 'Quy Đổi Điểm';
+            if (currentView === 'redeem') title = 'Quy Đổi Xu';
             if (currentView === 'referral') title = 'Giới thiệu bạn bè';
             if (currentView === 'history') title = 'Lịch sử của tôi';
-            if (currentView === 'my-coupons') title = 'ĐỔI ĐIỂM';
+            if (currentView === 'my-coupons') title = 'ĐỔI XU';
 
             return (
                 <div className="membership-header sub-header">
@@ -201,9 +201,9 @@ const Membership = () => {
             <div className="member-info-card">
                 <div>
                     <div className="member-card-title">THẺ THÀNH VIÊN</div>
-                    <div className="member-card-subtitle">Điểm hiện có</div>
+                    <div className="member-card-subtitle">Xu hiện có</div>
                     <div className="member-card-points">
-                        {points}<small>ĐIỂM</small>
+                        {points}<small>Xu</small>
                     </div>
                 </div>
                 <div className="member-card-name">
@@ -218,7 +218,7 @@ const Membership = () => {
                         <div className="icon-box-small green">
                             <span className="icon">P</span>
                         </div>
-                        <h4>Đối điểm thưởng điểm</h4>
+                        <h4>Đối thưởng xu</h4>
                         <span className="arrow-right">&rsaquo;</span>
                     </div>
                 </div>
@@ -255,7 +255,7 @@ const Membership = () => {
                             </div>
                             <div className="reward-info">
                                 <h5>Đăng ký thành viên</h5>
-                                <p>Nhận được 200 điểm</p>
+                                <p>Nhận được 200 xu</p>
                             </div>
                             {hasJoined && <div className="check-mark">✓</div>}
                         </div>
@@ -280,7 +280,7 @@ const Membership = () => {
 
             {/* History Link */}
             <div className="history-link" onClick={() => setCurrentView('history')}>
-                Xem lịch sử điểm
+                Xem lịch sử xu
             </div>
         </>
     );
@@ -295,8 +295,8 @@ const Membership = () => {
                             <path d="M7 12L10 15L17 8" stroke="#4CAF50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                     </div>
-                    <h3>ĐỔI ĐIỂM</h3>
-                    <p style={{ marginBottom: '20px' }}>Giảm giá 200.000₫ cho 200 điểm</p>
+                    <h3>ĐỔI XU</h3>
+                    <p style={{ marginBottom: '20px' }}>Giảm giá 200.000₫ cho 200 xu</p>
 
                     <div className="coupon-box">
                         <span>JOY-RKKA1FDFGVZU</span>
@@ -322,14 +322,14 @@ const Membership = () => {
                         <span className="icon">$$</span>
                     </div>
                 </div>
-                <h3>ĐỔI ĐIỂM</h3>
-                <p className="points-req">200 điểm</p>
+                <h3>ĐỔI XU</h3>
+                <p className="points-req">200 xu</p>
 
                 <button
                     className={`primary - btn ${points < 200 ? 'disabled' : ''} `}
                     onClick={() => {
                         if (points >= 200) {
-                            handleAddPoints(-200, 'Đổi điểm lấy mã giảm giá');
+                            handleAddPoints(-200, 'Đổi xu lấy mã giảm giá');
                         }
                     }}
                     disabled={points < 200}
@@ -337,7 +337,7 @@ const Membership = () => {
                     ĐỔI QUÀ
                 </button>
 
-                <p className="redeem-detail-text">Đổi 200 điểm lấy 200.000 đ</p>
+                <p className="redeem-detail-text">Đổi 200 xulấy 200.000 đ</p>
 
                 <div className="redeem-terms">
                     <p>Áp dụng cho đơn hàng tối thiểu 1000000 VND</p>
@@ -371,8 +371,8 @@ const Membership = () => {
     const renderHistoryView = () => (
         <div className="view-content">
             <div className="history-summary-card">
-                <p>Tổng số điểm hiện có:</p>
-                <h2>{points} điểm</h2>
+                <p>Tổng số xu hiện có:</p>
+                <h2>{points} xu</h2>
             </div>
 
             <div className="history-list">
@@ -381,7 +381,7 @@ const Membership = () => {
                         <div className="history-time">{item.time} • {item.date}</div>
                         <div className="history-reason">{item.reason}</div>
                         <div className={`history - amount ${item.amount > 0 ? 'positive' : item.amount < 0 ? 'negative' : ''} `}>
-                            {item.amount > 0 ? '+' : ''}{item.amount} điểm
+                            {item.amount > 0 ? '+' : ''}{item.amount} xu
                         </div>
                     </div>
                 ))}
@@ -406,7 +406,7 @@ const Membership = () => {
                         <div className="icon-box orange">
                             <span className="icon">$$</span>
                         </div>
-                        <h4 style={{ marginLeft: '15px', fontSize: '16px' }}>ĐỔI ĐIỂM</h4>
+                        <h4 style={{ marginLeft: '15px', fontSize: '16px' }}>ĐỔI XU</h4>
                     </div>
 
                     <ul className="coupon-detail-list">
@@ -458,7 +458,7 @@ const Membership = () => {
             <div className="membership-card clickable-card" onClick={() => toggleSection('redeem')}>
                 <div className="card-header">
                     <div>
-                        <h4>Quy Đổi Điểm</h4>
+                        <h4>Quy Đổi Xu</h4>
                         <p className="subtitle-text">1 giảm giá</p>
                     </div>
                     <span className={`arrow-icon ${expandedSections.redeem ? 'expanded' : ''}`}>
@@ -474,8 +474,8 @@ const Membership = () => {
                                 <span className="icon">$</span>
                             </div>
                             <div className="reward-info">
-                                <h5>ĐỔI ĐIỂM</h5>
-                                <p>Giảm giá 200.000₫ cho 200 điểm</p>
+                                <h5>ĐỔI Xu</h5>
+                                <p>Giảm giá 200.000₫ cho 200 Xu</p>
                             </div>
                         </div>
                     </div>
@@ -503,7 +503,7 @@ const Membership = () => {
                             </div>
                             <div className="reward-info">
                                 <h5>Đăng ký thành viên</h5>
-                                <p>Nhận được 200 điểm</p>
+                                <p>Nhận được 200 xu</p>
                             </div>
                         </div>
                     </div>
