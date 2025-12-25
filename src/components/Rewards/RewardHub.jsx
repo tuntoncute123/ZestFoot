@@ -8,7 +8,7 @@ import { supabase } from '../../services/supabaseClient';
 
 const RewardHub = () => {
     const { user } = useAuth();
-    const [points, setPoints] = useState(200);
+    const [points, setPoints] = useState(0);
     const [showLuckyWheel, setShowLuckyWheel] = useState(false);
 
     // Fetch real points if user exists (Quick inline effect)
@@ -17,6 +17,8 @@ const RewardHub = () => {
             if (user) {
                 const { data } = await supabase.from('profiles').select('points').eq('id', user.id).single();
                 if (data) setPoints(data.points);
+            } else {
+                setPoints(0);
             }
         };
 
@@ -45,12 +47,12 @@ const RewardHub = () => {
                             <div className="coin-icon-lg">$</div>
                             <span className="points-value">{points}</span>
                         </div>
-                        <div className="expiry-date">Hết hạn: 31-01-2026</div>
+                        {user && <div className="expiry-date">Hết hạn: 31-01-2026</div>}
                     </div>
 
                     <div className="user-tier-badge">
                         <div style={{ textAlign: 'right' }}>
-                            <div style={{ fontWeight: 'bold' }}>Thành viên Bạc</div>
+                            <div style={{ fontWeight: 'bold' }}>{user ? 'Thành viên Bạc' : ''}</div>
                             <div style={{ fontSize: '0.8rem', opacity: 0.8 }}>{user?.email || 'Khách'}</div>
                         </div>
                         <div className="user-avatar-sm" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

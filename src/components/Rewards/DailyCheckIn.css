@@ -27,7 +27,6 @@
     margin-bottom: 25px;
     overflow-x: auto;
     padding-bottom: 10px;
-    /* For scrollbar if needed on mobile */
 }
 
 .day-box {
@@ -48,7 +47,6 @@
 /* Past Days (Checked) */
 .day-box.checked {
     background: #E8F5E9;
-    /* Light Green */
     border-color: #81C784;
     color: #2E7D32;
 }
@@ -56,12 +54,13 @@
 /* Today (Active) */
 .day-box.today {
     background: #5DAD1F;
-    /* Main Green */
     border-color: #5DAD1F;
     color: white;
-    transform: scale(1.05);
+    transform: scale(1.0);
     box-shadow: 0 4px 12px rgba(93, 173, 31, 0.3);
     z-index: 1;
+    border-radius: 8px;
+    /* Force rounded corners */
 }
 
 /* Future Days */
@@ -75,7 +74,6 @@
 .day-box.day-7 {
     border-color: #FFEB3B;
     background: #FFFDE7;
-    /* Ensure it respects the same flex and height rules */
     flex: 1;
 }
 
