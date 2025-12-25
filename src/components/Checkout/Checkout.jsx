@@ -184,13 +184,6 @@ const Checkout = () => {
                         // 2. Log spend transaction
                         await supabase.from('point_transactions').insert([{
                             user_id: user.id,
-                            amount: -pointsUsed, // Âm để thể hiện chi tiêu? Hoặc dương với type='spend'. Schema check 'spend'
-                            // Schema DB: amount integer. type in ('earn', 'spend'). 
-                            // Usually 'spend' implies positive amount spent. Let's use positive amount and type='spend'.
-                            // Wait, previous code used negative for spend? 
-                            // Let's check handleAddPoints in Membership.jsx: 
-                            // handleAddPoints(-200, ...) -> insert amount: -200, type: 'spend'.
-                            // So we should insert NEGATIVE number.
                             amount: -pointsUsed,
                             reason: `Dùng Xu thanh toán đơn hàng`,
                             type: 'spend'

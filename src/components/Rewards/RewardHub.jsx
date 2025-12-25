@@ -1,34 +1,43 @@
 import React, { useState } from 'react';
 import './RewardHub.css';
 import DailyCheckIn from './DailyCheckIn';
-// Game imports removed for "UI First" phase as requested by user
+import LuckyWheel from './LuckyWheel';
 import { Gamepad2, User } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../services/supabaseClient';
 
 const RewardHub = () => {
     const { user } = useAuth();
-    const [points, setPoints] = useState(200); // Default/Mock
+    const [points, setPoints] = useState(200);
+    const [showLuckyWheel, setShowLuckyWheel] = useState(false);
 
     // Fetch real points if user exists (Quick inline effect)
     React.useEffect(() => {
-        if (user) {
-            const fetchPoints = async () => {
+        const fetchPoints = async () => {
+            if (user) {
                 const { data } = await supabase.from('profiles').select('points').eq('id', user.id).single();
                 if (data) setPoints(data.points);
-            };
-            fetchPoints();
-        }
-    }, [user]);
+            }
+        };
+
+        fetchPoints();
+        window.addEventListener('pointsUpdated', fetchPoints);
+        return () => window.removeEventListener('pointsUpdated', fetchPoints);
+    }, [user, showLuckyWheel]);
 
     const handlePlayGame = (gameName) => {
-        alert(`Tính năng ${gameName} đang được phát triển!`);
+        if (gameName === "Vòng Quay") {
+            setShowLuckyWheel(true);
+        } else {
+            alert(`Tính năng ${gameName} đang được phát triển!`);
+        }
     };
 
     return (
         <div className="reward-hub-container">
             {/* 1. Header Section */}
             <div className="reward-header">
+                {/* ... keep header ... */}
                 <div className="reward-user-info">
                     <div>
                         <div className="accumulated-label">Xu tích lũy</div>
@@ -98,6 +107,8 @@ const RewardHub = () => {
                     </div>
                 </div>
             </div>
+
+            {showLuckyWheel && <LuckyWheel onClose={() => setShowLuckyWheel(false)} onSpinComplete={() => setShowLuckyWheel(false)} />}
         </div>
     );
 };
