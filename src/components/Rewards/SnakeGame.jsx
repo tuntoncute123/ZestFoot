@@ -406,23 +406,22 @@ const SnakeGame = ({ onClose }) => {
     };
 
     return (
-        <div className="snake-game-overlay">
-            <div className="snake-game-modal">
-                <div className="snake-game-header">
+        <div className="game-overlay-container">
+            <div className="game-modal">
+                <div className="game-header">
                     <div className="header-left">
                         <h2>Rắn Săn Mồi</h2>
                     </div>
-                    <div className="header-center">
-                    </div>
-                    <div className="header-right" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    {/* Center div removed if not used, or kept empty */}
+                    <div className="header-right">
                         <div className="score-container">
-                            <div className="play-count">Lượt chơi: {dailyPlaysLeft === null ? '-' : dailyPlaysLeft}</div>
+                            <div className="play-count">Lượt: {dailyPlaysLeft === null ? '-' : dailyPlaysLeft}</div>
                             <div className="score-board">Điểm: {score}</div>
                             <button className="help-btn" onClick={() => setShowHelp(true)}>
                                 <HelpCircle size={18} />
                             </button>
+                            <button className="close-btn" onClick={onClose}><X /></button>
                         </div>
-                        <button className="close-btn" onClick={onClose}><X /></button>
                     </div>
                 </div>
 

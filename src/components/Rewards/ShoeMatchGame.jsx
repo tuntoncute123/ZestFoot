@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './ShoeMatchGame.css';
 import './GameOverlay.css';
-import './SnakeGame.css';
+
 import { X, HelpCircle, Timer, Trophy } from 'lucide-react';
 import { supabase } from '../../services/supabaseClient';
 import { useAuth } from '../../context/AuthContext';
@@ -282,16 +282,16 @@ const ShoeMatchGame = ({ onClose }) => {
     };
 
     return (
-        <div className="snake-game-overlay">
-            <div className="snake-game-modal match-game-modal">
-                <div className="snake-game-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div className="game-overlay-container">
+            <div className="game-modal match-game-modal">
+                <div className="game-header">
                     <div className="header-left">
                         <h2>Ghép Giày</h2>
                     </div>
-                    <div className="header-right" style={{ display: 'flex', alignItems: 'center', gap: '50px' }}>
+                    <div className="header-right">
                         <div className="score-container">
                             <div className="timer-box" style={{ width: 'fit-content' }}><Timer size={16} /> {timeLeft}s</div>
-                            <div className="play-count">Lượt chơi: {dailyPlaysLeft === null ? '-' : dailyPlaysLeft}</div>
+                            <div className="play-count">Lượt: {dailyPlaysLeft === null ? '-' : dailyPlaysLeft}</div>
                             <div className="score-board">Điểm: {score}</div>
                             <button className="help-btn" onClick={() => setShowHelp(true)}>
                                 <HelpCircle size={18} />
