@@ -64,7 +64,7 @@ const RewardHub = () => {
 
                     <div className="user-tier-badge">
                         <div style={{ textAlign: 'right' }}>
-                            <div style={{ fontWeight: 'bold' }}>{user ? 'Thành viên Bạc' : ''}</div>
+                            <div style={{ fontWeight: 'bold' }}>{user ? 'Thành viên Đồng' : ''}</div>
                             <div style={{ fontSize: '0.8rem', opacity: 0.8 }}>{user?.email || 'Khách'}</div>
                         </div>
                         <div className="user-avatar-sm" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
