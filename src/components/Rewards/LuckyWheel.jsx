@@ -46,10 +46,6 @@ const LuckyWheel = ({ onClose, onSpinComplete }) => {
             } else if (data.spin_tickets > 0) {
                 setCanSpin(true);
                 setMessage(`Bạn còn ${data.spin_tickets} vé quay thêm.`);
-            } else {
-                // TEST MODE: Always allow spinning as requested
-                setCanSpin(true);
-                setMessage("Chế độ TEST: Vô hạn lượt quay!");
             }
         } catch (err) {
             console.error("Error checking spin status:", err);
