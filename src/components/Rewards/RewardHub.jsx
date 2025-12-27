@@ -3,6 +3,7 @@ import './RewardHub.css';
 import DailyCheckIn from './DailyCheckIn';
 import LuckyWheel from './LuckyWheel';
 import SnakeGame from './SnakeGame';
+import ShoeMatchGame from './ShoeMatchGame';
 import { Gamepad2, User } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../services/supabaseClient';
@@ -12,6 +13,7 @@ const RewardHub = () => {
     const [points, setPoints] = useState(0);
     const [showLuckyWheel, setShowLuckyWheel] = useState(false);
     const [showSnakeGame, setShowSnakeGame] = useState(false);
+    const [showShoeMatchGame, setShowShoeMatchGame] = useState(false);
 
     // Fetch real points if user exists (Quick inline effect)
     React.useEffect(() => {
@@ -27,13 +29,15 @@ const RewardHub = () => {
         fetchPoints();
         window.addEventListener('pointsUpdated', fetchPoints);
         return () => window.removeEventListener('pointsUpdated', fetchPoints);
-    }, [user, showLuckyWheel, showSnakeGame]);
+    }, [user, showLuckyWheel, showSnakeGame, showShoeMatchGame]);
 
     const handlePlayGame = (gameName) => {
         if (gameName === "Vòng Quay") {
             setShowLuckyWheel(true);
         } else if (gameName === "Rắn Săn Mồi") {
             setShowSnakeGame(true);
+        } else if (gameName === "Ghép Giày") {
+            setShowShoeMatchGame(true);
         } else {
             alert(`Tính năng ${gameName} đang được phát triển!`);
         }
@@ -116,6 +120,7 @@ const RewardHub = () => {
 
             {showLuckyWheel && <LuckyWheel onClose={() => setShowLuckyWheel(false)} onSpinComplete={() => setShowLuckyWheel(false)} />}
             {showSnakeGame && <SnakeGame onClose={() => setShowSnakeGame(false)} />}
+            {showShoeMatchGame && <ShoeMatchGame onClose={() => setShowShoeMatchGame(false)} />}
         </div>
     );
 };
