@@ -12,7 +12,7 @@
 }
 
 .lucky-wheel-container {
-    background: white;
+    background: #2a2a2a;
     padding: 20px;
     border-radius: 16px;
     text-align: center;
@@ -20,6 +20,21 @@
     max-width: 90%;
     width: 400px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    color: white;
+    /* Added text color */
+}
+
+.lucky-wheel-container h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #4ade80;
+    /* Match other games header */
+    margin-bottom: 10px;
+}
+
+.lucky-wheel-container p {
+    color: #ddd;
+    margin-bottom: 20px;
 }
 
 .close-btn-wheel {
@@ -30,7 +45,13 @@
     border: none;
     font-size: 24px;
     cursor: pointer;
-    color: #888;
+    color: #aaa;
+    /* Match close btn color */
+    transition: color 0.2s;
+}
+
+.close-btn-wheel:hover {
+    color: white;
 }
 
 .wheel-wrapper {
@@ -40,7 +61,7 @@
     margin: 20px auto;
     border-radius: 50%;
     overflow: hidden;
-    border: 5px solid #333;
+    border: 5px solid #ffffff;
     /* Ease out custom */
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
@@ -80,7 +101,7 @@
     height: 0;
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
-    border-top: 30px solid #333;
+    border-top: 30px solid #ffffff;
     z-index: 10;
 }
 

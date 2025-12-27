@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import './RewardHub.css';
 import DailyCheckIn from './DailyCheckIn';
 import LuckyWheel from './LuckyWheel';
+import SnakeGame from './SnakeGame';
+import ShoeMatchGame from './ShoeMatchGame';
+import TetrisGame from './TetrisGame';
 import { Gamepad2, User } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../services/supabaseClient';
@@ -10,6 +13,9 @@ const RewardHub = () => {
     const { user } = useAuth();
     const [points, setPoints] = useState(0);
     const [showLuckyWheel, setShowLuckyWheel] = useState(false);
+    const [showSnakeGame, setShowSnakeGame] = useState(false);
+    const [showShoeMatchGame, setShowShoeMatchGame] = useState(false);
+    const [showTetrisGame, setShowTetrisGame] = useState(false);
 
     // Fetch real points if user exists (Quick inline effect)
     React.useEffect(() => {
@@ -25,11 +31,17 @@ const RewardHub = () => {
         fetchPoints();
         window.addEventListener('pointsUpdated', fetchPoints);
         return () => window.removeEventListener('pointsUpdated', fetchPoints);
-    }, [user, showLuckyWheel]);
+    }, [user, showLuckyWheel, showSnakeGame, showShoeMatchGame]);
 
     const handlePlayGame = (gameName) => {
         if (gameName === "Vòng Quay") {
             setShowLuckyWheel(true);
+        } else if (gameName === "Rắn Săn Mồi") {
+            setShowSnakeGame(true);
+        } else if (gameName === "Ghép Giày") {
+            setShowShoeMatchGame(true);
+        } else if (gameName === "Xếp Gạch") {
+            setShowTetrisGame(true);
         } else {
             alert(`Tính năng ${gameName} đang được phát triển!`);
         }
@@ -52,7 +64,7 @@ const RewardHub = () => {
 
                     <div className="user-tier-badge">
                         <div style={{ textAlign: 'right' }}>
-                            <div style={{ fontWeight: 'bold' }}>{user ? 'Thành viên Bạc' : ''}</div>
+                            <div style={{ fontWeight: 'bold' }}>{user ? 'Thành viên Đồng' : ''}</div>
                             <div style={{ fontSize: '0.8rem', opacity: 0.8 }}>{user?.email || 'Khách'}</div>
                         </div>
                         <div className="user-avatar-sm" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -75,12 +87,12 @@ const RewardHub = () => {
                     </div>
 
                     <div className="games-grid">
-                        {/* Game 1: Oẳn Tù Tì */}
+                        {/* Game 1: Rắn Săn Mồi */}
                         <div className="game-card bg-green">
-                            <div className="game-icon">✊</div>
-                            <div className="game-name">Oẳn Tù Tì</div>
-                            <div className="game-desc">Thắng máy nhận 200 xu</div>
-                            <button className="play-btn" onClick={() => handlePlayGame("Oẳn Tù Tì")}>Chơi ngay</button>
+                            <div className="game-icon">🐍</div>
+                            <div className="game-name">Rắn Săn Mồi</div>
+                            <div className="game-desc">Săn điểm đổi Voucher</div>
+                            <button className="play-btn" onClick={() => handlePlayGame("Rắn Săn Mồi")}>Chơi ngay</button>
                         </div>
 
                         {/* Game 2: Ghép Giày */}
@@ -99,18 +111,21 @@ const RewardHub = () => {
                             <button className="play-btn" onClick={() => handlePlayGame("Vòng Quay")}>Quay ngay</button>
                         </div>
 
-                        {/* Game 4: Deal (Placeholder) */}
+                        {/* Game 4: Tetris */}
                         <div className="game-card bg-blue">
-                            <div className="game-icon">🫧</div>
-                            <div className="game-name">Bắt Deal Giờ Vàng</div>
-                            <div className="game-desc">Săn kho 1 Triệu Xu</div>
-                            <button className="play-btn" onClick={() => handlePlayGame("Bắt Deal")}>Sắp ra mắt</button>
+                            <div className="game-icon">🧱</div>
+                            <div className="game-name">Xếp Gạch</div>
+                            <div className="game-desc">Xếp hình nhận quà</div>
+                            <button className="play-btn" onClick={() => handlePlayGame("Xếp Gạch")}>Chơi ngay</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             {showLuckyWheel && <LuckyWheel onClose={() => setShowLuckyWheel(false)} onSpinComplete={() => setShowLuckyWheel(false)} />}
+            {showSnakeGame && <SnakeGame onClose={() => setShowSnakeGame(false)} />}
+            {showShoeMatchGame && <ShoeMatchGame onClose={() => setShowShoeMatchGame(false)} />}
+            {showTetrisGame && <TetrisGame onClose={() => setShowTetrisGame(false)} />}
         </div>
     );
 };
