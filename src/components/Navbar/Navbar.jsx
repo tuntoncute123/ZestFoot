@@ -217,9 +217,10 @@ const Navbar = () => {
               src={logo}
               alt="ABC-MART Việt Nam"
               className="logo-main"
-              style={{ width: 'auto', height: '140px' }}
             />
           </Link>
+
+
 
           {/* Desktop Nav */}
           <nav className={`desktop-nav ${isMenuOpen ? 'open' : ''}`}>

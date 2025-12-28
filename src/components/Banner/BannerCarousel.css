@@ -6,6 +6,8 @@
     position: relative;
     background-color: #fff;
     /* Match body bg if needed */
+    z-index: 1;
+    /* Ensure it stays below navbar */
 }
 
 .banner-swiper {
