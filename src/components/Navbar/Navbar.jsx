@@ -177,9 +177,21 @@ const Navbar = () => {
           { title: "PUMA", img: "//abc-mart.com.vn/cdn/shop/collections/PUMA.jpg?v=1763689996&width=535", link: "/collections/puma" },
           { title: "ASICS", img: "//abc-mart.com.vn/cdn/shop/collections/asics_kayano_rafflebanner_mobile.jpg?v=1764125320&width=535", link: "/collections/asics" },
         ],
-        'active-tab-2': [],
-        'active-tab-3': [],
-        'active-tab-4': [],
+        'active-tab-2': [
+          { title: "ADIDAS SAMBA", img: "https://abc-mart.com.vn/cdn/shop/files/H-STREET_HERO_BANNER.jpg?v=1765601397&width=535", link: "/products/adidas-samba" },
+          { title: "NIKE DUNK LOW", img: "https://abc-mart.com.vn/cdn/shop/files/12.12_EC.jpg?v=1765419048&width=535", link: "/products/nike-dunk-low" },
+          { title: "FILA RAY TRACER", img: "https://abc-mart.com.vn/cdn/shop/collections/4_-_New_Balance_collection.jpg?v=1760514203&width=535", link: "/products/fila-ray" },
+        ],
+        'active-tab-3': [
+          { title: "ABC SELECT X PUMA", img: "https://abc-mart.com.vn/cdn/shop/files/BANNER_SPEEDCAT_SMU.png?v=1763630030&width=1500", link: "/collections/abc-select" },
+          { title: "ASICS GEL-1130", img: "https://abc-mart.com.vn/cdn/shop/collections/asics_kayano_rafflebanner_mobile.jpg?v=1764125320&width=535", link: "/collections/asics" },
+          { title: "VANS EXCLUSIVE", img: "https://abc-mart.com.vn/cdn/shop/collections/PUMA.jpg?v=1763689996&width=535", link: "/collections/vans-exclusive" },
+        ],
+        'active-tab-4': [
+          { title: "NO.1 BEST SELLER", img: "https://abc-mart.com.vn/cdn/shop/files/asics_life_walker.jpg?v=1765421454&width=1500", link: "/collections/best-seller" },
+          { title: "NO.2 TRENDING", img: "https://abc-mart.com.vn/cdn/shop/files/12.12_EC.jpg?v=1765419048&width=535", link: "/collections/trending" },
+          { title: "NO.3 RISING STAR", img: "https://abc-mart.com.vn/cdn/shop/collections/4_-_New_Balance_collection.jpg?v=1760514203&width=535", link: "/collections/rising-star" },
+        ],
       }
     },
     { name: t('sale'), path: "/collections/sale-item", className: "text-red" },
