@@ -45,6 +45,13 @@
     padding: 3rem 1rem;
 }
 
+@media (max-width: 768px) {
+    .section-container {
+        padding: 1.5rem 1rem;
+    }
+}
+
+
 .section-container.bg-light {
     background-color: #f9f9f9;
 }
@@ -162,8 +169,9 @@
     }
 
     .product-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
+
 
     .banner-content h1 {
         font-size: 2rem;

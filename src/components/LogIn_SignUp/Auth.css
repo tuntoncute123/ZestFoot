@@ -1,4 +1,3 @@
-
 .auth-wrapper {
     background-color: #fff;
     min-height: 80vh;
@@ -24,7 +23,8 @@
 /* --- CỘT TRÁI (Thông tin) --- */
 .auth-left {
     width: 40%;
-    background-color: #f2f2f2; /* Màu xám nhạt nền trái */
+    background-color: #f2f2f2;
+    /* Màu xám nhạt nền trái */
     padding: 3rem 2rem;
     display: flex;
     flex-direction: column;
@@ -33,7 +33,8 @@
 
 .auth-title {
     font-size: 1.8rem;
-    font-weight: 800; /* Chữ đậm */
+    font-weight: 800;
+    /* Chữ đậm */
     margin-bottom: 1rem;
     text-transform: uppercase;
     color: #000;
@@ -74,7 +75,8 @@
     width: 100%;
     padding: 12px 0;
     border: none;
-    border-bottom: 1px solid #ddd; /* Chỉ có gạch chân */
+    border-bottom: 1px solid #ddd;
+    /* Chỉ có gạch chân */
     outline: none;
     font-size: 1rem;
     transition: border-color 0.3s;
@@ -86,7 +88,8 @@
 
 .form-actions {
     display: flex;
-    justify-content: flex-end; /* Căn phải nút Quên mật khẩu */
+    justify-content: flex-end;
+    /* Căn phải nút Quên mật khẩu */
     margin-bottom: 1.5rem;
 }
 
@@ -99,10 +102,13 @@
 .auth-btn {
     width: 100%;
     padding: 14px;
-    background-color: #8fd659; /* Màu xanh lá giống mẫu */
-    color: #000; /* Chữ đen hoặc trắng tùy mẫu thực tế, mẫu này chữ đen */
+    background-color: #8fd659;
+    /* Màu xanh lá giống mẫu */
+    color: #000;
+    /* Chữ đen hoặc trắng tùy mẫu thực tế, mẫu này chữ đen */
     border: none;
-    border-radius: 30px; /* Bo tròn nút */
+    border-radius: 30px;
+    /* Bo tròn nút */
     font-weight: 700;
     font-size: 1rem;
     cursor: pointer;
@@ -132,7 +138,9 @@
     .auth-container {
         flex-direction: column;
     }
-    .auth-left, .auth-right {
+
+    .auth-left,
+    .auth-right {
         width: 100%;
         padding: 2rem;
     }
@@ -142,9 +150,11 @@
     width: 100%;
     padding: 14px;
     background-color: #ffffff;
-    color: #000; /* Chữ đen */
+    color: #000;
+    /* Chữ đen */
     border: 1px solid #000;
-    border-radius: 30px; /* Bo tròn nút */
+    border-radius: 30px;
+    /* Bo tròn nút */
     font-weight: 700;
     font-size: 1rem;
     cursor: pointer;

@@ -49,9 +49,22 @@
     fill: white;
 }
 
+
 .category-bar-name {
     font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
     white-space: nowrap;
+}
+
+@media (max-width: 1024px) {
+    .category-bar {
+        margin-top: 90px;
+        /* Adjust for hidden top-bar on mobile */
+    }
+
+    .category-bar-container {
+        gap: 1.5rem;
+        /* Reduce gap on mobile */
+    }
 }
