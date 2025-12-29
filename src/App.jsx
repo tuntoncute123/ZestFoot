@@ -22,6 +22,7 @@ import BlogPage from './components/Blog/BlogPage';
 import ArticleDetail from './components/Blog/ArticleDetail';
 
 import SearchPage from './components/Search/SearchPage';
+import Favorites from './components/Favorites/Favorites';
 import { WishlistProvider } from './context/WishlistContext';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import ChatBot from './components/ChatBot/ChatBot';
@@ -59,6 +60,7 @@ function App() {
               <Route path="/blogs/news/:id" element={<ArticleDetail />} />
               <Route path="/Home/he-thong-cua-hang-abc-mart" element={<div style={{ padding: '50px', textAlign: 'center' }}><h2>Hệ thống cửa hàng</h2></div>} />
               <Route path="/rewards" element={<RewardHub />} />
+              <Route path="/favorites" element={<Favorites />} />
 
 
               <Route path="/cart" element={<Cart />} />

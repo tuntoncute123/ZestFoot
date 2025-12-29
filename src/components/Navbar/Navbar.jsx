@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
-import { Search, User, ShoppingBag, Menu, X, CheckCircle, Truck, CreditCard, ChevronDown } from 'lucide-react';
+import { Search, User, ShoppingBag, Menu, X, CheckCircle, Truck, CreditCard, ChevronDown, Heart } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { searchProducts } from '../../services/api';
 import './Navbar.css';
@@ -384,6 +384,10 @@ const Navbar = () => {
                       </div>
                       <Link to="/profile" className="user-dropdown-item">
                         Thông tin tài khoản
+                      </Link>
+                      <Link to="/favorites" className="user-dropdown-item" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <Heart size={16} />
+                        Sản phẩm yêu thích
                       </Link>
                       <Link to="/orders" className="user-dropdown-item">
                         Đơn hàng của tôi
