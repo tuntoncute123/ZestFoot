@@ -83,10 +83,7 @@ const Favorites = () => {
     return (
         <div className="favorites-container">
             <div className="favorites-header">
-                <h1>
-                    <Heart size={28} className="header-heart-icon" />
-                    Sản phẩm yêu thích
-                </h1>
+                <h1>Sản phẩm yêu thích</h1>
                 <p className="favorites-count">{favoriteProducts.length} sản phẩm</p>
             </div>
 
