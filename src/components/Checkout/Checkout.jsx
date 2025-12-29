@@ -6,7 +6,7 @@ import { useCart } from '../../context/CartContext';
 import { processPayment } from '../../services/paymentService';
 import { supabase } from '../../services/supabaseClient';
 import './Checkout.css';
-import { CreditCard, Truck, Wallet, Tag } from 'lucide-react';
+import { CreditCard, Truck, Wallet, Tag, Ticket } from 'lucide-react';
 import ProvinceSelector from './ProvinceSelector';
 
 const Checkout = () => {
@@ -65,6 +65,32 @@ const Checkout = () => {
         }
     };
 
+    // --- VOUCHER SELECTION HANDLER ---
+    const handleSelectVoucher = (voucher) => {
+        // Validate minimum order value
+        if (voucher.min_order_value && subTotal < voucher.min_order_value) {
+            setVoucherMsg(`Đơn hàng tối thiểu ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(voucher.min_order_value)}`);
+            return;
+        }
+
+        // Validate expiry
+        if (new Date(voucher.expires_at) < new Date()) {
+            setVoucherMsg('Voucher đã hết hạn');
+            return;
+        }
+
+        setSelectedVoucher(voucher);
+        setVoucherDiscount(voucher.discount_amount);
+        setVoucherMsg(`Áp dụng voucher giảm ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(voucher.discount_amount)}`);
+        setShowVoucherList(false);
+    };
+
+    const handleRemoveVoucher = () => {
+        setSelectedVoucher(null);
+        setVoucherDiscount(0);
+        setVoucherMsg('');
+    };
+
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [formData, setFormData] = useState({
@@ -76,6 +102,13 @@ const Checkout = () => {
 
     const [availablePoints, setAvailablePoints] = useState(0);
     const [usePoints, setUsePoints] = useState(false);
+
+    // --- VOUCHER STATE ---
+    const [userVouchers, setUserVouchers] = useState([]);
+    const [selectedVoucher, setSelectedVoucher] = useState(null);
+    const [voucherDiscount, setVoucherDiscount] = useState(0);
+    const [voucherMsg, setVoucherMsg] = useState('');
+    const [showVoucherList, setShowVoucherList] = useState(false);
 
     useEffect(() => {
         if (user) {
@@ -91,6 +124,22 @@ const Checkout = () => {
                 if (data) setAvailablePoints(data.points);
             };
             fetchPoints();
+
+            // Fetch user vouchers
+            const fetchVouchers = async () => {
+                const { data, error } = await supabase
+                    .from('user_vouchers')
+                    .select('*')
+                    .eq('user_id', user.id)
+                    .eq('status', 'active')
+                    .gte('expires_at', new Date().toISOString())
+                    .order('discount_amount', { ascending: false });
+
+                if (data && !error) {
+                    setUserVouchers(data);
+                }
+            };
+            fetchVouchers();
         }
     }, [user]);
 
@@ -101,14 +150,14 @@ const Checkout = () => {
     // Logic: Dùng toàn bộ xu, nhưng không vượt quá số tiền phải thanh toán
     let pointDiscount = 0;
     if (usePoints && availablePoints > 0) {
-        const amountToCover = subTotal + shippingFee - discount; // Số tiền còn lại sau coupon
+        const amountToCover = subTotal + shippingFee - discount - voucherDiscount; // Trừ cả voucher
         const maxPointValue = availablePoints * 1000;
 
         pointDiscount = Math.min(maxPointValue, amountToCover);
         if (pointDiscount < 0) pointDiscount = 0;
     }
 
-    const totalAmount = subTotal + shippingFee - discount - pointDiscount;
+    const totalAmount = subTotal + shippingFee - discount - voucherDiscount - pointDiscount;
     const finalTotal = totalAmount > 0 ? totalAmount : 0;
 
     const handleInputChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -153,6 +202,9 @@ const Checkout = () => {
                 sub_total: subTotal,
                 shipping_fee: shippingFee,
                 discount: discount,
+                voucher_discount: voucherDiscount,
+                voucher_code: selectedVoucher?.code || null,
+                point_discount: pointDiscount,
                 total_amount: finalTotal,
                 payment_method: paymentMethod,
                 status: 'pending'
@@ -194,6 +246,20 @@ const Checkout = () => {
                     }
                 }
                 // -----------------------------------
+
+                // --- MARK VOUCHER AS USED ---
+                if (selectedVoucher && user) {
+                    try {
+                        await supabase
+                            .from('user_vouchers')
+                            .update({ status: 'used', used_at: new Date().toISOString() })
+                            .eq('id', selectedVoucher.id)
+                            .eq('user_id', user.id);
+                    } catch (err) {
+                        console.error("Lỗi cập nhật voucher:", err);
+                    }
+                }
+                // ----------------------------
 
                 // --- TÍCH ĐIỂM THÀNH VIÊN (NEW) ---
                 if (user) {
@@ -349,8 +415,129 @@ const Checkout = () => {
                         </button>
                     </div>
                     {couponMsg && <div style={{ fontSize: '0.85rem', marginTop: '8px', color: discount > 0 ? 'green' : 'red' }}>{couponMsg}</div>}
-                    {couponMsg && <div style={{ fontSize: '0.85rem', marginTop: '8px', color: discount > 0 ? 'green' : 'red' }}>{couponMsg}</div>}
                 </div>
+
+                {/* Voucher from Games Section */}
+                {user && userVouchers.length > 0 && (
+                    <div className="form-group" style={{ marginBottom: '15px', padding: '15px', background: '#fff3cd', borderRadius: '6px', border: '1px solid #ffc107' }}>
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '5px', fontWeight: 'bold', color: '#856404' }}>
+                            <Ticket size={16} /> Voucher từ trò chơi ({userVouchers.length})
+                        </label>
+
+                        {selectedVoucher ? (
+                            <div style={{ marginTop: '10px' }}>
+                                <div style={{
+                                    padding: '12px',
+                                    background: 'white',
+                                    borderRadius: '6px',
+                                    border: '2px solid #28a745',
+                                    position: 'relative'
+                                }}>
+                                    <div style={{ fontWeight: 'bold', fontSize: '0.95rem', marginBottom: '5px' }}>
+                                        {selectedVoucher.code}
+                                    </div>
+                                    <div style={{ fontSize: '0.85rem', color: '#666' }}>
+                                        Giảm: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(selectedVoucher.discount_amount)}
+                                    </div>
+                                    {selectedVoucher.min_order_value > 0 && (
+                                        <div style={{ fontSize: '0.8rem', color: '#999', marginTop: '3px' }}>
+                                            Đơn tối thiểu: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(selectedVoucher.min_order_value)}
+                                        </div>
+                                    )}
+                                    <button
+                                        type="button"
+                                        onClick={handleRemoveVoucher}
+                                        style={{
+                                            position: 'absolute',
+                                            top: '8px',
+                                            right: '8px',
+                                            background: '#dc3545',
+                                            color: 'white',
+                                            border: 'none',
+                                            borderRadius: '4px',
+                                            padding: '4px 8px',
+                                            fontSize: '0.75rem',
+                                            cursor: 'pointer'
+                                        }}
+                                    >
+                                        Bỏ chọn
+                                    </button>
+                                </div>
+                                {voucherMsg && <div style={{ fontSize: '0.85rem', marginTop: '8px', color: 'green' }}>{voucherMsg}</div>}
+                            </div>
+                        ) : (
+                            <>
+                                <button
+                                    type="button"
+                                    onClick={() => setShowVoucherList(!showVoucherList)}
+                                    style={{
+                                        marginTop: '10px',
+                                        width: '100%',
+                                        padding: '10px',
+                                        background: '#ffc107',
+                                        color: '#000',
+                                        border: 'none',
+                                        borderRadius: '4px',
+                                        fontWeight: 'bold',
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    {showVoucherList ? 'Ẩn danh sách' : 'Chọn voucher'}
+                                </button>
+
+                                {showVoucherList && (
+                                    <div style={{ marginTop: '10px', maxHeight: '200px', overflowY: 'auto' }}>
+                                        {userVouchers.map((voucher) => {
+                                            const isExpired = new Date(voucher.expires_at) < new Date();
+                                            const meetsMinOrder = !voucher.min_order_value || subTotal >= voucher.min_order_value;
+                                            const canUse = !isExpired && meetsMinOrder;
+
+                                            return (
+                                                <div
+                                                    key={voucher.id}
+                                                    onClick={() => canUse && handleSelectVoucher(voucher)}
+                                                    style={{
+                                                        padding: '10px',
+                                                        background: canUse ? 'white' : '#f0f0f0',
+                                                        borderRadius: '6px',
+                                                        marginBottom: '8px',
+                                                        cursor: canUse ? 'pointer' : 'not-allowed',
+                                                        border: canUse ? '1px solid #ddd' : '1px solid #ccc',
+                                                        opacity: canUse ? 1 : 0.6,
+                                                        transition: 'all 0.2s'
+                                                    }}
+                                                    onMouseEnter={(e) => canUse && (e.currentTarget.style.borderColor = '#ffc107')}
+                                                    onMouseLeave={(e) => canUse && (e.currentTarget.style.borderColor = '#ddd')}
+                                                >
+                                                    <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>
+                                                        {voucher.code}
+                                                    </div>
+                                                    <div style={{ fontSize: '0.85rem', color: '#28a745', fontWeight: 'bold' }}>
+                                                        Giảm {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(voucher.discount_amount)}
+                                                    </div>
+                                                    {voucher.min_order_value > 0 && (
+                                                        <div style={{ fontSize: '0.75rem', color: meetsMinOrder ? '#666' : '#dc3545', marginTop: '3px' }}>
+                                                            Đơn tối thiểu: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(voucher.min_order_value)}
+                                                        </div>
+                                                    )}
+                                                    <div style={{ fontSize: '0.75rem', color: '#999', marginTop: '3px' }}>
+                                                        HSD: {new Date(voucher.expires_at).toLocaleDateString('vi-VN')}
+                                                    </div>
+                                                    {!canUse && (
+                                                        <div style={{ fontSize: '0.75rem', color: '#dc3545', marginTop: '5px', fontWeight: 'bold' }}>
+                                                            {isExpired ? '❌ Đã hết hạn' : '❌ Chưa đủ điều kiện'}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                                {voucherMsg && !selectedVoucher && <div style={{ fontSize: '0.85rem', marginTop: '8px', color: 'red' }}>{voucherMsg}</div>}
+                            </>
+                        )}
+                    </div>
+                )}
 
                 {/* Point Redemption UI */}
                 {user && (
@@ -395,6 +582,12 @@ const Checkout = () => {
                     <div className="summary-row" style={{ color: 'green' }}>
                         <span>Giảm giá (Coupon)</span>
                         <span>-{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(discount)}</span>
+                    </div>
+                )}
+                {voucherDiscount > 0 && (
+                    <div className="summary-row" style={{ color: '#ff9800', fontWeight: 'bold' }}>
+                        <span>Giảm giá (Voucher Game)</span>
+                        <span>-{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(voucherDiscount)}</span>
                     </div>
                 )}
                 {pointDiscount > 0 && (
