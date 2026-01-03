@@ -12,9 +12,7 @@ const ProductCard = ({ product }) => {
                 <img src={product.image} alt={product.name} className="product-image" />
 
                 {/* 12.12 Overlay if needed - user sample had it */}
-                <div className="overlay-frame">
-                    <img src="//abc-mart.com.vn/cdn/shop/files/Frame_12.12_e1130ee7-7228-4486-b037-c8d76cced9b3.png?v=1765419611" alt="frame" className="frame-img" />
-                </div>
+
 
                 <div className="badge-container">
                     {product.badges && product.badges.map((b, i) => (
