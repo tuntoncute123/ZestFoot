@@ -17,6 +17,7 @@ import OrderHistory from './components/Order/OrderHistory';
 import OrderDetail from './components/Order/OrderDetail';
 import Profile from './components/Profile/Profile';
 import Addresses from './components/Profile/Addresses';
+import ChangePassword from './components/Profile/ChangePassword';
 
 import BlogPage from './components/Blog/BlogPage';
 import ArticleDetail from './components/Blog/ArticleDetail';
@@ -52,6 +53,7 @@ function App() {
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/addresses" element={<Addresses />} />
+              <Route path="/change-password" element={<ChangePassword />} />
 
               <Route path="/Home/thuong-hieu" element={<div style={{ padding: '50px', textAlign: 'center' }}><h2>Danh sách Thương Hiệu</h2></div>} />
               <Route path="/collections/:slug" element={<CollectionPage />} />
