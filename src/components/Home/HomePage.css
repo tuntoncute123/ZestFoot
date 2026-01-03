@@ -56,16 +56,23 @@
     background-color: #f9f9f9;
 }
 
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
 .section-title {
-    font-family: 'Oswald', sans-serif;
-    font-size: 2.5rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 2rem;
+    font-family: 'Oswald', sans-serif !important;
+    font-size: 2rem !important;
+    font-weight: 600 !important;
+    text-align: left !important;
+    margin-bottom: 0 !important;
     position: relative;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    line-height: 1;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    line-height: 1 !important;
 }
 
 .section-title::after {
@@ -74,7 +81,7 @@
     width: 60px;
     height: 3px;
     background-color: #333;
-    margin: 0.5rem auto 0;
+    margin: 0.5rem 0 0;
 }
 
 .section-title.text-red {
