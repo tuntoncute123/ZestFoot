@@ -17,6 +17,7 @@ import OrderHistory from './components/Order/OrderHistory';
 import OrderDetail from './components/Order/OrderDetail';
 import Profile from './components/Profile/Profile';
 import Addresses from './components/Profile/Addresses';
+import ChangePassword from './components/Profile/ChangePassword';
 
 import BlogPage from './components/Blog/BlogPage';
 import ArticleDetail from './components/Blog/ArticleDetail';
@@ -28,6 +29,10 @@ import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import ChatBot from './components/ChatBot/ChatBot';
 import Membership from './components/Membership/Membership';
 import RewardHub from './components/Rewards/RewardHub';
+import LuckyWheel from './components/Rewards/LuckyWheel';
+import SnakeGame from './components/Rewards/SnakeGame';
+import ShoeMatchGame from './components/Rewards/ShoeMatchGame';
+import TetrisGame from './components/Rewards/TetrisGame';
 
 function App() {
   useEffect(() => {
@@ -52,6 +57,7 @@ function App() {
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/addresses" element={<Addresses />} />
+              <Route path="/change-password" element={<ChangePassword />} />
 
               <Route path="/Home/thuong-hieu" element={<div style={{ padding: '50px', textAlign: 'center' }}><h2>Danh sách Thương Hiệu</h2></div>} />
               <Route path="/collections/:slug" element={<CollectionPage />} />
@@ -60,6 +66,10 @@ function App() {
               <Route path="/blogs/news/:id" element={<ArticleDetail />} />
               <Route path="/Home/he-thong-cua-hang-abc-mart" element={<div style={{ padding: '50px', textAlign: 'center' }}><h2>Hệ thống cửa hàng</h2></div>} />
               <Route path="/rewards" element={<RewardHub />} />
+              <Route path="/rewards/lucky-wheel" element={<LuckyWheel onClose={() => window.history.back()} />} />
+              <Route path="/rewards/snake" element={<SnakeGame onClose={() => window.history.back()} />} />
+              <Route path="/rewards/shoe-match" element={<ShoeMatchGame onClose={() => window.history.back()} />} />
+              <Route path="/rewards/tetris" element={<TetrisGame onClose={() => window.history.back()} />} />
               <Route path="/favorites" element={<Favorites />} />
 
 

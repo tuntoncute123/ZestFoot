@@ -3,6 +3,7 @@ import './LuckyWheel.css';
 import { supabase } from '../../services/supabaseClient';
 import { useAuth } from '../../context/AuthContext';
 import { X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const PRIZES = [
     { id: 1, name: "Voucher 500k", weight: 0.1, color: '#FF5252', value: 'VOUCHER_500' },
@@ -15,6 +16,7 @@ const PRIZES = [
 
 const LuckyWheel = ({ onClose, onSpinComplete }) => {
     const { user } = useAuth();
+    const navigate = useNavigate();
     const [spinning, setSpinning] = useState(false);
     const [rotation, setRotation] = useState(0);
     const [canSpin, setCanSpin] = useState(false);
@@ -135,7 +137,7 @@ const LuckyWheel = ({ onClose, onSpinComplete }) => {
     return (
         <div className="lucky-wheel-overlay">
             <div className="lucky-wheel-container">
-                <button className="close-btn-wheel" onClick={onClose}><X /></button>
+                <button className="close-btn-wheel" onClick={() => navigate('/rewards')}><X /></button>
                 <h3>VÒNG QUAY MAY MẮN</h3>
                 <p>{message}</p>
 

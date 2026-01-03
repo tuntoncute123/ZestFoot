@@ -5,6 +5,7 @@ import './GameOverlay.css';
 import { X, HelpCircle, Timer, Trophy } from 'lucide-react';
 import { supabase } from '../../services/supabaseClient';
 import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const GRID_ROWS = 5;
 const GRID_COLS = 8;
@@ -12,6 +13,7 @@ const GAME_TIME = 60; // seconds
 
 const ShoeMatchGame = ({ onClose }) => {
     const { user } = useAuth();
+    const navigate = useNavigate();
     const [grid, setGrid] = useState([]);
     const [selectedTile, setSelectedTile] = useState(null);
     const [score, setScore] = useState(0);
@@ -297,7 +299,7 @@ const ShoeMatchGame = ({ onClose }) => {
                                 <HelpCircle size={18} />
                             </button>
                         </div>
-                        <button className="close-btn" onClick={onClose}><X /></button>
+                        <button className="close-btn" onClick={() => navigate('/rewards')}><X /></button>
                     </div>
                 </div>
 
@@ -343,7 +345,7 @@ const ShoeMatchGame = ({ onClose }) => {
                             <div style={{ color: '#ccc', marginBottom: '15px' }}>Rất tiếc! Bạn chưa hoàn thành thử thách.</div>
                         )}
 
-                        <button className="play-again-btn" onClick={onClose}>Đóng</button>
+                        <button className="play-again-btn" onClick={() => navigate('/rewards')}>Đóng</button>
                     </div>
                 )}
 
