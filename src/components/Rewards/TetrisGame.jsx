@@ -4,6 +4,7 @@ import './GameOverlay.css'; // Reusing common overlay styles
 import { X, HelpCircle, Trophy } from 'lucide-react';
 import { supabase } from '../../services/supabaseClient';
 import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const ROWS = 20;
 const COLS = 10;
@@ -28,6 +29,7 @@ const RANDOM_TETROMINO = () => {
 
 const TetrisGame = ({ onClose }) => {
     const { user } = useAuth();
+    const navigate = useNavigate();
 
     // Game State
     const [board, setBoard] = useState(Array.from({ length: ROWS }, () => Array(COLS).fill(0)));
@@ -365,7 +367,7 @@ const TetrisGame = ({ onClose }) => {
                                 <HelpCircle size={18} />
                             </button>
                         </div>
-                        <button className="close-btn" onClick={onClose}><X /></button>
+                        <button className="close-btn" onClick={() => navigate('/rewards')}><X /></button>
                     </div>
                 </div>
 
@@ -400,7 +402,7 @@ const TetrisGame = ({ onClose }) => {
                         {rewardMessage && (
                             <div className="voucher-reward">{rewardMessage}</div>
                         )}
-                        <button className="play-again-btn" onClick={onClose}>Đóng</button>
+                        <button className="play-again-btn" onClick={() => navigate('/rewards')}>Đóng</button>
                     </div>
                 )}
 

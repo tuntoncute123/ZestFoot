@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './RewardHub.css';
 import DailyCheckIn from './DailyCheckIn';
-import LuckyWheel from './LuckyWheel';
-import SnakeGame from './SnakeGame';
-import ShoeMatchGame from './ShoeMatchGame';
-import TetrisGame from './TetrisGame';
 import { Gamepad2, User } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../services/supabaseClient';
@@ -12,10 +9,7 @@ import { supabase } from '../../services/supabaseClient';
 const RewardHub = () => {
     const { user } = useAuth();
     const [points, setPoints] = useState(0);
-    const [showLuckyWheel, setShowLuckyWheel] = useState(false);
-    const [showSnakeGame, setShowSnakeGame] = useState(false);
-    const [showShoeMatchGame, setShowShoeMatchGame] = useState(false);
-    const [showTetrisGame, setShowTetrisGame] = useState(false);
+    const navigate = useNavigate();
 
     // Fetch real points if user exists (Quick inline effect)
     React.useEffect(() => {
@@ -31,17 +25,17 @@ const RewardHub = () => {
         fetchPoints();
         window.addEventListener('pointsUpdated', fetchPoints);
         return () => window.removeEventListener('pointsUpdated', fetchPoints);
-    }, [user, showLuckyWheel, showSnakeGame, showShoeMatchGame]);
+    }, [user]);
 
     const handlePlayGame = (gameName) => {
         if (gameName === "Vòng Quay") {
-            setShowLuckyWheel(true);
+            navigate('/rewards/lucky-wheel');
         } else if (gameName === "Rắn Săn Mồi") {
-            setShowSnakeGame(true);
+            navigate('/rewards/snake');
         } else if (gameName === "Ghép Giày") {
-            setShowShoeMatchGame(true);
+            navigate('/rewards/shoe-match');
         } else if (gameName === "Xếp Gạch") {
-            setShowTetrisGame(true);
+            navigate('/rewards/tetris');
         } else {
             alert(`Tính năng ${gameName} đang được phát triển!`);
         }
@@ -122,10 +116,6 @@ const RewardHub = () => {
                 </div>
             </div>
 
-            {showLuckyWheel && <LuckyWheel onClose={() => setShowLuckyWheel(false)} onSpinComplete={() => setShowLuckyWheel(false)} />}
-            {showSnakeGame && <SnakeGame onClose={() => setShowSnakeGame(false)} />}
-            {showShoeMatchGame && <ShoeMatchGame onClose={() => setShowShoeMatchGame(false)} />}
-            {showTetrisGame && <TetrisGame onClose={() => setShowTetrisGame(false)} />}
         </div>
     );
 };

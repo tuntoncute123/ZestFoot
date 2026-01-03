@@ -29,6 +29,10 @@ import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import ChatBot from './components/ChatBot/ChatBot';
 import Membership from './components/Membership/Membership';
 import RewardHub from './components/Rewards/RewardHub';
+import LuckyWheel from './components/Rewards/LuckyWheel';
+import SnakeGame from './components/Rewards/SnakeGame';
+import ShoeMatchGame from './components/Rewards/ShoeMatchGame';
+import TetrisGame from './components/Rewards/TetrisGame';
 
 function App() {
   useEffect(() => {
@@ -62,6 +66,10 @@ function App() {
               <Route path="/blogs/news/:id" element={<ArticleDetail />} />
               <Route path="/Home/he-thong-cua-hang-abc-mart" element={<div style={{ padding: '50px', textAlign: 'center' }}><h2>Hệ thống cửa hàng</h2></div>} />
               <Route path="/rewards" element={<RewardHub />} />
+              <Route path="/rewards/lucky-wheel" element={<LuckyWheel onClose={() => window.history.back()} />} />
+              <Route path="/rewards/snake" element={<SnakeGame onClose={() => window.history.back()} />} />
+              <Route path="/rewards/shoe-match" element={<ShoeMatchGame onClose={() => window.history.back()} />} />
+              <Route path="/rewards/tetris" element={<TetrisGame onClose={() => window.history.back()} />} />
               <Route path="/favorites" element={<Favorites />} />
 
 
