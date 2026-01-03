@@ -22,6 +22,17 @@ const BlogPage = () => {
 
     return (
         <div className="main-blog section-container">
+            {/* Breadcrumb */}
+            <nav className="breadcrumb" aria-label="breadcrumbs">
+                <Link to="/" title="Trang chủ">Trang chủ</Link>
+                <span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.5 7L14.5 12L9.5 17" stroke="black" strokeLinecap="round" strokeLinejoin="round"></path>
+                    </svg>
+                </span>
+                <span className="current-page">Bài viết</span>
+            </nav>
+
             <div className="section-head-top">
                 <h1 className="section-head">Bài viết</h1>
             </div>

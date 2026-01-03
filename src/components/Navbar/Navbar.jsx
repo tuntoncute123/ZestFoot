@@ -194,7 +194,11 @@ const Navbar = () => {
         ],
       }
     },
-    { name: t('sale'), path: "/collections/sale-item", className: "text-red" },
+    {
+      name: "+ SALE +",
+      path: "/collections/sale",
+      className: "text-red"
+    },
     { name: t('blogs'), path: "/blogs/news" },
     { name: "SĂN XU", path: "/rewards", className: "text-green" },
   ], [t]);
@@ -386,8 +390,8 @@ const Navbar = () => {
                         Thông tin tài khoản
                       </Link>
                       <Link
-                          to="/favorites"
-                          className="user-dropdown-item"
+                        to="/favorites"
+                        className="user-dropdown-item"
                       >
                         Sản phẩm yêu thích
                       </Link>

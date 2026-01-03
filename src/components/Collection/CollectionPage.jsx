@@ -118,6 +118,25 @@ const CollectionPage = () => {
         return 0;
     });
 
+    // Pagination Logic
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 16; // 4 rows x 4 cols
+
+    // Reset to page 1 when filters/sort/slug change
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [slug, selectedFilters, sortOption]);
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentProducts = processedProducts.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(processedProducts.length / itemsPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     if (loading) {
         return <div className="loading-screen"><div className="spinner"></div></div>;
     }
@@ -160,14 +179,61 @@ const CollectionPage = () => {
                     </div>
 
                     <div className="collection-products-grid">
-                        {processedProducts.length > 0 ? (
-                            processedProducts.map(product => (
+                        {currentProducts.length > 0 ? (
+                            currentProducts.map(product => (
                                 <ProductCard key={product.id} product={product} />
                             ))
                         ) : (
                             <p>Không tìm thấy sản phẩm nào trong danh mục này.</p>
                         )}
                     </div>
+
+                    {/* Pagination */}
+                    {totalPages > 1 && (
+                        <div className="pagination">
+                            <button
+                                className={`pagination-btn ${currentPage === 1 ? 'disabled' : ''}`}
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                            >
+                                &laquo;
+                            </button>
+
+                            {[...Array(totalPages)].map((_, index) => {
+                                const page = index + 1;
+                                // Show first, last, current, and adjacent pages
+                                if (
+                                    page === 1 ||
+                                    page === totalPages ||
+                                    (page >= currentPage - 1 && page <= currentPage + 1)
+                                ) {
+                                    return (
+                                        <button
+                                            key={page}
+                                            className={`pagination-btn ${currentPage === page ? 'active' : ''}`}
+                                            onClick={() => handlePageChange(page)}
+                                        >
+                                            {page}
+                                        </button>
+                                    );
+                                } else if (
+                                    (page === currentPage - 2 && currentPage > 3) ||
+                                    (page === currentPage + 2 && currentPage < totalPages - 2)
+                                ) {
+                                    return <span key={page} className="pagination-ellipsis">...</span>;
+                                }
+                                return null;
+                            })}
+
+                            <button
+                                className={`pagination-btn ${currentPage === totalPages ? 'disabled' : ''}`}
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                            >
+                                &raquo;
+                            </button>
+                        </div>
+                    )}
                 </main>
             </div>
         </div>

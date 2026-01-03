@@ -93,7 +93,7 @@ const HomePage = () => {
 
                 {/* Trending Section - NEW */}
                 <div data-aos="zoom-in">
-                    <TrendSection trendingProducts={trendingProducts} />
+                    <TrendSection trendingProducts={trendingProducts.slice(0, 10)} />
                 </div>
 
                 {/* Scrolling Promotion Section (Green) */}

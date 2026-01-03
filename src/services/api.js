@@ -178,6 +178,9 @@ export const getProductsByCollection = async (slug) => {
                 return allProducts.filter(p => p.category === 'shoes' && (p.name.toLowerCase().includes('running') || p.name.toLowerCase().includes('chạy')));
             case 'cham-soc-giay':
                 return allProducts.filter(p => p.category === 'care');
+            case 'sale':
+                // Return items that have isSale = true OR have a salePrice
+                return allProducts.filter(p => p.isSale || (p.salePrice && p.salePrice < p.price));
             case 'doc-quyen':
                 // Use simple check for now
                 return allProducts.filter(p => p.isAsicsExclusive || (p.badges && JSON.stringify(p.badges).includes('EXCLUSIVE')));

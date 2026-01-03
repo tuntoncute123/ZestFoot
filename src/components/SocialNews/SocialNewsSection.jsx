@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './SocialNewsSection.css';
 import { Facebook, Instagram, ChevronDown, ChevronUp } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
@@ -163,7 +164,7 @@ const SocialNewsSection = () => {
                 <div className="right-column">
                     <div className="flex-header">
                         <h2 className="block-title">{t('news')}</h2>
-                        <a href="/news" className="view-more-link">{t('view_all')}</a>
+                        <Link to="/blogs/news" className="view-more-link">{t('view_all')}</Link>
                     </div>
                     <div className="news-list">
                         {news.map((item) => (
@@ -174,7 +175,7 @@ const SocialNewsSection = () => {
                                 <div className="news-content">
                                     <h3 className="news-title">{item.title}</h3>
                                     <p className="news-excerpt">{item.date}</p>
-                                    <a href={`/news/${item.id}`} className="news-more">Xem thêm</a>
+                                    <Link to={`/blogs/news/${item.id}`} className="news-more">Xem thêm</Link>
                                 </div>
                             </div>
                         ))}
