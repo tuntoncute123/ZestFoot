@@ -4,6 +4,7 @@ import './GameOverlay.css';
 import { X, HelpCircle } from 'lucide-react';
 import { supabase } from '../../services/supabaseClient';
 import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const WIDTH = 20;
 const HEIGHT = 20;
@@ -23,6 +24,7 @@ const VOUCHER_TIERS = [
 
 const SnakeGame = ({ onClose }) => {
     const { user } = useAuth();
+    const navigate = useNavigate();
     const [snake, setSnake] = useState([{ x: 10, y: 10 }]);
     const [food, setFood] = useState({ x: 15, y: 15 });
     const [walls, setWalls] = useState([]);
@@ -420,7 +422,7 @@ const SnakeGame = ({ onClose }) => {
                             <button className="help-btn" onClick={() => setShowHelp(true)}>
                                 <HelpCircle size={18} />
                             </button>
-                            <button className="close-btn" onClick={onClose}><X /></button>
+                            <button className="close-btn" onClick={() => navigate('/rewards')}><X /></button>
                         </div>
                     </div>
                 </div>
