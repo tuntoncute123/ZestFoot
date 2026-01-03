@@ -3,23 +3,7 @@
     padding-bottom: 2rem;
 }
 
-.section-head-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding: 0 1rem;
-}
 
-.custom-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-family: 'Oswald', sans-serif;
-    line-height: 1;
-}
 
 .collection__view-all .link {
     font-size: 1.1rem;
@@ -52,5 +36,6 @@
 
 .grid__item {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    height: 100%;
 }

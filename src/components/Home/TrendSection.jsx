@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom';
 import ProductCard from '../ProductCard/ProductCard';
 import './TrendSection.css';
 
-const TrendSection = ({ trendingProducts }) => {
+const TrendSection = ({ trendingProducts, title, viewAllLink, titleClassName, gridClassName }) => {
     return (
         <section className="section-container trend-section">
-            <div className="section-head-top">
-                <h2 className="section-title custom-title">
-                    XU HƯỚNG TUẦN NÀY
+            <div className="section-header">
+                <h2 className={`section-title ${titleClassName || ''}`}>
+                    {title || "XU HƯỚNG TUẦN NÀY"}
                 </h2>
                 <div className="collection__view-all">
-                    <Link to="/collections/puma" className="link underlined-link" aria-label="Xem toàn bộ sản phẩm trong bộ sưu tập PUMA">
+                    <Link to={viewAllLink || "/collections/puma"} className="link underlined-link" aria-label="Xem toàn bộ">
                         <span>Xem thêm</span>
                     </Link>
                 </div>
@@ -20,7 +20,7 @@ const TrendSection = ({ trendingProducts }) => {
             <div className="product-grid-container">
                 <div className="collection">
                     <div className="loading-overlay gradient"></div>
-                    <ul className="product-grid grid--5-col-desktop">
+                    <ul className={`product-grid ${gridClassName || 'grid--5-col-desktop'}`}>
                         {trendingProducts.map((product) => (
                             <li className="grid__item" key={product.id}>
                                 <ProductCard product={product} />

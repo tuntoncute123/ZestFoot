@@ -64,7 +64,9 @@ const HomePage = () => {
             <main>
                 {/* Brand Section */}
                 <section className="section-container" data-aos="fade-up">
-                    <h2 className="section-title">{t('featured_brands')}</h2>
+                    <div className="section-header">
+                        <h2 className="section-title">{t('featured_brands')}</h2>
+                    </div>
                     <div className="brand-grid">
                         {brands.map((brand) => (
                             <div key={brand.name} className="brand-card">
@@ -99,28 +101,32 @@ const HomePage = () => {
                     <ScrollingPromotion />
                 </div>
 
-                {/* New Arrivals */}
-                <section className="section-container bg-light" data-aos="fade-up">
-                    <h2 className="section-title">{t('new_products')}</h2>
-                    <div className="product-grid">
-                        {newArrivals.map((prod) => (
-                            <ProductCard key={prod.id} product={prod} />
-                        ))}
-                    </div>
-                    <div className="text-center mt-4">
-                        <button className="btn btn-outline">{t('view_all')}</button>
-                    </div>
-                </section>
+                {/* New Arrivals - Reusing TrendSection Component */}
+                <div data-aos="fade-up">
+                    <TrendSection
+                        trendingProducts={newArrivals}
+                        title={t('new_products')}
+                        viewAllLink="/collections/new-arrivals"
+                    />
+                </div>
 
                 {/* Sale Section */}
-                <section className="section-container" data-aos="fade-up">
-                    <h2 className="section-title text-red">{t('sale_products')}</h2>
-                    <div className="product-grid">
-                        {saleProducts.map((prod) => (
-                            <ProductCard key={prod.id} product={prod} />
-                        ))}
-                    </div>
-                </section>
+                {/* Sale Section - Sorted by Discount */}
+                <div data-aos="fade-up">
+                    <TrendSection
+                        trendingProducts={saleProducts
+                            .sort((a, b) => {
+                                const da = a.salePrice ? ((a.price - a.salePrice) / a.price) : 0;
+                                const db = b.salePrice ? ((b.price - b.salePrice) / b.price) : 0;
+                                return db - da;
+                            })
+                            .slice(0, 12)
+                        }
+                        title={t('sale_products')}
+                        viewAllLink="/collections/sale"
+                        titleClassName="text-red"
+                    />
+                </div>
 
                 {/* Social & News Section */}
                 <div data-aos="fade-left">
