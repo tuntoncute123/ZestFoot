@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
-import { User, Lock, Edit2, ClipboardList, Bell, LogOut } from 'lucide-react';
+import { User, Lock, Edit2, ClipboardList, Bell, LogOut, ChevronDown } from 'lucide-react';
 import './Profile.css';
 
 const Profile = () => {
@@ -10,6 +10,13 @@ const Profile = () => {
 
     // Default Avatar
     const defaultAvatar = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+
+    // Toggle State for My Account Menu
+    const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(true);
+
+    const toggleAccountMenu = () => {
+        setIsAccountMenuOpen(!isAccountMenuOpen);
+    };
 
     // Initial state setup
     const [profileData, setProfileData] = useState({
@@ -101,15 +108,32 @@ const Profile = () => {
 
                     <nav className="sidebar-nav">
                         <div className="nav-group">
-                            <div className="nav-item active-highlight">
-                                <span className="nav-icon"><User size={20} /></span>
-                                <span className="nav-label">Tài Khoản Của Tôi</span>
+                            <div
+                                className="nav-item active-highlight"
+                                onClick={toggleAccountMenu}
+                                style={{ cursor: 'pointer', justifyContent: 'space-between' }}
+                            >
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                    <span className="nav-icon"><User size={20} /></span>
+                                    <span className="nav-label">Tài Khoản Của Tôi</span>
+                                </div>
+                                <ChevronDown
+                                    size={16}
+                                    style={{
+                                        transform: isAccountMenuOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                                        transition: 'transform 0.2s',
+                                        color: '#888'
+                                    }}
+                                />
                             </div>
-                            <div className="sub-nav">
-                                <Link to="/profile" className="sub-nav-item active">Hồ Sơ</Link>
-                                <Link to="/addresses" className="sub-nav-item">Địa Chỉ</Link>
-                                <Link to="/change-password" className="sub-nav-item">Đổi Mật Khẩu</Link>
-                            </div>
+
+                            {isAccountMenuOpen && (
+                                <div className="sub-nav">
+                                    <Link to="/profile" className="sub-nav-item active">Hồ Sơ</Link>
+                                    <Link to="/addresses" className="sub-nav-item">Địa Chỉ</Link>
+                                    <Link to="/change-password" className="sub-nav-item">Đổi Mật Khẩu</Link>
+                                </div>
+                            )}
                         </div>
 
                         <Link to="/orders" className="nav-item">
