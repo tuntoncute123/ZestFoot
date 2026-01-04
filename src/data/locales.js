@@ -16,6 +16,53 @@ export const translations = {
         "free_ship": "Miễn phí ship cho đơn hàng từ 10 triệu",
         "member_voucher": "Trở thành hội viên nhận ngay voucher 200K",
 
+        // Common
+        "home": "Trang chủ",
+        "products": "SẢN PHẨM",
+        "product_suffix": "sản phẩm",
+        "all_products": "Tất cả sản phẩm",
+        "no_products_found": "Không tìm thấy sản phẩm nào trong danh mục này.",
+        "menu": "Menu",
+
+        // Sort
+        "sort_default": "Tùy chọn",
+        "sort_price_asc": "Giá: Tăng dần",
+        "sort_price_desc": "Giá: Giảm dần",
+        "sort_name_asc": "Tên: A-Z",
+        "sort_name_desc": "Tên: Z-A",
+
+        // TrendSection
+        "trending_week": "XU HƯỚNG TUẦN NÀY",
+
+        // User Menu
+        "hello": "Xin chào",
+        "account_info": "Thông tin tài khoản",
+        "favorites": "Sản phẩm yêu thích",
+        "my_orders": "Đơn hàng của tôi",
+        "logout": "Đăng xuất",
+        "track_order_msg": "Theo dõi đơn hàng và thanh toán dễ dàng hơn",
+        "hunt_coin": "SĂN XU",
+
+        // Mega Menu
+        "women_shoes": "GIÀY NỮ",
+        "men_shoes": "GIÀY NAM",
+        "apparel": "PHỤ TRANG",
+        "accessories_nav": "PHỤ KIỆN",
+        "shoe_care": "CHĂM SÓC GIÀY",
+        "collection": "BỘ SƯU TẬP",
+        "ranking": "XẾP HẠNG",
+        "sport_shoes": "GIÀY THỂ THAO",
+        "sandals": "GIÀY XĂNG ĐAN",
+        "slippers": "DÉP",
+        "leather_shoes": "GIÀY DA",
+        "tops": "ÁO",
+        "bottoms": "QUẦN",
+        "others": "KHÁC",
+        "bags": "TÚI",
+        "hats": "NÓN",
+        "socks": "VỚ",
+        "shoelaces": "DÂY GIÀY",
+
         // HomePage Sections
         "featured_brands": "THƯƠNG HIỆU NỔI BẬT",
         "new_products": "HÀNG MỚI VỀ",
@@ -55,6 +102,53 @@ export const translations = {
         "authentic": "100% Authentic",
         "free_ship": "Free shipping for orders over 10 million",
         "member_voucher": "Become a member and get a 200K voucher",
+
+        // Common
+        "home": "Home",
+        "products": "PRODUCTS",
+        "product_suffix": "products",
+        "all_products": "All Products",
+        "no_products_found": "No products found in this category.",
+        "menu": "Menu",
+
+        // Sort
+        "sort_default": "Default",
+        "sort_price_asc": "Price: Low to High",
+        "sort_price_desc": "Price: High to Low",
+        "sort_name_asc": "Name: A-Z",
+        "sort_name_desc": "Name: Z-A",
+
+        // TrendSection
+        "trending_week": "TRENDING THIS WEEK",
+
+        // User Menu
+        "hello": "Hello",
+        "account_info": "Account Information",
+        "favorites": "Favorites",
+        "my_orders": "My Orders",
+        "logout": "Logout",
+        "track_order_msg": "Track orders and checkout easier",
+        "hunt_coin": "HUNT COINS",
+
+        // Mega Menu
+        "women_shoes": "WOMEN'S SHOES",
+        "men_shoes": "MEN'S SHOES",
+        "apparel": "APPAREL",
+        "accessories_nav": "ACCESSORIES",
+        "shoe_care": "SHOE CARE",
+        "collection": "COLLECTION",
+        "ranking": "RANKING",
+        "sport_shoes": "SNEAKERS",
+        "sandals": "SANDALS",
+        "slippers": "SLIPPERS/SLIDES",
+        "leather_shoes": "LEATHER/FORMAL",
+        "tops": "TOPS",
+        "bottoms": "BOTTOMS",
+        "others": "OTHERS",
+        "bags": "BAGS",
+        "hats": "HATS",
+        "socks": "SOCKS",
+        "shoelaces": "SHOELACES",
 
         // HomePage Sections
         "featured_brands": "FEATURED BRANDS",

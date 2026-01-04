@@ -2,17 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../ProductCard/ProductCard';
 import './TrendSection.css';
+import { useLanguage } from '../../context/LanguageContext';
 
 const TrendSection = ({ trendingProducts, title, viewAllLink, titleClassName, gridClassName }) => {
+    const { t } = useLanguage();
     return (
         <section className="section-container trend-section">
             <div className="section-header">
                 <h2 className={`section-title ${titleClassName || ''}`}>
-                    {title || "XU HƯỚNG TUẦN NÀY"}
+                    {title || t('trending_week')}
                 </h2>
                 <div className="collection__view-all">
-                    <Link to={viewAllLink || "/collections/puma"} className="link underlined-link" aria-label="Xem toàn bộ">
-                        <span>Xem thêm</span>
+                    <Link to={viewAllLink || "/collections/puma"} className="link underlined-link" aria-label={t('view_all')}>
+                        <span>{t('view_all')}</span>
                     </Link>
                 </div>
             </div>
