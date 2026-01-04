@@ -1,13 +1,9 @@
 .banner-carousel-container {
     width: 100%;
-    /* Remove fixed height to allow images to define height responsively */
     padding: 24px 0;
-    /* Add vertical padding as seen in snippet */
     position: relative;
     background-color: #fff;
-    /* Match body bg if needed */
     z-index: 1;
-    /* Ensure it stays below navbar */
 }
 
 .banner-swiper {
@@ -18,12 +14,10 @@
 /* Slide Styling */
 .custom-swiper-slide {
     width: 75%;
-    /* Allows seeing part of next/prev slides */
     height: auto;
     transition: transform 0.3s ease, filter 0.3s ease;
     border-radius: 20px;
     overflow: hidden;
-    /* Optional: Fade/Scale effect for non-active slides */
     filter: brightness(0.8);
     transform: scale(0.95);
 }
@@ -46,12 +40,9 @@
     display: block;
     border-radius: 20px;
     aspect-ratio: 21 / 9;
-    /* Wide aspect ratio like 3840x900 */
     overflow: hidden;
-    /* Ensure content stays inside rounded corners */
     position: relative;
     background: #000;
-    /* Default bg for media */
 }
 
 /* Remove black background so we can see the fallback video behind */
@@ -111,12 +102,7 @@
 .nav-curve {
     height: 80px;
     width: 40px;
-    /* The SVG shape fills this */
 }
-
-/* Flip the curve for right side if needed, or the user provided separate SVGs? 
-   User provided two SVGs in HTML. One paths d="M0 80...", one "M40 80...". 
-   They align with the circles. */
 
 .nav-arrow-circle {
     width: 40px;
@@ -127,17 +113,11 @@
     align-items: center;
     justify-content: center;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    /* For prev: circle is inside/next to curve? 
-       In the provided HTML, "pagiarrow_none slide_arrow swiper-button-prev" contains the SVG curve AND the arrow.
-       The visual shows the circle arrow "docked" into the curve cutout.
-       Let's adjust flex order or position.
-    */
     position: absolute;
 }
 
 .swiper-button-prev-custom .nav-arrow-circle {
     left: 8px;
-    /* Adjustment to center in curve */
 }
 
 .swiper-button-next-custom .nav-arrow-circle {

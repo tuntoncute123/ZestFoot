@@ -5,8 +5,10 @@ import ProductCard from '../ProductCard/ProductCard';
 import CollectionSidebar from './CollectionSidebar';
 import './CollectionPage.css';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const CollectionPage = () => {
+    const { t } = useLanguage();
     const { slug } = useParams();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -144,9 +146,9 @@ const CollectionPage = () => {
     return (
         <div className="collection-page">
             <header className="collection-header">
-                <h1 className="collection-title">{slug ? slug.replace('-', ' ') : 'Tất cả sản phẩm'}</h1>
+                <h1 className="collection-title">{slug ? slug.replace('-', ' ') : t('all_products')}</h1>
                 <div className="breadcrumb">
-                    <Link to="/">Trang chủ</Link> / <span>{slug ? slug.toUpperCase() : 'SẢN PHẨM'}</span>
+                    <Link to="/">{t('home')}</Link> / <span>{slug ? slug.toUpperCase() : t('products')}</span>
                 </div>
             </header>
 
@@ -162,18 +164,18 @@ const CollectionPage = () => {
                 {/* Main Content */}
                 <main className="collection-content">
                     <div className="toolbar">
-                        <span className="product-count">{processedProducts.length} sản phẩm</span>
+                        <span className="product-count">{processedProducts.length} {t('product_suffix')}</span>
                         <div className="sort-wrapper">
                             <select
                                 className="sort-select"
                                 value={sortOption}
                                 onChange={(e) => setSortOption(e.target.value)}
                             >
-                                <option value="manual">Tùy chọn</option>
-                                <option value="price-asc">Giá: Tăng dần</option>
-                                <option value="price-desc">Giá: Giảm dần</option>
-                                <option value="name-asc">Tên: A-Z</option>
-                                <option value="name-desc">Tên: Z-A</option>
+                                <option value="manual">{t('sort_default')}</option>
+                                <option value="price-asc">{t('sort_price_asc')}</option>
+                                <option value="price-desc">{t('sort_price_desc')}</option>
+                                <option value="name-asc">{t('sort_name_asc')}</option>
+                                <option value="name-desc">{t('sort_name_desc')}</option>
                             </select>
                         </div>
                     </div>
@@ -184,7 +186,7 @@ const CollectionPage = () => {
                                 <ProductCard key={product.id} product={product} />
                             ))
                         ) : (
-                            <p>Không tìm thấy sản phẩm nào trong danh mục này.</p>
+                            <p>{t('no_products_found')}</p>
                         )}
                     </div>
 

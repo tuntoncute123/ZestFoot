@@ -114,49 +114,49 @@ const Navbar = () => {
       type: "columns",
       data: [
         {
-          title: "GIÀY NỮ",
+          title: t('women_shoes'),
           path: "/collections/giay-nu",
           items: [
-            { name: "GIÀY THỂ THAO", path: "/collections/giay-the-thao-nu" },
-            { name: "GIÀY XĂNG ĐAN", path: "/collections/giay-xang-dan-nu" },
-            { name: "DÉP", path: "/collections/dep-nu" },
-            { name: "GIÀY DA", path: "/collections/giay-da-nu" },
+            { name: t('sport_shoes'), path: "/collections/giay-the-thao-nu" },
+            { name: t('sandals'), path: "/collections/giay-xang-dan-nu" },
+            { name: t('slippers'), path: "/collections/dep-nu" },
+            { name: t('leather_shoes'), path: "/collections/giay-da-nu" },
           ]
         },
         {
-          title: "GIÀY NAM",
+          title: t('men_shoes'),
           path: "/collections/giay-nam",
           items: [
-            { name: "GIÀY THỂ THAO", path: "/collections/giay-the-thao-nam" },
-            { name: "GIÀY XĂNG ĐAN", path: "/collections/giay-xang-dan-nam" },
-            { name: "DÉP", path: "/collections/dep-nam" },
-            { name: "GIÀY DA", path: "/collections/giay-da-nam" },
+            { name: t('sport_shoes'), path: "/collections/giay-the-thao-nam" },
+            { name: t('sandals'), path: "/collections/giay-xang-dan-nam" },
+            { name: t('slippers'), path: "/collections/dep-nam" },
+            { name: t('leather_shoes'), path: "/collections/giay-da-nam" },
           ]
         },
         {
-          title: "PHỤ TRANG",
+          title: t('apparel'),
           path: "/collections/phu-trang",
           items: [
-            { name: "ÁO", path: "/collections/ao" },
-            { name: "QUẦN", path: "/collections/quan" },
-            { name: "KHÁC", path: "/collections/phu-trang" },
+            { name: t('tops'), path: "/collections/ao" },
+            { name: t('bottoms'), path: "/collections/quan" },
+            { name: t('others'), path: "/collections/phu-trang" },
           ]
         },
         {
-          title: "PHỤ KIỆN",
+          title: t('accessories_nav'),
           path: "/collections/phu-kien1",
           items: [
-            { name: "TÚI", path: "/collections/tui" },
-            { name: "NÓN", path: "/collections/non" },
-            { name: "VỚ", path: "/collections/vo" },
+            { name: t('bags'), path: "/collections/tui" },
+            { name: t('hats'), path: "/collections/non" },
+            { name: t('socks'), path: "/collections/vo" },
           ]
         },
         {
-          title: "CHĂM SÓC GIÀY",
+          title: t('shoe_care'),
           path: "/collections/cham-soc-giay",
           items: [
-            { name: "CHĂM SÓC GIÀY", path: "/collections/cham-soc-giay" },
-            { name: "DÂY GIÀY", path: "/collections/day-giay" },
+            { name: t('shoe_care'), path: "/collections/cham-soc-giay" },
+            { name: t('shoelaces'), path: "/collections/day-giay" },
           ]
         },
       ]
@@ -166,10 +166,10 @@ const Navbar = () => {
       path: "/collections/hang-moi",
       type: "tabs",
       tabs: [
-        { id: 'active-tab-1', label: "BỘ SƯU TẬP", path: "/collections/puma" },
-        { id: 'active-tab-2', label: "HÀNG MỚI", path: "/collections/hang-moi" },
-        { id: 'active-tab-3', label: "ĐỘC QUYỀN", path: "/collections/doc-quyen" },
-        { id: 'active-tab-4', label: "XẾP HẠNG", path: "/collections/xep-hang" },
+        { id: 'active-tab-1', label: t('collection'), path: "/collections/puma" },
+        { id: 'active-tab-2', label: t('new_arrivals'), path: "/collections/hang-moi" },
+        { id: 'active-tab-3', label: t('exclusive_asics'), path: "/collections/doc-quyen" },
+        { id: 'active-tab-4', label: t('ranking'), path: "/collections/xep-hang" },
       ],
       content: {
         'active-tab-1': [
@@ -194,13 +194,9 @@ const Navbar = () => {
         ],
       }
     },
-    {
-      name: "+ SALE +",
-      path: "/collections/sale",
-      className: "text-red"
-    },
+    { name: t('sale'), path: "/collections/sale", className: "text-red" },
     { name: t('blogs'), path: "/blogs/news" },
-    { name: "SĂN XU", path: "/rewards", className: "text-green" },
+    { name: t('hunt_coin'), path: "/rewards", className: "text-green" },
   ], [t]);
 
   return (
@@ -384,20 +380,20 @@ const Navbar = () => {
                     // Giao diện KHI ĐÃ ĐĂNG NHẬP
                     <>
                       <div className="user-dropdown-item" style={{ color: '#84cc16' }}>
-                        Xin chào, {user.user_metadata?.first_name || user.firstName} {user.user_metadata?.last_name || user.lastName}
+                        {t('hello')}, {user.user_metadata?.first_name || user.firstName} {user.user_metadata?.last_name || user.lastName}
                       </div>
                       <Link to="/profile" className="user-dropdown-item">
-                        Thông tin tài khoản
+                        {t('account_info')}
                       </Link>
                       <Link
                         to="/favorites"
                         className="user-dropdown-item"
                       >
-                        Sản phẩm yêu thích
+                        {t('favorites')}
                       </Link>
 
                       <Link to="/orders" className="user-dropdown-item">
-                        Đơn hàng của tôi
+                        {t('my_orders')}
                       </Link>
                       <div
                         className="user-dropdown-item"
@@ -407,26 +403,26 @@ const Navbar = () => {
                         }}
                         style={{ cursor: 'pointer', borderTop: '1px solid #eee' }}
                       >
-                        Đăng xuất
+                        {t('logout')}
                       </div>
                     </>
                   ) : (
                     // Giao diện KHI CHƯA ĐĂNG NHẬP (Cũ)
                     <>
-                      <div className="user-dropdown-item">Theo dõi đơn hàng và thanh toán dễ dàng hơn</div>
+                      <div className="user-dropdown-item">{t('track_order_msg')}</div>
                       <Link
                         to="/login"
                         className="user-dropdown-item"
                         onClick={() => setIsUserMenuOpen(false)}
                       >
-                        <button className="auth-btn">Đăng nhập</button>
+                        <button className="auth-btn">{t('login')}</button>
                       </Link>
                       <Link
                         to="/register"
                         className="user-dropdown-item"
                         onClick={() => setIsUserMenuOpen(false)}
                       >
-                        <button className="cancel-btn">Tạo tài khoản</button>
+                        <button className="cancel-btn">{t('register')}</button>
                       </Link>
                     </>
                   )}
