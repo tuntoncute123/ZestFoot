@@ -1,10 +1,11 @@
 /* CartPopup.css */
 .cart-popup-overlay {
     position: fixed;
-    top: 0;
+    top: 136px;
+    /* Approx Navbar Height (TopBar + Header) */
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 136px);
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 2000;
     display: flex;
@@ -12,11 +13,20 @@
     justify-content: flex-end;
 }
 
+@media (max-width: 1024px) {
+    .cart-popup-overlay {
+        top: 90px;
+        /* Mobile Header only */
+        height: calc(100vh - 90px);
+    }
+}
+
 .cart-popup-content {
     background-color: white;
     width: 100%;
     max-width: 450px;
-    height: 100vh;
+    height: 100%;
+    /* Fit to overlay height */
     max-height: none;
     display: flex;
     flex-direction: column;

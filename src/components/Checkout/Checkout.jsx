@@ -569,10 +569,10 @@ const Checkout = () => {
                     </div>
                 )}
 
-                <div className="summary-row"><span>Tạm tính</span><span>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(subTotal)}</span></div>
+                <div className="summary-row"><span>Tạm tính: </span><span>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(subTotal)}</span></div>
 
                 <div className="summary-row">
-                    <span>Phí vận chuyển</span>
+                    <span>Phí vận chuyển: </span>
                     <span style={{ color: shippingFee === 0 ? 'green' : 'black', fontWeight: shippingFee === 0 ? 'bold' : 'normal' }}>
                         {shippingFee === 0 ? 'Miễn phí' : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(shippingFee)}
                     </span>
@@ -598,7 +598,7 @@ const Checkout = () => {
                 )}
 
                 <div className="summary-total summary-row">
-                    <span>Tổng cộng</span>
+                    <span>Tổng cộng:</span>
                     <span style={{ color: '#d0021b' }}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(finalTotal)}</span>
                 </div>
 
