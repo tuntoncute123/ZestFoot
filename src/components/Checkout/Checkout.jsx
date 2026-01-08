@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { processPayment } from '../../services/paymentService';
 import { supabase } from '../../services/supabaseClient';
+import { validateCoupon, markCouponAsUsed } from '../../services/couponService';
 import './Checkout.css';
 import { CreditCard, Truck, Wallet, Tag, Ticket } from 'lucide-react';
 import ProvinceSelector from './ProvinceSelector';
@@ -44,24 +45,42 @@ const Checkout = () => {
     const [couponCode, setCouponCode] = useState('');
     const [discount, setDiscount] = useState(0);
     const [couponMsg, setCouponMsg] = useState('');
+    const [appliedCoupon, setAppliedCoupon] = useState(null); // Store full coupon obj
+    const [isCouponLoading, setIsCouponLoading] = useState(false);
 
-    const handleApplyCoupon = () => {
+    const handleApplyCoupon = async () => {
         if (!couponCode) return;
-        const code = couponCode.toUpperCase().trim();
+        setIsCouponLoading(true);
+        setCouponMsg('');
 
-        if (code === 'HKTSHOES') {
-            const val = subTotal * 0.1;
-            setDiscount(val);
-            setCouponMsg(`Áp dụng thành công! Giảm ${new Intl.NumberFormat('vi-VN').format(val)}đ`);
-        } else if (code === 'GIAM50K') {
-            setDiscount(50000);
-            setCouponMsg('Áp dụng thành công! Giảm 50.000đ');
-        } else if (code === 'JOY-RKKA1FDFGVZU') {
-            setDiscount(200000);
-            setCouponMsg('Áp dụng thành công! Giảm 200.000đ');
+        const result = await validateCoupon(couponCode, subTotal, user?.id);
+
+        setIsCouponLoading(false);
+        if (result.valid) {
+            if (result.type === 'public') {
+                setDiscount(result.discount);
+                setCouponMsg(result.message);
+                setAppliedCoupon(result.coupon);
+            } else if (result.type === 'private') {
+                // It's a game voucher
+                setSelectedVoucher(result.voucher);
+                setVoucherDiscount(result.discount);
+                setVoucherMsg(result.message);
+                setCouponMsg("Đã áp dụng Voucher từ mã nhập!");
+
+                // If we want to clear the 'code' input to avoid confusion? 
+                // Or leave it? Leaving it shows what was entered.
+            }
         } else {
-            setDiscount(0);
-            setCouponMsg('Mã giảm giá không hợp lệ hoặc đã hết hạn.');
+            // Only clear if we were trying to set a public coupon and it failed?
+            // Actually, if it failed, it failed for both.
+            // But we don't want to clear an existing valid voucher if we just typed a typo?
+            // Current user flow: Type code -> Click Apply -> Result.
+            // If invalid, we should probably reset the "Coupon" state if it was previously set by THIS input?
+            // But maybe not the "Voucher" state if it was clicked from list?
+            // Let's just show error message and not aggressively clear unless necessary.
+
+            setCouponMsg(result.message);
         }
     };
 
@@ -259,6 +278,11 @@ const Checkout = () => {
                         console.error("Lỗi cập nhật voucher:", err);
                     }
                 }
+
+                // --- MARK PUBLIC COUPON AS USED ---
+                if (appliedCoupon) {
+                    await markCouponAsUsed(appliedCoupon.code);
+                }
                 // ----------------------------
 
                 // --- TÍCH ĐIỂM THÀNH VIÊN (NEW) ---
@@ -409,9 +433,10 @@ const Checkout = () => {
                         <button
                             type="button"
                             onClick={handleApplyCoupon}
-                            style={{ whiteSpace: 'nowrap', padding: '0 15px', backgroundColor: '#333', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                            disabled={isCouponLoading}
+                            style={{ whiteSpace: 'nowrap', padding: '0 15px', backgroundColor: '#333', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', opacity: isCouponLoading ? 0.7 : 1 }}
                         >
-                            Áp dụng
+                            {isCouponLoading ? 'Đang kt...' : 'Áp dụng'}
                         </button>
                     </div>
                     {couponMsg && <div style={{ fontSize: '0.85rem', marginTop: '8px', color: discount > 0 ? 'green' : 'red' }}>{couponMsg}</div>}
