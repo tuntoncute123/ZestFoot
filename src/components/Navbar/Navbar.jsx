@@ -8,12 +8,12 @@ import logo from '../../assets/logoHKTShoes.png';
 import '../LogIn_SignUp/Auth.css';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
-import CartPopup from '../Cart/CartPopup';
+
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('active-tab-1');
-  const [isCartOpen, setIsCartOpen] = useState(false);
+
 
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef(null);
@@ -434,7 +434,7 @@ const Navbar = () => {
               )}
             </div>
 
-            <div className="icon-item cart-item" onClick={() => setIsCartOpen(true)}>
+            <div className="icon-item cart-item" onClick={() => navigate('/cart')}>
               <ShoppingBag size={25} className="icon" />
               <span className="cart-badge">{getCartCount()}</span>
             </div>
@@ -484,7 +484,7 @@ const Navbar = () => {
       </header>
 
       {/* Cart Popup */}
-      {isCartOpen && <CartPopup onClose={() => setIsCartOpen(false)} />}
+
     </div>
   );
 };
