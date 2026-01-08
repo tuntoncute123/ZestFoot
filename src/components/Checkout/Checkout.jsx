@@ -53,16 +53,33 @@ const Checkout = () => {
         setIsCouponLoading(true);
         setCouponMsg('');
 
-        const result = await validateCoupon(couponCode, subTotal);
+        const result = await validateCoupon(couponCode, subTotal, user?.id);
 
         setIsCouponLoading(false);
         if (result.valid) {
-            setDiscount(result.discount);
-            setCouponMsg(result.message);
-            setAppliedCoupon(result.coupon);
+            if (result.type === 'public') {
+                setDiscount(result.discount);
+                setCouponMsg(result.message);
+                setAppliedCoupon(result.coupon);
+            } else if (result.type === 'private') {
+                // It's a game voucher
+                setSelectedVoucher(result.voucher);
+                setVoucherDiscount(result.discount);
+                setVoucherMsg(result.message);
+                setCouponMsg("Đã áp dụng Voucher từ mã nhập!");
+
+                // If we want to clear the 'code' input to avoid confusion? 
+                // Or leave it? Leaving it shows what was entered.
+            }
         } else {
-            setDiscount(0);
-            setAppliedCoupon(null);
+            // Only clear if we were trying to set a public coupon and it failed?
+            // Actually, if it failed, it failed for both.
+            // But we don't want to clear an existing valid voucher if we just typed a typo?
+            // Current user flow: Type code -> Click Apply -> Result.
+            // If invalid, we should probably reset the "Coupon" state if it was previously set by THIS input?
+            // But maybe not the "Voucher" state if it was clicked from list?
+            // Let's just show error message and not aggressively clear unless necessary.
+
             setCouponMsg(result.message);
         }
     };
