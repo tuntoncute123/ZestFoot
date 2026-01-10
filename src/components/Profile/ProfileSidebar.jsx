@@ -1,46 +1,57 @@
-import React, { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { User, Edit2, ClipboardList, Bell, LogOut, ChevronDown } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { User, ClipboardList, Bell, LogOut, ChevronDown, Edit2 } from 'lucide-react';
 import './Profile.css';
 
 const ProfileSidebar = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
-    const currentPath = location.pathname;
-
-    const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(true);
 
     // Default Avatar
     const defaultAvatar = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+
+    // Toggle State for My Account Menu
+    const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(true);
+
+    const toggleAccountMenu = () => {
+        setIsAccountMenuOpen(!isAccountMenuOpen);
+    };
 
     const handleLogout = () => {
         logout();
         navigate('/');
     };
 
-    const toggleAccountMenu = () => {
-        setIsAccountMenuOpen(!isAccountMenuOpen);
-    };
+    // Derived State for UI
+    const [userData, setUserData] = useState({
+        username: '',
+        avatarUrl: ''
+    });
 
-    if (!user) return null;
+    useEffect(() => {
+        if (user) {
+            const username = user.user_metadata?.username || user.email?.split('@')[0] || '';
+            const avatarUrl = user.user_metadata?.avatar_url || '';
+            setUserData({ username, avatarUrl });
+        }
+    }, [user]);
 
-    // Derived User Info
-    const avatarUrl = user.user_metadata?.avatar_url || defaultAvatar;
-    const username = user.user_metadata?.username || user.email?.split('@')[0] || 'User';
+    // Helper to check active route
+    const isActive = (path) => location.pathname === path;
 
     return (
         <div className="profile-sidebar">
             <div className="sidebar-user">
                 <img
-                    src={avatarUrl}
+                    src={userData.avatarUrl || defaultAvatar}
                     alt="avatar"
                     className="sidebar-avatar"
                     onError={(e) => { e.target.src = defaultAvatar; }}
                 />
                 <div className="sidebar-username">
-                    <strong>{username}</strong>
+                    <strong>{userData.username || 'User'}</strong>
                     <Link to="/profile" className="edit-profile-link">
                         <Edit2 size={12} /> Sửa Hồ Sơ
                     </Link>
@@ -50,7 +61,7 @@ const ProfileSidebar = () => {
             <nav className="sidebar-nav">
                 <div className="nav-group">
                     <div
-                        className={`nav-item ${['/profile', '/addresses', '/change-password'].includes(currentPath) ? 'active-highlight' : ''}`}
+                        className="nav-item active-highlight"
                         onClick={toggleAccountMenu}
                         style={{ cursor: 'pointer', justifyContent: 'space-between' }}
                     >
@@ -70,19 +81,19 @@ const ProfileSidebar = () => {
 
                     {isAccountMenuOpen && (
                         <div className="sub-nav">
-                            <Link to="/profile" className={`sub-nav-item ${currentPath === '/profile' ? 'active' : ''}`}>Hồ Sơ</Link>
-                            <Link to="/addresses" className={`sub-nav-item ${currentPath === '/addresses' ? 'active' : ''}`}>Địa Chỉ</Link>
-                            <Link to="/change-password" className={`sub-nav-item ${currentPath === '/change-password' ? 'active' : ''}`}>Đổi Mật Khẩu</Link>
+                            <Link to="/profile" className={`sub-nav-item ${isActive('/profile') ? 'active' : ''}`}>Hồ Sơ</Link>
+                            <Link to="/addresses" className={`sub-nav-item ${isActive('/addresses') ? 'active' : ''}`}>Địa Chỉ</Link>
+                            <Link to="/change-password" className={`sub-nav-item ${isActive('/change-password') ? 'active' : ''}`}>Đổi Mật Khẩu</Link>
                         </div>
                     )}
                 </div>
 
-                <Link to="/orders" className={`nav-item ${currentPath === '/orders' ? 'active-highlight' : ''}`}>
+                <Link to="/orders" className={`nav-item ${isActive('/orders') ? 'active-highlight' : ''}`}>
                     <span className="nav-icon"><ClipboardList size={20} /></span>
                     <span className="nav-label">Đơn Mua</span>
                 </Link>
 
-                <Link to="/notifications" className={`nav-item ${currentPath === '/notifications' ? 'active-highlight' : ''}`}>
+                <Link to="/profile/notifications" className={`nav-item ${isActive('/profile/notifications') ? 'active-highlight' : ''}`}>
                     <span className="nav-icon"><Bell size={20} /></span>
                     <span className="nav-label">Thông Báo</span>
                 </Link>

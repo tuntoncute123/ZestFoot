@@ -15,7 +15,10 @@ import Cart from './components/Cart/Cart';
 import PaymentGateway from './components/Payment/PaymentGateway';
 import OrderHistory from './components/Order/OrderHistory';
 import OrderDetail from './components/Order/OrderDetail';
-import Profile from './components/Profile/Profile';
+// Profile Components
+import ProfileLayout from './components/Profile/ProfileLayout';
+import UserProfile from './components/Profile/UserProfile';
+import NotificationPage from './components/Profile/NotificationPage';
 import Addresses from './components/Profile/Addresses';
 import ChangePassword from './components/Profile/ChangePassword';
 
@@ -56,7 +59,14 @@ function App() {
               <Route path="/search" element={<SearchPage />} />
 
               <Route path="/checkout" element={<Checkout />} />
-              <Route path="/profile" element={<Profile />} />
+
+              {/* Profile Routes with Nested Layout */}
+              <Route path="/profile" element={<ProfileLayout />}>
+                <Route index element={<UserProfile />} />
+                <Route path="notifications" element={<NotificationPage />} />
+              </Route>
+
+              {/* These remain top-level for now as they haven't been refactored into the layout */}
               <Route path="/addresses" element={<Addresses />} />
               <Route path="/change-password" element={<ChangePassword />} />
 
