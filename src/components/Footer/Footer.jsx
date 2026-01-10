@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Footer.css';
 // Lưu ý: Bạn cần thay thế các đường dẫn hình ảnh (src) bằng ảnh thật của dự án
 // Ví dụ: logo, icon mạng xã hội, logo bộ công thương
@@ -34,9 +35,9 @@ const Footer = () => {
                 <div className="footer-column">
                     <h3 className="footer-title">THÔNG TIN</h3>
                     <ul className="footer-links">
-                        <li><a href="#">Về chúng tôi</a></li>
-                        <li><a href="#">Liên hệ</a></li>
-                        <li><a href="#">Hệ thống cửa hàng</a></li>
+                        <li><a href="/about">Về chúng tôi</a></li>
+                        <li><a href="/contact">Liên hệ</a></li>
+                        <li><Link to="/stores">Hệ thống cửa hàng</Link></li>
                         <li><a href="#">Chương trình thành viên</a></li>
                         <li><a href="#">Bài viết</a></li>
                         <li><a href="#">Câu hỏi thường gặp</a></li>
@@ -75,7 +76,7 @@ const Footer = () => {
                     <div className="social-links">
                         {/* Thay bằng icon SVG hoặc FontAwesome nếu có */}
                         <a href="#" className="social-icon"><i className="fa-brands fa-facebook"></i></a>
-                    <a href="#" className="social-icon"><i className="fa-brands fa-tiktok"></i></a>
+                        <a href="#" className="social-icon"><i className="fa-brands fa-tiktok"></i></a>
                         <a href="#" className="social-icon"><i className="fab fa-instagram"></i></a>
                         <a href="#" className="social-icon"><i className="fa-brands fa-github"></i></a>
                     </div>

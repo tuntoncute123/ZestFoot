@@ -24,6 +24,11 @@ export const translations = {
         "no_products_found": "Không tìm thấy sản phẩm nào trong danh mục này.",
         "menu": "Menu",
 
+        // Store Locator
+        "stores_system": "HỆ THỐNG CỬA HÀNG",
+        "filter_all": "Tất cả",
+        "get_directions": "Chỉ đường",
+
         // Sort
         "sort_default": "Tùy chọn",
         "sort_price_asc": "Giá: Tăng dần",
@@ -110,6 +115,11 @@ export const translations = {
         "all_products": "All Products",
         "no_products_found": "No products found in this category.",
         "menu": "Menu",
+
+        // Store Locator
+        "stores_system": "STORE SYSTEM",
+        "filter_all": "All",
+        "get_directions": "Get Directions",
 
         // Sort
         "sort_default": "Default",
