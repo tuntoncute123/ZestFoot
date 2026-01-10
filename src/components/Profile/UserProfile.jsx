@@ -4,7 +4,8 @@ import { Lock } from 'lucide-react';
 import './Profile.css';
 
 const UserProfile = () => {
-    const { user } = useAuth();
+    const { user, updateUser } = useAuth();
+    const fileInputRef = React.useRef(null);
 
     // Default Avatar
     const defaultAvatar = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
@@ -54,6 +55,47 @@ const UserProfile = () => {
             ...prev,
             [name]: value
         }));
+    };
+
+    const handleImageClick = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Size check: 500KB
+        if (file.size > 500 * 1024) {
+            alert("File quá lớn. Vui lòng chọn ảnh dưới 500KB.");
+            return;
+        }
+
+        // Type check
+        if (!['image/jpeg', 'image/png'].includes(file.type)) {
+            alert("Vui lòng chọn file ảnh JPG hoặc PNG.");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            const base64String = reader.result;
+
+            // Update local state immediately for preview
+            setProfileData(prev => ({ ...prev, avatarUrl: base64String }));
+
+            // Persist to AuthContext/LocalStorage
+            if (updateUser) {
+                updateUser({
+                    user_metadata: {
+                        avatar_url: base64String
+                    }
+                });
+            }
+        };
+        reader.readAsDataURL(file);
     };
 
     // Days/Months/Years generation
@@ -173,11 +215,24 @@ const UserProfile = () => {
                             src={profileData.avatarUrl || defaultAvatar}
                             alt="Avatar"
                             onError={(e) => { e.target.src = defaultAvatar; }}
+                            style={{
+                                objectFit: 'cover',
+                                width: '100%',
+                                height: '100%',
+                                borderRadius: '50%'
+                            }}
                         />
                     </div>
-                    <button className="select-image-btn">Chọn Ảnh</button>
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        style={{ display: 'none' }}
+                        accept="image/png, image/jpeg"
+                        onChange={handleImageChange}
+                    />
+                    <button className="select-image-btn" onClick={handleImageClick}>Chọn Ảnh</button>
                     <div className="avatar-note">
-                        <p>Dụng lượng file tối đa 1 MB</p>
+                        <p>Dụng lượng file tối đa 500KB</p>
                         <p>Định dạng:.JPEG, .PNG</p>
                     </div>
                 </div>

@@ -48,6 +48,7 @@ const ProfileSidebar = () => {
                     src={userData.avatarUrl || defaultAvatar}
                     alt="avatar"
                     className="sidebar-avatar"
+                    style={{ objectFit: 'cover', borderRadius: '50%' }}
                     onError={(e) => { e.target.src = defaultAvatar; }}
                 />
                 <div className="sidebar-username">
