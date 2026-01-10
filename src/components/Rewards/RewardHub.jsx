@@ -61,8 +61,16 @@ const RewardHub = () => {
                             <div style={{ fontWeight: 'bold' }}>{user ? 'Thành viên Đồng' : ''}</div>
                             <div style={{ fontSize: '0.8rem', opacity: 0.8 }}>{user?.email || 'Khách'}</div>
                         </div>
-                        <div className="user-avatar-sm" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <User size={18} color="#333" />
+                        <div className="user-avatar-sm" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', borderRadius: '50%' }}>
+                            {user?.user_metadata?.avatar_url ? (
+                                <img
+                                    src={user.user_metadata.avatar_url}
+                                    alt="User Avatar"
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                />
+                            ) : (
+                                <User size={18} color="#333" />
+                            )}
                         </div>
                     </div>
                 </div>

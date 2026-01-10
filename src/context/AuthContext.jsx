@@ -31,8 +31,27 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('currentUser');
     };
 
+    const updateUser = (updates) => {
+        setUser((prevUser) => {
+            if (!prevUser) return null;
+
+            // Deep merge logic for user_metadata
+            const updatedUser = {
+                ...prevUser,
+                ...updates,
+                user_metadata: {
+                    ...(prevUser.user_metadata || {}),
+                    ...(updates.user_metadata || {})
+                }
+            };
+
+            localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+            return updatedUser;
+        });
+    };
+
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
+        <AuthContext.Provider value={{ user, login, logout, updateUser }}>
             {children}
         </AuthContext.Provider>
     );
