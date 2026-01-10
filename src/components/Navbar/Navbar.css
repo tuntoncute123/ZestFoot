@@ -19,8 +19,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-left: 150px;
-    padding-right: 150px;
+    padding-left: 5%;
+    padding-right: 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .top-bar-content {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
 }
 
 .top-bar-item {
@@ -431,6 +440,11 @@
 
 /* Responsive */
 @media (max-width: 1024px) {
+    .top-bar-content {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
     .top-bar {
         display: none;
         /* Often hidden on mobile or simplified */
@@ -453,12 +467,92 @@
         /* Higher than Navbar to sit on top */
         margin-left: 0;
         gap: 0;
+        overflow-y: auto;
+        /* Enable scrolling for long menu */
     }
 
     .desktop-nav.open {
         transform: translateX(0);
     }
 
+    .nav-item-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        height: auto;
+    }
+
+    .mega-menu {
+        position: static;
+        width: 100%;
+        min-width: unset;
+        box-shadow: none;
+        border: none;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        padding: 0 0 0 1rem;
+        display: none;
+        /* Hide by default, show on stick/hover or add JS later. For now let's show on hover/click focus */
+        margin-top: 0;
+    }
+
+    /* Simple hack: Show mega menu when hovering nav-item on mobile? 
+       No, that's bad. Let's make them always visible for now to ensure they are accessible 
+       OR rely on the fact that 'hover' on mobile sometimes works as first tap. 
+       Let's display them but maybe collapsed? 
+       Actually, 'display: none' means they are gone. 
+       Let's try 'display: block' but indented. 
+    */
+    .nav-item-wrapper:hover .mega-menu,
+    .nav-item-wrapper:focus-within .mega-menu {
+        display: block;
+    }
+
+    .mega-menu-list {
+        width: 100%;
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .mega-menu-columns {
+        width: 100%;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 0.5rem;
+    }
+
+    .mega-menu-column {
+        min-width: unset;
+    }
+
+    .mega-menu-tabs {
+        width: 100%;
+        left: auto;
+        padding: 0;
+    }
+
+    .tabs-header {
+        flex-direction: column;
+    }
+
+    .tab-content {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .tab-card {
+        width: 100%;
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    .tab-card .img-wrapper {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 0;
+    }
 
     .mobile-header {
         display: flex;

@@ -27,6 +27,7 @@ import Favorites from './components/Favorites/Favorites';
 import { WishlistProvider } from './context/WishlistContext';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import ChatBot from './components/ChatBot/ChatBot';
+import StoreLocator from './components/StoreLocator/StoreLocator';
 import Membership from './components/Membership/Membership';
 import RewardHub from './components/Rewards/RewardHub';
 import LuckyWheel from './components/Rewards/LuckyWheel';
@@ -64,7 +65,8 @@ function App() {
               <Route path="/products/:id" element={<ProductDetail />} />
               <Route path="/blogs/news" element={<BlogPage />} />
               <Route path="/blogs/news/:id" element={<ArticleDetail />} />
-              <Route path="/Home/he-thong-cua-hang-abc-mart" element={<div style={{ padding: '50px', textAlign: 'center' }}><h2>Hệ thống cửa hàng</h2></div>} />
+              <Route path="/stores" element={<StoreLocator />} />
+              <Route path="/Home/he-thong-cua-hang-abc-mart" element={<StoreLocator />} />
               <Route path="/rewards" element={<RewardHub />} />
               <Route path="/rewards/lucky-wheel" element={<LuckyWheel onClose={() => window.history.back()} />} />
               <Route path="/rewards/snake" element={<SnakeGame onClose={() => window.history.back()} />} />

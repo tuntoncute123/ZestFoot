@@ -1,6 +1,6 @@
 .hero-section {
     width: 100%;
-    height: 400px;
+    min-height: 400px;
     background-color: #eee;
     background-image: url('https://abc-mart.com.vn/images/banners/banner_slider_1.jpg');
     /* Placeholder */
@@ -11,6 +11,21 @@
     justify-content: center;
     position: relative;
     /* margin-top moved to CategoryBar */
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 250px;
+    }
+
+    .banner-content h1 {
+        font-size: 2rem;
+    }
+
+    .banner-content p {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
 }
 
 .hero-banner {
@@ -173,12 +188,17 @@
 @media (max-width: 640px) {
     .brand-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
     }
 
     .product-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
     }
 
+    .section-title {
+        font-size: 1.5rem !important;
+    }
 
     .banner-content h1 {
         font-size: 2rem;

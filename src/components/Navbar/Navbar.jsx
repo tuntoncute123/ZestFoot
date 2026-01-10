@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { Search, User, ShoppingBag, Menu, X, CheckCircle, Truck, CreditCard, ChevronDown } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { searchProducts } from '../../services/api';
 import './Navbar.css';
 import logo from '../../assets/logoHKTShoes.png';
@@ -25,6 +25,7 @@ const Navbar = () => {
   const { user, logout } = useAuth();
   const { getCartCount } = useCart();
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -227,7 +228,16 @@ const Navbar = () => {
         <div className="header-container">
 
           {/* Logo */}
-          <Link to="/" className="logo-wrapper">
+          <Link
+            to="/"
+            className="logo-wrapper"
+            onClick={(e) => {
+              if (location.pathname === '/') {
+                e.preventDefault();
+                window.location.reload();
+              }
+            }}
+          >
             <img
               src={logo}
               alt="ABC-MART Việt Nam"
