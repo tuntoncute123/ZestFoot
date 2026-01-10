@@ -154,3 +154,62 @@
     background: #e5e5e5;
     color: #000;
 }
+
+/* --- FAQ Section --- */
+.store-faq-section {
+    margin-top: 5rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.store-faq-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 2rem;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.faq-item {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 1rem;
+}
+
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 0;
+    cursor: pointer;
+    font-weight: 600;
+    color: #333;
+    font-size: 1.1rem;
+    transition: color 0.2s;
+}
+
+.faq-question:hover {
+    color: #e50019;
+}
+
+.faq-answer {
+    padding-bottom: 1.5rem;
+    color: #666;
+    line-height: 1.6;
+    font-size: 1rem;
+    /* Hidden logic handled by JS height/display, but usually we just conditional render */
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

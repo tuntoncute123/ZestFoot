@@ -28,6 +28,13 @@ export const translations = {
         "stores_system": "HỆ THỐNG CỬA HÀNG",
         "filter_all": "Tất cả",
         "get_directions": "Chỉ đường",
+        "store_faq_title": "CÂU HỎI THƯỜNG GẶP TẠI CỬA HÀNG",
+        "store_faq_1_q": "Cửa hàng có chỗ đậu xe không?",
+        "store_faq_1_a": "Tất cả cửa hàng ABC-MART đều có bãi giữ xe rộng rãi và miễn phí cho khách hàng.",
+        "store_faq_2_q": "Tôi có thể đổi trả hàng mua online tại cửa hàng không?",
+        "store_faq_2_a": "Có, bạn có thể mang sản phẩm đến bất kỳ cửa hàng nào để đổi size hoặc mẫu trong vòng 30 ngày.",
+        "store_faq_3_q": "Cửa hàng chấp nhận thanh toán bằng phương thức nào?",
+        "store_faq_3_a": "Chúng tôi chấp nhận tiền mặt, thẻ ATM/Visa/Mastercard, ví điện tử Momo, ZaloPay và Apple Pay.",
 
         // Sort
         "sort_default": "Tùy chọn",
@@ -120,6 +127,13 @@ export const translations = {
         "stores_system": "STORE SYSTEM",
         "filter_all": "All",
         "get_directions": "Get Directions",
+        "store_faq_title": "FREQUENTLY ASKED QUESTIONS AT STORE",
+        "store_faq_1_q": "Is there parking available?",
+        "store_faq_1_a": "All ABC-MART stores have spacious and free parking for customers.",
+        "store_faq_2_q": "Can I return online purchases at the store?",
+        "store_faq_2_a": "Yes, you can bring the product to any store to exchange size or model within 30 days.",
+        "store_faq_3_q": "What payment methods are accepted?",
+        "store_faq_3_a": "We accept cash, ATM/Visa/Mastercard, Momo, ZaloPay, and Apple Pay.",
 
         // Sort
         "sort_default": "Default",

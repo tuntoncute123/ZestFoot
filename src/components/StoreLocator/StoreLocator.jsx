@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { MapPin, Phone, Clock, Compass } from 'lucide-react';
+import { MapPin, Phone, Clock, Compass, ChevronDown, ChevronUp } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import './StoreLocator.css';
 
@@ -71,6 +71,11 @@ const StoreLocator = () => {
     const { t } = useLanguage();
     const [selectedCity, setSelectedCity] = useState('All');
     const [filteredStores, setFilteredStores] = useState(storesData);
+    const [openFaq, setOpenFaq] = useState(null);
+
+    const toggleFaq = (index) => {
+        setOpenFaq(openFaq === index ? null : index);
+    };
 
     const cities = ['All', ...new Set(storesData.map(store => store.city))];
 
@@ -142,6 +147,26 @@ const StoreLocator = () => {
                     <p>Không tìm thấy cửa hàng nào trong khu vực này.</p>
                 </div>
             )}
+
+            <div className="store-faq-section" data-aos="fade-up">
+                <h2 className="store-faq-title">{t('store_faq_title')}</h2>
+                {[1, 2, 3].map((i) => (
+                    <div key={i} className="faq-item">
+                        <div
+                            className="faq-question"
+                            onClick={() => toggleFaq(i)}
+                        >
+                            <span>{t(`store_faq_${i}_q`)}</span>
+                            {openFaq === i ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                        </div>
+                        {openFaq === i && (
+                            <div className="faq-answer">
+                                {t(`store_faq_${i}_a`)}
+                            </div>
+                        )}
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
