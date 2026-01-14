@@ -267,7 +267,7 @@ const SnakeGame = ({ onClose }) => {
         // We MUST use refs for everything accessed inside `gameStep`.
     };
 
-    // Refactored Game Loop to use `useEffect` dependencies properly or use a robust `useInterval` hook.
+    // Refactored Game Loop to use `useEffect` dependencies properly or use a robust `useInterval` hooks.
     // simpler approach: use a ref for the tick function that always has latest state
     const savedCallback = useRef();
 
@@ -317,7 +317,7 @@ const SnakeGame = ({ onClose }) => {
             // accessing 'food' state inside this ref-callback is tricky if not in ref.
             // Let's rely on standard functional state update pattern?
             // "tick" effect runs every X ms. 
-            // BETTER ARCHITECTURE: `useInterval` custom hook pattern.
+            // BETTER ARCHITECTURE: `useInterval` custom hooks pattern.
         };
     });
 

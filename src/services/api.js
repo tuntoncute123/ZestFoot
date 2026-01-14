@@ -306,7 +306,7 @@ export const isAuthenticated = async () => {
 // However, supabase.auth.getSession() usually caches.
 // To avoid breaking entire app refactoring to async, we can check if there's a simple way.
 // IF the app relies on synchronous `getCurrentUser()`, we might need to modify the App logic or 
-// use a hook. 
+// use a hooks.
 // For now, let's try to return the object from local storage that Supabase sets, OR
 // warn that components must await.
 // Assuming existing code calls it synchronously.
@@ -317,11 +317,11 @@ export const getCurrentUser = () => {
     // TEMPORARY FIX: Return null and let UserContext/LanguageContext handle it if they use it?
     // Reviewing App.jsx or Login might help.
     // But let's stick to best effort:
-    return null; // Components should use useUser hook or similar.
+    return null; // Components should use useUser hooks or similar.
 };
 
 
-// Replacing the old synchronous getCurrentUser with a hook-friendly approach is best
+// Replacing the old synchronous getCurrentUser with a hooks-friendly approach is best
 // But for now, let's look at `getTrendingProducts`
 export const getTrendingProducts = async () => {
     try {

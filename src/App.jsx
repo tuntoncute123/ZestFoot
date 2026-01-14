@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import useCartSync from './hooks/useCartSync'; // Import hook
+import useCartSync from './hooks/useCartSync'; // Import hooks
 import MainLayout from './components/MainLayout';
 import HomePage from './components/Home/HomePage';
 import CollectionPage from './components/Collection/CollectionPage';
