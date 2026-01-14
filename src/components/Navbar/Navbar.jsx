@@ -7,7 +7,8 @@ import './Navbar.css';
 import logo from '../../assets/logoHKTShoes.png';
 import '../LogIn_SignUp/Auth.css';
 import { useAuth } from '../../context/AuthContext';
-import { useCart } from '../../context/CartContext';
+import { useSelector } from 'react-redux';
+import { selectCartCount } from '../../redux/cartSlice';
 
 
 const Navbar = () => {
@@ -23,7 +24,7 @@ const Navbar = () => {
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const langMenuRef = useRef(null);
   const { user, logout } = useAuth();
-  const { getCartCount } = useCart();
+  const cartCount = useSelector(selectCartCount);
   const navigate = useNavigate();
   const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
@@ -446,7 +447,7 @@ const Navbar = () => {
 
             <div className="icon-item cart-item" onClick={() => navigate('/cart')}>
               <ShoppingBag size={25} className="icon" />
-              <span className="cart-badge">{getCartCount()}</span>
+              <span className="cart-badge">{cartCount}</span>
             </div>
 
             <div className="lang-select" ref={langMenuRef} onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}>

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import useCartSync from './hooks/useCartSync'; // Import hooks
 import MainLayout from './components/MainLayout';
 import HomePage from './components/Home/HomePage';
 import CollectionPage from './components/Collection/CollectionPage';
@@ -39,6 +40,7 @@ import ShoeMatchGame from './components/Rewards/ShoeMatchGame';
 import TetrisGame from './components/Rewards/TetrisGame';
 
 function App() {
+  useCartSync(); // Sync cart
   useEffect(() => {
     AOS.init({
       duration: 800,

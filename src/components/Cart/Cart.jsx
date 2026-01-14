@@ -1,12 +1,14 @@
 // src/components/Cart/Cart.jsx
 import React, { useState, useEffect } from 'react';
-import { useCart } from '../../context/CartContext';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Trash2, Minus, Plus } from 'lucide-react';
+import { selectCartItems, removeFromCart, updateQuantity } from '../../redux/cartSlice';
 import './Cart.css';
 
 const Cart = () => {
-    const { cartItems, removeFromCart, updateQuantity } = useCart();
+    const cartItems = useSelector(selectCartItems);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     // 1. State lưu các key của sản phẩm được chọn (format: "productId-size")
@@ -138,7 +140,7 @@ const Cart = () => {
                                         <div className="quantity-control">
                                             <button
                                                 className="qty-btn"
-                                                onClick={() => updateQuantity(item.product.id, item.size, item.quantity - 1)}
+                                                onClick={() => dispatch(updateQuantity({ productId: item.product.id, size: item.size, newQuantity: item.quantity - 1 }))}
                                                 disabled={item.quantity <= 1}
                                             >
                                                 <Minus size={14} />
@@ -146,14 +148,14 @@ const Cart = () => {
                                             <span className="qty-display">{item.quantity}</span>
                                             <button
                                                 className="qty-btn"
-                                                onClick={() => updateQuantity(item.product.id, item.size, item.quantity + 1)}
+                                                onClick={() => dispatch(updateQuantity({ productId: item.product.id, size: item.size, newQuantity: item.quantity + 1 }))}
                                             >
                                                 <Plus size={14} />
                                             </button>
                                         </div>
                                         <button
                                             className="remove-btn"
-                                            onClick={() => removeFromCart(item.product.id, item.size)}
+                                            onClick={() => dispatch(removeFromCart({ productId: item.product.id, size: item.size }))}
                                             title="Xóa sản phẩm"
                                         >
                                             <Trash2 size={18} />

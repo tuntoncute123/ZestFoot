@@ -1,7 +1,9 @@
 // src/components/Favorites/Favorites.jsx
 import React, { useState, useEffect } from 'react';
 import { useWishlist } from '../../context/WishlistContext';
-import { useCart } from '../../context/CartContext';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/cartSlice';
+import { useAuth } from '../../context/AuthContext';
 import { getAllProducts } from '../../services/api';
 import { Link } from 'react-router-dom';
 import { Heart, ShoppingCart, Trash2 } from 'lucide-react';
@@ -9,7 +11,8 @@ import './Favorites.css';
 
 const Favorites = () => {
     const { wishlist, removeFromWishlist } = useWishlist();
-    const { addToCart } = useCart();
+    const dispatch = useDispatch();
+    const { user } = useAuth(); // Needed for login check
     const [favoriteProducts, setFavoriteProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -42,9 +45,13 @@ const Favorites = () => {
     }, [wishlist]);
 
     const handleAddToCart = (product) => {
+        if (!user) {
+            alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!");
+            return;
+        }
         // Default to first available size
         const defaultSize = product.sizes?.[0] || '40';
-        addToCart(product, defaultSize, 1);
+        dispatch(addToCart({ product, size: defaultSize, quantity: 1 }));
         alert(`Đã thêm "${product.name}" vào giỏ hàng!`);
     };
 

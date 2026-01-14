@@ -1,10 +1,13 @@
+// src/components/ProductDetail/ProductDetail.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getProductById } from '../../services/api';
 import './ProductDetail.css';
 import ProductReviews from './ProductReviews';
 import { CheckCircle, Truck, RefreshCw, ShieldCheck, Heart } from 'lucide-react';
-import { useCart } from '../../context/CartContext';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/cartSlice';
+import { useAuth } from '../../context/AuthContext';
 import { useWishlist } from '../../context/WishlistContext';
 
 const ProductDetail = () => {
@@ -13,7 +16,8 @@ const ProductDetail = () => {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [selectedSize, setSelectedSize] = useState(null);
-    const { addToCart } = useCart();
+    const dispatch = useDispatch();
+    const { user } = useAuth(); // Import useAuth to check login for adding to cart
     const { isInWishlist, toggleWishlist } = useWishlist();
 
     // Mock Sizes (Since db.json doesn't have them per product yet)
@@ -29,6 +33,19 @@ const ProductDetail = () => {
         fetchProduct();
         window.scrollTo(0, 0);
     }, [id]);
+
+    const handleAddToCart = () => {
+        if (!user) {
+            alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!");
+            return;
+        }
+        if (!selectedSize) {
+            alert('Vui lòng chọn size!');
+            return;
+        }
+        dispatch(addToCart({ product, size: selectedSize, quantity: 1 }));
+        alert("Đã thêm vào giỏ hàng!");
+    };
 
     if (loading) return <div className="loading-screen"><div className="spinner"></div></div>;
     if (!product) return <div style={{ padding: '50px', textAlign: 'center' }}><h2>Sản phẩm không tồn tại</h2></div>;
@@ -103,13 +120,7 @@ const ProductDetail = () => {
                         <div className="product-actions">
                             <button
                                 className="action-btn add-cart-btn"
-                                onClick={() => {
-                                    if (!selectedSize) {
-                                        alert('Vui lòng chọn size!');
-                                        return;
-                                    }
-                                    addToCart(product, selectedSize);
-                                }}
+                                onClick={handleAddToCart}
                             >
                                 THÊM VÀO GIỎ
                             </button>
