@@ -2,14 +2,15 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { processPayment } from '../../services/paymentService';
-import { useCart } from '../../context/CartContext';
+import { useDispatch } from 'react-redux';
+import { clearCart } from '../../redux/cartSlice';
 import { CheckCircle, AlertTriangle, Loader2 } from 'lucide-react';
 
 const PaymentGateway = () => {
     const { method } = useParams();
     const { state } = useLocation();
     const navigate = useNavigate();
-    const { clearCart } = useCart();
+    const dispatch = useDispatch();
 
     // Redirect nếu không có dữ liệu đơn hàng
     useEffect(() => {
@@ -28,7 +29,7 @@ const PaymentGateway = () => {
             // Giả lập gọi API xử lý thanh toán
             const result = await processPayment(orderData, method);
 
-            if (fromCart) clearCart();
+            if (fromCart) dispatch(clearCart());
 
             setStatus('success');
             // Tự động chuyển trang sau khi thành công

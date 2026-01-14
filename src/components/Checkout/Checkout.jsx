@@ -2,7 +2,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { useCart } from '../../context/CartContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectCartItems, clearCart } from '../../redux/cartSlice';
 import { processPayment } from '../../services/paymentService';
 import { supabase } from '../../services/supabaseClient';
 import { validateCoupon, markCouponAsUsed } from '../../services/couponService';
@@ -13,7 +14,8 @@ import ProvinceSelector from './ProvinceSelector';
 const Checkout = () => {
     const { state } = useLocation();
     const navigate = useNavigate();
-    const { cartItems, clearCart } = useCart(); // Bỏ getCartTotal vì ta tự tính lại
+    const cartItems = useSelector(selectCartItems);
+    const dispatch = useDispatch();
     const { user } = useAuth();
 
     // Lấy thông tin sản phẩm từ state truyền sang
@@ -334,7 +336,7 @@ const Checkout = () => {
                 // Tuy nhiên, context hiện tại của bạn chỉ có clearCart().
                 // Để đơn giản, nếu mua từ giỏ (dù chọn ít hay nhiều), tạm thời ta vẫn clearCart()
                 // (Hoặc bạn cần viết thêm hàm removeMultipleFromCart trong Context để chỉ xóa món đã mua)
-                if (fromCart) clearCart();
+                if (fromCart) dispatch(clearCart());
 
                 setSuccess(true);
             } else {
