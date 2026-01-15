@@ -31,7 +31,9 @@ const SocialNewsSection = () => {
 
     // Helper to translate FAQs if they are keys
     const getFaqText = (faqItem) => {
-        // If it's an object from JSON server, use the 'key' property
+        // Ưu tiên hiển thị question trực tiếp (nếu có)
+        if (faqItem && faqItem.question) return faqItem.question;
+        // Nếu là object có key
         if (faqItem && faqItem.key) {
             return t(faqItem.key);
         }
@@ -151,7 +153,8 @@ const SocialNewsSection = () => {
                                     </div>
                                     {openFaq === idx && (
                                         <div className="faq-answer">
-                                            Nội dung trả lời cho câu hỏi này sẽ nằm ở đây. Đây là nội dung giả định.
+                                            {/* Hiển thị câu trả lời động */}
+                                            {q.answer || "Nội dung câu trả lời đang được cập nhật."}
                                         </div>
                                     )}
                                 </div>

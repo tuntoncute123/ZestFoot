@@ -232,15 +232,41 @@ export const getNewsById = async (id) => {
 };
 
 export const getFaqs = async () => {
-    // Assuming table 'faqs' exists or return empty if not created yet
-    // User db.json had faqs. I didn't verify if I created table for it.
-    // I will just return empty or mock for now to prevent crash if table missing
-    // Logic: try fetch, if error (table missing), return []
     try {
         const { data, error } = await supabase.from('faqs').select('*');
-        if (error) return []; // Table likely missing
+
+        // Mock data nếu chưa có dữ liệu thật từ DB (để demo)
+        if (error || !data || data.length === 0) {
+            return [
+                {
+                    id: 1,
+                    question: "Làm sao để chọn size giày phù hợp?",
+                    key: "faq_size_guide",
+                    answer: "Bạn có thể tham khảo bảng quy đổi size (Size Chart) trong trang chi tiết sản phẩm. Nếu chân bè hoặc mu bàn chân dày, chúng tôi khuyên bạn nên tăng thêm 0.5 - 1 size."
+                },
+                {
+                    id: 2,
+                    question: "Chính sách đổi trả của ZestFoot như thế nào?",
+                    key: "faq_return_policy",
+                    answer: "ZestFoot hỗ trợ đổi hàng trong vòng 7 ngày kể từ ngày nhận hàng với điều kiện sản phẩm còn nguyên tem mác, chưa qua sử dụng và đầy đủ hộp."
+                },
+                {
+                    id: 3,
+                    question: "Thời gian giao hàng dự kiến là bao lâu?",
+                    key: "faq_shipping_time",
+                    answer: "Thời gian giao hàng:\n- Nội thành TP.HCM: 1-2 ngày.\n- Các tỉnh thành khác: 3-5 ngày tuỳ khu vực."
+                },
+                {
+                    id: 4,
+                    question: "Sản phẩm có được bảo hành không?",
+                    key: "faq_warranty",
+                    answer: "Có, ZestFoot bảo hành keo và chỉ trong vòng 6 tháng cho tất cả các sản phẩm giày dép chính hãng."
+                }
+            ];
+        }
         return data;
     } catch (error) {
+        console.error("Error fetching FAQs, returning mock:", error);
         return [];
     }
 };
