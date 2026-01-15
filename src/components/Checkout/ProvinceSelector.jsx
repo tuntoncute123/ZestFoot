@@ -7,23 +7,24 @@ const ProvinceSelector = ({ onShippingChange, orderTotal, selectedProvince: init
     const [provinces, setProvinces] = useState([]);
     const [selectedProvince, setSelectedProvince] = useState(initialProvince || '');
     const [loading, setLoading] = useState(false);
-    const [shippingInfo, setShippingInfo] = useState(null);
+
+    // New State for options
+    const [shippingData, setShippingData] = useState(null); // { distance, options }
+    const [selectedOptionId, setSelectedOptionId] = useState('standard');
 
     useEffect(() => {
         getProvinces().then(data => setProvinces(data));
     }, []);
 
-    // Cập nhật state nếu props từ cha thay đổi (ví dụ khi load lại trang)
     useEffect(() => {
         if (initialProvince && initialProvince !== selectedProvince) {
             setSelectedProvince(initialProvince);
         }
     }, [initialProvince]);
 
-    // Hàm gọi API tính phí
     const fetchShippingFee = useCallback(async (provinceName, total) => {
         if (!provinceName) {
-            setShippingInfo(null);
+            setShippingData(null);
             onShippingChange({ address: '', shippingFee: 0, distance: 0 });
             return;
         }
@@ -31,11 +32,18 @@ const ProvinceSelector = ({ onShippingChange, orderTotal, selectedProvince: init
         setLoading(true);
         try {
             const info = await calculateShipping(provinceName, total);
-            setShippingInfo(info);
-            // Gửi kết quả về cha
+
+            // info = { distance: 123, options: [...] }
+            setShippingData(info);
+
+            // Tự động chọn option đầu tiên (thường là standard) hoặc giữ lại option cũ nếu vẫn valid?
+            // Đơn giản nhất: Reset về standard mỗi khi đổi địa chỉ hoặc tính lại giá
+            const defaultOpt = info.options.find(o => o.id === 'standard') || info.options[0];
+            setSelectedOptionId(defaultOpt.id);
+
             onShippingChange({
                 address: provinceName,
-                shippingFee: info.fee,
+                shippingFee: defaultOpt.fee,
                 distance: info.distance
             });
         } catch (err) {
@@ -45,17 +53,28 @@ const ProvinceSelector = ({ onShippingChange, orderTotal, selectedProvince: init
         }
     }, [onShippingChange]);
 
-    // --- SỬA LOGIC Ở ĐÂY: Chỉ set state, KHÔNG gọi fetchShippingFee thủ công ---
     const handleSelectChange = (e) => {
         const provinceName = e.target.value;
         setSelectedProvince(provinceName);
-        // Logic tính phí sẽ được useEffect bên dưới bắt được sự thay đổi của selectedProvince và tự chạy
     };
 
-    // Tự động tính lại phí khi [Tỉnh thay đổi] HOẶC [Tổng tiền thay đổi - để check freeship]
+    // Khi người dùng chọn phương thức vận chuyển khác (Standard / Express)
+    const handleOptionChange = (optId) => {
+        if (!shippingData) return;
+
+        setSelectedOptionId(optId);
+        const opt = shippingData.options.find(o => o.id === optId);
+        if (opt) {
+            onShippingChange({
+                address: selectedProvince,
+                shippingFee: opt.fee,
+                distance: shippingData.distance
+            });
+        }
+    };
+
     useEffect(() => {
         if (selectedProvince) {
-            // Thêm timeout nhỏ để tránh giật lag UI (debounce)
             const timer = setTimeout(() => {
                 fetchShippingFee(selectedProvince, orderTotal);
             }, 100);
@@ -80,31 +99,60 @@ const ProvinceSelector = ({ onShippingChange, orderTotal, selectedProvince: init
                 <MapPin size={18} style={{ position: 'absolute', right: '30px', top: '50%', transform: 'translateY(-50%)', color: '#888' }} />
             </div>
 
-            {loading && <div style={{fontSize: '0.9rem', color: '#666', marginTop: '5px'}}>Đang tính lại phí vận chuyển...</div>}
+            {loading && <div style={{ fontSize: '0.9rem', color: '#666', marginTop: '5px' }}>Đang tính lại phí vận chuyển...</div>}
 
-            {!loading && shippingInfo && (
+            {!loading && shippingData && (
                 <div style={{
                     marginTop: '10px',
                     padding: '10px',
-                    backgroundColor: shippingInfo.fee === 0 ? '#f6ffed' : '#e6f7ff',
+                    backgroundColor: '#f9f9f9',
                     borderRadius: '4px',
-                    border: shippingInfo.fee === 0 ? '1px solid #b7eb8f' : '1px solid #91d5ff',
-                    fontSize: '0.9rem',
-                    color: shippingInfo.fee === 0 ? '#389e0d' : '#0050b3'
+                    border: '1px solid #ddd'
                 }}>
-                    <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                        <Truck size={16}/>
-                        <strong>
-                            Phí vận chuyển: {shippingInfo.fee === 0
-                            ? 'MIỄN PHÍ'
-                            : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(shippingInfo.fee)
-                        }
-                        </strong>
+                    <div style={{ marginBottom: '5px', fontSize: '0.85rem', color: '#555' }}>
+                        Khoảng cách: {shippingData.distance}km (Từ kho Linh Xuân)
                     </div>
-                    <div style={{marginLeft: '24px', fontSize: '0.85rem', color: '#555'}}>
-                        Khoảng cách: {shippingInfo.distance}km (Từ kho Linh Xuân)<br/>
-                        Thời gian dự kiến: {shippingInfo.estimatedDays}
-                    </div>
+
+                    {shippingData.options.map(opt => (
+                        <div
+                            key={opt.id}
+                            onClick={() => handleOptionChange(opt.id)}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                padding: '8px',
+                                marginBottom: '5px',
+                                border: selectedOptionId === opt.id ? '1px solid #0050b3' : '1px solid #eee',
+                                backgroundColor: selectedOptionId === opt.id ? '#e6f7ff' : '#fff',
+                                borderRadius: '4px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <input
+                                    type="radio"
+                                    checked={selectedOptionId === opt.id}
+                                    onChange={() => handleOptionChange(opt.id)}
+                                    style={{ cursor: 'pointer' }}
+                                />
+                                <div>
+                                    <div style={{ fontWeight: 'bold', fontSize: '0.9rem', color: '#333' }}>
+                                        {opt.name}
+                                    </div>
+                                    <div style={{ fontSize: '0.8rem', color: '#666' }}>
+                                        Dự kiến: {opt.estimatedDays}
+                                    </div>
+                                </div>
+                            </div>
+                            <div style={{ fontWeight: 'bold', color: opt.fee === 0 ? 'green' : '#d0021b' }}>
+                                {opt.fee === 0
+                                    ? 'MIỄN PHÍ'
+                                    : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(opt.fee)
+                                }
+                            </div>
+                        </div>
+                    ))}
                 </div>
             )}
         </div>
