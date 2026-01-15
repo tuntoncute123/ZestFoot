@@ -23,7 +23,7 @@ const Profile = () => {
         username: '',
         name: '',
         email: '',
-        phone: '',
+        phone: '', 
         gender: 'male',
         day: '1',
         month: '1',
