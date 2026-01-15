@@ -73,13 +73,7 @@ const BannerCarousel = () => {
                     <SwiperSlide key={slide.id} className="custom-swiper-slide">
                         <a href={slide.link} className="banner-slide-link">
                             {slide.type === 'video' ? (
-                                <video
-                                    playsInline
-                                    autoPlay
-                                    muted
-                                    loop
-                                    className="banner-media"
-                                >
+                                <video playsInline autoPlay muted loop className="banner-media">
                                     <source src={slide.video} type="video/mp4" />
                                 </video>
                             ) : slide.type === 'vimeo' ? (
@@ -88,7 +82,6 @@ const BannerCarousel = () => {
                                     <video className="video-placeholder" autoPlay loop muted playsInline>
                                         <source src={fallbackVideo} type="video/mp4" />
                                     </video>
-
                                     <iframe
                                         src={slide.video}
                                         frameBorder="0"
@@ -108,22 +101,40 @@ const BannerCarousel = () => {
                 {/* Custom Navigation Buttons */}
                 <div className="swiper-button-prev-custom">
                     <svg width="40" height="80" viewBox="0 0 40 80" className="nav-curve">
-                        <path d="M0 80C0 68.9543 8.95435 60 20 60C31.0457 60 40 51.0457 40 40C40 28.9543 31.0457 20 20 20C8.95435 20 0 11.0457 0 0V80Z" fill="white"></path>
+                        <path
+                            d="M0 80C0 68.9543 8.95435 60 20 60C31.0457 60 40 51.0457 40 40C40 28.9543 31.0457 20 20 20C8.95435 20 0 11.0457 0 0V80Z"
+                            fill="white"
+                        ></path>
                     </svg>
                     <div className="nav-arrow-circle">
                         <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-                            <path d="M18.6667 10.6667L13.3334 16.0001L18.6667 21.3334" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
+                            <path
+                                d="M18.6667 10.6667L13.3334 16.0001L18.6667 21.3334"
+                                stroke="black"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            ></path>
                         </svg>
                     </div>
                 </div>
                 <div className="swiper-button-next-custom">
                     <div className="nav-arrow-circle">
                         <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-                            <path d="M13.3333 10.6667L18.6666 16.0001L13.3333 21.3334" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
+                            <path
+                                d="M13.3333 10.6667L18.6666 16.0001L13.3333 21.3334"
+                                stroke="black"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            ></path>
                         </svg>
                     </div>
                     <svg width="40" height="80" viewBox="0 0 40 80" className="nav-curve">
-                        <path d="M40 80C40 68.9543 31.0457 60 20 60C8.95435 60 0 51.0457 0 40C0 28.9543 8.95435 20 20 20C31.0457 20 40 11.0457 40 0V80Z" fill="white"></path>
+                        <path
+                            d="M40 80C40 68.9543 31.0457 60 20 60C8.95435 60 0 51.0457 0 40C0 28.9543 8.95435 20 20 20C31.0457 20 40 11.0457 40 0V80Z"
+                            fill="white"
+                        ></path>
                     </svg>
                 </div>
             </Swiper>
