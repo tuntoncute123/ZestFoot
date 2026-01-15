@@ -89,21 +89,14 @@ const deg2rad = (deg) => deg * (Math.PI / 180);
 
 // --- LOGIC TÍNH PHÍ SHIP MỚI (THEO YÊU CẦU) ---
 const calculateFeeLogic = (distance, orderValue) => {
-    // 1. Đơn trên 10tr: Miễn phí tất cả
-    if (orderValue > 10000000) return 0;
+    // Đơn trên 3tr: miễn phí ship toàn quốc
+    if (orderValue > 3000000) return 0;
 
-    // 2. Đơn trên 7tr: Miễn phí nếu <= 300km
-    if (orderValue > 7000000 && distance <= 300) return 0;
+    // Đơn từ 3tr trở xuống
+    if (distance <= 100) return 0;
 
-    // 3. Đơn trên 5tr: Miễn phí nếu <= 200km
-    if (orderValue > 5000000 && distance <= 200) return 0;
-
-    // 4. Các trường hợp còn lại tính theo khoảng cách
-    if (distance <= 50) return 0;
-    if (distance <= 100) return 50000;
-    if (distance <= 200) return 150000;
-    if (distance <= 300) return 200000;
-    return 300000;
+    // Trên 100km
+    return 30000;
 };
 
 export const getProvinces = async () => {
@@ -122,7 +115,12 @@ export const calculateShipping = async (provinceName, orderValue = 0) => {
             const dest = PROVINCES_DB.find(p => p.name === provinceName);
 
             if (!dest) {
-                resolve({ distance: 1000, fee: 300000, estimatedDays: "4-5 ngày" });
+                resolve({
+                    distance: 1000,
+                    options: [
+                        { id: 'standard', name: 'Tiêu chuẩn', fee: 30000, estimatedDays: "4-5 ngày" }
+                    ]
+                });
                 return;
             }
 
@@ -132,18 +130,35 @@ export const calculateShipping = async (provinceName, orderValue = 0) => {
             );
             const dist = Math.round(distRaw);
 
-            // Gọi logic mới có truyền orderValue
-            const fee = calculateFeeLogic(dist, orderValue);
+            // 1. Option Tiêu chuẩn
+            const standardFee = calculateFeeLogic(dist, orderValue);
+            let standardDays = "1 ngày";
+            if (dist > 100) standardDays = "1-2 ngày";
+            if (dist > 500) standardDays = "2-3 ngày";
+            if (dist > 1000) standardDays = "3-5 ngày";
 
-            let days = "1-2 ngày";
-            if (dist > 100) days = "2-3 ngày";
-            if (dist > 500) days = "3-5 ngày";
-            if (dist > 1000) days = "4-7 ngày";
+            const options = [
+                {
+                    id: 'standard',
+                    name: 'Tiêu chuẩn',
+                    fee: standardFee,
+                    estimatedDays: standardDays
+                }
+            ];
+
+            // 2. Option Hỏa tốc (chỉ nếu <= 100km)
+            if (dist <= 100) {
+                options.push({
+                    id: 'express',
+                    name: 'Hỏa tốc (Nhận trong ngày)',
+                    fee: 100000, // 100k
+                    estimatedDays: 'Trong ngày'
+                });
+            }
 
             resolve({
                 distance: dist,
-                fee: fee,
-                estimatedDays: days
+                options: options
             });
         }, 500);
     });
