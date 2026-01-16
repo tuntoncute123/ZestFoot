@@ -5,10 +5,11 @@ import { getProductById } from '../../services/api';
 import './ProductDetail.css';
 import ProductReviews from './ProductReviews';
 import { CheckCircle, Truck, RefreshCw, ShieldCheck, Heart } from 'lucide-react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../redux/cartSlice';
+import { toggleWishlist, selectIsInWishlist } from '../../redux/wishlistSlice';
 import { useAuth } from '../../context/AuthContext';
-import { useWishlist } from '../../context/WishlistContext';
+// import { useWishlist } from '../../context/WishlistContext';
 
 const ProductDetail = () => {
     const { id } = useParams();
@@ -18,7 +19,7 @@ const ProductDetail = () => {
     const [selectedSize, setSelectedSize] = useState(null);
     const dispatch = useDispatch();
     const { user } = useAuth(); // Import useAuth to check login for adding to cart
-    const { isInWishlist, toggleWishlist } = useWishlist();
+    const isWishlisted = useSelector((state) => product ? selectIsInWishlist(state, product.id) : false);
 
     // Mock Sizes (Since db.json doesn't have them per product yet)
     const sizes = ['US 7', 'US 7.5', 'US 8', 'US 8.5', 'US 9', 'US 9.5', 'US 10', 'US 10.5', 'US 11'];
@@ -137,10 +138,10 @@ const ProductDetail = () => {
                                 MUA NGAY
                             </button>
                             <button
-                                className={`action-btn wishlist-btn ${product && isInWishlist(product.id) ? 'active' : ''}`}
-                                onClick={() => product && toggleWishlist(product.id)}
+                                className={`action-btn wishlist-btn ${product && isWishlisted ? 'active' : ''}`}
+                                onClick={() => product && dispatch(toggleWishlist(product.id))}
                             >
-                                <Heart className={`heart-icon ${product && isInWishlist(product.id) ? 'filled' : ''}`} />
+                                <Heart className={`heart-icon ${product && isWishlisted ? 'filled' : ''}`} />
                             </button>
                         </div>
 
