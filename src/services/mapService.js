@@ -1,18 +1,18 @@
-// src/services/mapService.js
 
-// 1. Tọa độ kho: Khu phố 33, Phường Linh Xuân, TP. Thủ Đức
+
+
 const WAREHOUSE_COORDS = { lat: 10.875, lng: 106.772 };
 
-// 2. Database giả lập 63 tỉnh thành
+
 const PROVINCES_DB = [
-    // --- 5 Thành phố trực thuộc Trung ương ---
+
     { name: "Hà Nội", lat: 21.0285, lng: 105.8542 },
     { name: "TP. Hồ Chí Minh", lat: 10.8231, lng: 106.6297 },
     { name: "Hải Phòng", lat: 20.8449, lng: 106.6881 },
     { name: "Đà Nẵng", lat: 16.0544, lng: 108.2022 },
     { name: "Cần Thơ", lat: 10.0452, lng: 105.7469 },
 
-    // --- Các tỉnh còn lại (Sắp xếp theo Alpha) ---
+
     { name: "An Giang", lat: 10.5216, lng: 105.1259 },
     { name: "Bà Rịa - Vũng Tàu", lat: 10.5667, lng: 107.2333 },
     { name: "Bạc Liêu", lat: 9.2940, lng: 105.7278 },
@@ -73,7 +73,7 @@ const PROVINCES_DB = [
     { name: "Yên Bái", lat: 21.7229, lng: 104.9113 }
 ];
 
-// Công thức Haversine tính khoảng cách
+
 const getDistanceFromLatLonInKm = (lat1, lon1, lat2, lon2) => {
     const R = 6371;
     const dLat = deg2rad(lat2 - lat1);
@@ -87,7 +87,7 @@ const getDistanceFromLatLonInKm = (lat1, lon1, lat2, lon2) => {
 
 const deg2rad = (deg) => deg * (Math.PI / 180);
 
-// --- LOGIC TÍNH PHÍ SHIP MỚI (THEO YÊU CẦU) ---
+
 const calculateFeeLogic = (distance, orderValue) => {
     // Đơn trên 3tr: miễn phí ship toàn quốc
     if (orderValue > 3000000) return 0;

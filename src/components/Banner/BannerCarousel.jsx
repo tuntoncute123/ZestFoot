@@ -78,7 +78,7 @@ const BannerCarousel = () => {
                                 </video>
                             ) : slide.type === 'vimeo' ? (
                                 <div className="banner-media video-iframe-wrapper">
-                                    {/* Placeholder / Fallback Video */}
+                                    {/*  */}
                                     <video className="video-placeholder" autoPlay loop muted playsInline>
                                         <source src={fallbackVideo} type="video/mp4" />
                                     </video>
@@ -98,7 +98,7 @@ const BannerCarousel = () => {
                     </SwiperSlide>
                 ))}
 
-                {/* Custom Navigation Buttons */}
+                {/*  */}
                 <div className="swiper-button-prev-custom">
                     <svg width="40" height="80" viewBox="0 0 40 80" className="nav-curve">
                         <path
