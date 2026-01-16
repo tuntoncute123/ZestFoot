@@ -13,7 +13,7 @@ export const translations = {
         "cart": "Giỏ hàng",
         // Top Bar
         "authentic": "Hàng chính hãng 100%",
-        "free_ship": "Miễn phí ship cho đơn hàng từ 10 triệu",
+        "free_ship": "Miễn phí ship cho đơn hàng từ 3 triệu",
         "member_voucher": "Trở thành hội viên nhận ngay voucher 200K",
 
         // Common
@@ -112,7 +112,7 @@ export const translations = {
         "cart": "Cart",
         // Top Bar
         "authentic": "100% Authentic",
-        "free_ship": "Free shipping for orders over 10 million",
+        "free_ship": "Free shipping for orders over 3 million",
         "member_voucher": "Become a member and get a 200K voucher",
 
         // Common
