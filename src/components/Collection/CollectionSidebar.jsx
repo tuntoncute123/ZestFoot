@@ -10,10 +10,7 @@ const CollectionSidebar = ({ selectedFilters, onFilterChange }) => {
         gender: true,
         brand: true,
         size: true,
-        color: true,
-        material: false,
-        category: false,
-        discount: false
+
     });
 
     const toggleSection = (section) => {
@@ -77,60 +74,7 @@ const CollectionSidebar = ({ selectedFilters, onFilterChange }) => {
                 { label: 'US 10', count: 25, value: 'US_10' }
             ]
         },
-        {
-            id: 'color',
-            title: 'MÀU SẮC',
-            type: 'color',
-            options: [
-                { label: 'Bạc', value: 'silver', hex: '#C0C0C0' },
-                { label: 'Beige', value: 'beige', hex: '#F5F5DC' },
-                { label: 'Cam', value: 'orange', hex: '#FFA500' },
-                { label: 'Cream', value: 'cream', hex: '#FFFDD0' },
-                { label: 'Hồng', value: 'pink', hex: '#FFC0CB' },
-                { label: 'Khaki', value: 'khaki', hex: '#F0E68C' },
-                { label: 'Nâu', value: 'brown', hex: '#A52A2A' },
-                { label: 'Navy', value: 'navy', hex: '#000080' },
-                { label: 'Ô liu', value: 'olive', hex: '#808000' },
-                { label: 'Tím đen', value: 'darkpurple', hex: '#301934' },
-                { label: 'Trắng', value: 'white', hex: '#FFFFFF' },
-                { label: 'Xám', value: 'grey', hex: '#808080' },
-                { label: 'Xanh dương', value: 'blue', hex: '#0000FF' },
-                { label: 'Xanh lá', value: 'green', hex: '#008000' },
-                { label: 'Đen', value: 'black', hex: '#000000' },
-                { label: 'Đỏ', value: 'red', hex: '#FF0000' }
-            ]
-        },
-        {
-            id: 'category',
-            title: 'LOẠI SẢN PHẨM',
-            type: 'list',
-            options: [
-                { label: 'Giày', count: 52, value: 'shoes' },
-                { label: 'Áo', count: 4, value: 'clothes' },
-                { label: 'Nón', count: 2, value: 'hats' },
-                { label: 'Túi', count: 3, value: 'bags' }
-            ]
-        },
-        {
-            id: 'discount',
-            title: 'GIẢM GIÁ',
-            type: 'list',
-            options: [
-                { label: '10%', count: 3, value: '10' },
-                { label: '20%', count: 10, value: '20' },
-                { label: '30%', count: 18, value: '30' },
-                { label: '40%', count: 6, value: '40' }
-            ]
-        },
-        {
-            id: 'material',
-            title: 'CHẤT LIỆU',
-            type: 'list',
-            options: [
-                { label: 'Da', count: 52, value: 'leather' },
-                { label: 'Vải', count: 22, value: 'fabric' }
-            ]
-        }
+
     ];
 
     // Handlers

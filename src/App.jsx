@@ -72,7 +72,6 @@ function App() {
             {/* These remain top-level for now as they haven't been refactored into the layout */}
             <Route path="/addresses" element={<Addresses />} />
             <Route path="/change-password" element={<ChangePassword />} />
-
             <Route path="/Home/thuong-hieu" element={<div style={{ padding: '50px', textAlign: 'center' }}><h2>Danh sách Thương Hiệu</h2></div>} />
             <Route path="/collections/:slug" element={<CollectionPage />} />
             <Route path="/products/:id" element={<ProductDetail />} />

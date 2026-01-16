@@ -1,4 +1,3 @@
-// src/services/paymentService.js
 import { supabase } from './supabaseClient';
 
 // Simulate API delay
@@ -14,13 +13,10 @@ const generateRandomString = (length) => {
     return result;
 };
 
-// Logic xử lý chính (Bạn gọi hàm này ở Checkout.jsx)
 export const processPayment = async (orderData, method) => {
-    await delay(1500); // Giả lập mạng lag khi đang "kết nối cổng thanh toán"
+    await delay(1500);
 
     // 1. Giả lập xác suất lỗi (Demo thì comment lại)
-    // if (Math.random() < 0.1) throw new Error("Giao dịch bị từ chối bởi ngân hàng");
-
     let status = 'pending'; // Mặc định
     let paymentStatus = 'unpaid';
 
@@ -39,11 +35,8 @@ export const processPayment = async (orderData, method) => {
     const transactionId = method === 'vnpay' ? `VNP${generateRandomString(8)}` : (method === 'momo' ? `MOMO${generateRandomString(10)}` : null);
 
     // Chuẩn bị dữ liệu order để lưu vào Supabase
-    // Lưu ý: Cần đảm bảo table 'orders' trong Supabase có các cột tương ứng hoặc 1 cột JSONB để chứa customer/items
     const newOrder = {
         ...orderData, // customer, items, sub_total, shipping_fee, total_amount...
-        // email: orderData.customer?.email, // <--- REMOVED: Caused schema error if column missing. We filter by JSONB now.
-
         status: status, // pending | processing
         payment_method: method, // cod | momo | vnpay
 

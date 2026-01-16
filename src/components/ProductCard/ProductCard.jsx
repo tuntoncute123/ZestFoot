@@ -7,12 +7,19 @@ import { useLanguage } from '../../context/LanguageContext';
 const ProductCard = ({ product }) => {
     const { t } = useLanguage();
     return (
-        <Link to={`/products/${product.id}`} className="product-card" data-aos="fade-up">
+        <Link
+            to={`/products/${product.id}`}
+            className="product-card"
+            data-aos="fade-up"
+        >
             <div className="product-image-container">
-                <img src={product.image} alt={product.name} className="product-image" />
+                <img
+                    src={product.image}
+                    alt={product.name}
+                    className="product-image"
+                />
 
                 {/* 12.12 Overlay if needed - user sample had it */}
-
 
                 <div className="badge-container">
                     {product.badges && product.badges.map((b, i) => (
