@@ -1,7 +1,8 @@
 // src/components/Favorites/Favorites.jsx
 import React, { useState, useEffect } from 'react';
-import { useWishlist } from '../../context/WishlistContext';
-import { useDispatch } from 'react-redux';
+// import { useWishlist } from '../../context/WishlistContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleWishlist, selectWishlistItems } from '../../redux/wishlistSlice';
 import { addToCart } from '../../redux/cartSlice';
 import { useAuth } from '../../context/AuthContext';
 import { getAllProducts } from '../../services/api';
@@ -10,7 +11,8 @@ import { Heart, ShoppingCart, Trash2 } from 'lucide-react';
 import './Favorites.css';
 
 const Favorites = () => {
-    const { wishlist, removeFromWishlist } = useWishlist();
+    // const { wishlist, removeFromWishlist } = useWishlist();
+    const wishlist = useSelector(selectWishlistItems);
     const dispatch = useDispatch();
     const { user } = useAuth(); // Needed for login check
     const [favoriteProducts, setFavoriteProducts] = useState([]);
@@ -57,7 +59,7 @@ const Favorites = () => {
 
     const handleRemoveFavorite = (productId) => {
         if (confirm('Bạn có chắc muốn xóa sản phẩm này khỏi danh sách yêu thích?')) {
-            removeFromWishlist(productId);
+            dispatch(toggleWishlist(productId));
         }
     };
 
