@@ -29,7 +29,6 @@ import ArticleDetail from './components/Blog/ArticleDetail';
 
 import SearchPage from './components/Search/SearchPage';
 import Favorites from './components/Favorites/Favorites';
-// import { WishlistProvider } from './context/WishlistContext';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import ChatBot from './components/ChatBot/ChatBot';
 import StoreLocator from './components/StoreLocator/StoreLocator';
@@ -63,13 +62,11 @@ function App() {
 
             <Route path="/checkout" element={<Checkout />} />
 
-            {/* Profile Routes with Nested Layout */}
             <Route path="/profile" element={<ProfileLayout />}>
               <Route index element={<UserProfile />} />
               <Route path="notifications" element={<NotificationPage />} />
             </Route>
 
-            {/* These remain top-level for now as they haven't been refactored into the layout */}
             <Route path="/addresses" element={<Addresses />} />
             <Route path="/change-password" element={<ChangePassword />} />
             <Route path="/Home/thuong-hieu" element={<div style={{ padding: '50px', textAlign: 'center' }}><h2>Danh sách Thương Hiệu</h2></div>} />

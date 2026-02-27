@@ -7,7 +7,7 @@ import './StoreLocator.css';
 const storesData = [
     {
         id: 1,
-        name: "ABC-MART Vincom Đồng Khởi",
+        name: "HKT Shoes Vincom Đồng Khởi",
         city: "Hồ Chí Minh",
         address: "Tầng B1, Vincom Center, 72 Lê Thánh Tôn, Bến Nghé, Quận 1, TP.HCM",
         phone: "028 3936 9999",
@@ -17,7 +17,7 @@ const storesData = [
     },
     {
         id: 2,
-        name: "ABC-MART Saigon Centre",
+        name: "HKT Shoes Saigon Centre",
         city: "Hồ Chí Minh",
         address: "Tầng 3, Saigon Centre, 65 Lê Lợi, Bến Nghé, Quận 1, TP.HCM",
         phone: "028 3829 4888",
@@ -27,7 +27,7 @@ const storesData = [
     },
     {
         id: 3,
-        name: "ABC-MART Crescent Mall",
+        name: "HKT Shoes Crescent Mall",
         city: "Hồ Chí Minh",
         address: "Tầng 2, Crescent Mall, 101 Tôn Dật Tiên, Tân Phú, Quận 7, TP.HCM",
         phone: "028 5413 3333",
@@ -37,7 +37,7 @@ const storesData = [
     },
     {
         id: 4,
-        name: "ABC-MART Vincom Bà Triệu",
+        name: "HKT Shoes Vincom Bà Triệu",
         city: "Hà Nội",
         address: "Tầng 4, Vincom Center Bà Triệu, 191 Bà Triệu, Hai Bà Trưng, Hà Nội",
         phone: "024 3974 8888",
@@ -47,7 +47,7 @@ const storesData = [
     },
     {
         id: 5,
-        name: "ABC-MART Lotte Center",
+        name: "HKT Shoes Lotte Center",
         city: "Hà Nội",
         address: "Tầng 3, Lotte Center, 54 Liễu Giai, Ba Đình, Hà Nội",
         phone: "024 3333 1000",
@@ -57,7 +57,7 @@ const storesData = [
     },
     {
         id: 6,
-        name: "ABC-MART Aeon Mall Bình Dương",
+        name: "HKT Shoes Aeon Mall Bình Dương",
         city: "Bình Dương",
         address: "Tầng 1, Aeon Mall Bình Dương Canary, Số 1 Đại lộ Bình Dương, Thuận An",
         phone: "0274 625 9999",

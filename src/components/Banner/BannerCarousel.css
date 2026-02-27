@@ -45,7 +45,6 @@
     background: #000;
 }
 
-/* Remove black background so we can see the fallback video behind */
 .video-iframe-wrapper {
     position: relative;
     overflow: hidden;

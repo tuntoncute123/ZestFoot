@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './ChatBot.css';
 import { useAuth } from '../../context/AuthContext';
+import { sendMessageToBot } from '../../services/aiService';
+import ReactMarkdown from 'react-markdown';
+import { useNavigate } from 'react-router-dom';
 
 const ChatBot = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -8,6 +11,7 @@ const ChatBot = () => {
     const [inputValue, setInputValue] = useState("");
     const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef(null);
+    const navigate = useNavigate();
 
     const toggleChat = () => {
         setIsOpen(!isOpen);
@@ -65,18 +69,17 @@ const ChatBot = () => {
         }
     }, [messages, isOpen]);
 
-    const handleQuestionClick = (qObj) => {
+    const handleQuestionClick = async (qObj) => {
         const newMessages = [...messages, { type: 'user', text: qObj.q }];
         setMessages(newMessages);
         setIsTyping(true);
 
-        setTimeout(() => {
-            setMessages(prev => [...prev, { type: 'bot', text: qObj.a }]);
-            setIsTyping(false);
-        }, 600);
+        const aiResponse = await sendMessageToBot(qObj.q);
+        setMessages(prev => [...prev, { type: 'bot', text: aiResponse }]);
+        setIsTyping(false);
     };
 
-    const handleSend = () => {
+    const handleSend = async () => {
         if (!inputValue.trim()) return;
 
         const userText = inputValue;
@@ -84,11 +87,9 @@ const ChatBot = () => {
         setInputValue("");
         setIsTyping(true);
 
-        setTimeout(() => {
-            const defaultReply = "Cảm ơn bạn đã liên hệ với chúng tôi. Nhân viên tư vấn sẽ phản hồi lại trong giây lát.";
-            setMessages(prev => [...prev, { type: 'bot', text: defaultReply }]);
-            setIsTyping(false);
-        }, 1000);
+        const aiResponse = await sendMessageToBot(userText);
+        setMessages(prev => [...prev, { type: 'bot', text: aiResponse }]);
+        setIsTyping(false);
     };
 
     const handleKeyDown = (e) => {
@@ -115,7 +116,26 @@ const ChatBot = () => {
                                     ) : (
                                         <div className="bot-container">
                                             <div className="bot-text-content">
-                                                {msg.text}
+                                                <ReactMarkdown
+                                                    components={{
+                                                        a: ({ node, ...props }) => (
+                                                            <a
+                                                                {...props}
+                                                                onClick={(e) => {
+                                                                    e.preventDefault();
+                                                                    const href = props.href;
+                                                                    if (href && href.startsWith('/')) {
+                                                                        navigate(href);
+                                                                    } else {
+                                                                        window.open(href, '_blank');
+                                                                    }
+                                                                }}
+                                                            />
+                                                        )
+                                                    }}
+                                                >
+                                                    {msg.text}
+                                                </ReactMarkdown>
                                             </div>
 
                                             {msg.options && (

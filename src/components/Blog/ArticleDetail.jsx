@@ -76,7 +76,6 @@ const ArticleDetail = () => {
                 {/* Main Content (Left) */}
                 <div className="grid__item articleleft" data-aos="fade-up">
                     <div className="article-content" dangerouslySetInnerHTML={{ __html: article.content || article.excerpt }}>
-                        {/* Content from JSON injected here */}
                     </div>
 
                     {/* Navigation Buttons */}

@@ -80,27 +80,14 @@ const CollectionPage = () => {
 
     // Derived State: Filtered & Sorted Products
     const processedProducts = products.filter(product => {
-        // 1. Filter by Slug/Context (if slug is a brand name, ensure it matches, unless user selected other brands)
-        // If the URL is specific to a brand (e.g., /collections/nike), we usually enforce that brand
-        // unless we want to allow cross-filtering. For now, let's treat 'slug' as the base source-of-truth.
-        // If slug is present and isn't 'all', we already fetched filtered data from API, so we skip this check 
-        // OR we double check if API returned mixed results.
-
-        // 2. Filter by Price
         if (product.price < selectedFilters.price.min || product.price > selectedFilters.price.max) return false;
 
-        // 3. Filter by Availability (Assume all valid for now, mock logic)
-        // if (selectedFilters.availability && !product.inStock) return false;
-
-        // 4. Filter by Brand (Array)
         if (selectedFilters.brand.length > 0) {
             // Check if product.brand matches any selected brand (case-insensitive)
             const brandMatch = selectedFilters.brand.some(b => b.toLowerCase() === product.brand?.toLowerCase());
             if (!brandMatch) return false;
         }
 
-        // 5. Filter by other attributes (Gender, Size, Color...) 
-        // Note: db.json might not have these yet, so this will be strict if selected
         if (selectedFilters.gender.length > 0) {
             if (!selectedFilters.gender.includes(product.gender)) return false;
         }
@@ -108,8 +95,6 @@ const CollectionPage = () => {
             // e.g. "shoes" vs "clothes"
             if (!selectedFilters.category.includes(product.category)) return false;
         }
-
-        // ... add other filters as needed when data exists
 
         return true;
     }).sort((a, b) => {
@@ -119,12 +104,10 @@ const CollectionPage = () => {
         if (sortOption === 'name-desc') return b.name.localeCompare(a.name);
         return 0;
     });
-
     // Pagination Logic
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 16; // 4 rows x 4 cols
 
-    // Reset to page 1 when filters/sort/slug change
     useEffect(() => {
         setCurrentPage(1);
     }, [slug, selectedFilters, sortOption]);
